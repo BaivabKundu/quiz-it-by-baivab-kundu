@@ -4,6 +4,7 @@ import React from "react";
 
 import { Button, Typography } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
+import { t } from "i18next";
 import { Link } from "react-router-dom";
 
 const Signup = ({ handleSubmit, initialValues, loading }) => (
@@ -16,7 +17,7 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
         className="mt-6 text-center text-3xl font-extrabold
           leading-9 text-gray-700"
       >
-        Sign up
+        {t("auth.signUp")}
       </Typography>
       <div className="text-center">
         <Link
@@ -25,7 +26,7 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
               text-blue-500 transition duration-150 ease-in-out
               focus:underline focus:outline-none"
         >
-          <Typography>Or login now</Typography>
+          <Typography>{t("auth.login")}</Typography>
         </Link>
       </div>
       <NeetoUIForm
@@ -37,39 +38,39 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
       >
         <div className="w-full">
           <div className="space-y-2">
-            <Typography>Name</Typography>
+            <Typography>{t("auth.labels.name")}</Typography>
             <Input
               required
               name="username"
-              placeholder="Enter name"
+              placeholder={t("auth.placeholders.name")}
               size="medium"
             />
-            <Typography>Email</Typography>
+            <Typography>{t("auth.labels.email")}</Typography>
             <Input
               required
               name="email"
-              placeholder="Enter email"
+              placeholder={t("auth.placeholders.email")}
               size="medium"
             />
-            <Typography>Password</Typography>
+            <Typography>{t("auth.labels.password")}</Typography>
             <Input
               required
               name="password"
-              placeholder="********"
+              placeholder={t("auth.placeholders.password")}
               size="medium"
               type="password"
             />
-            <Typography>Password confirmation</Typography>
+            <Typography>{t("auth.labels.confirmPassword")}</Typography>
             <Input
               required
               name="password_confirmation"
-              placeholder="********"
+              placeholder={t("auth.placeholders.password")}
               size="medium"
               type="password"
             />
             <Button
               className="w-full justify-center bg-blue-500 px-4 py-3"
-              label="Sign up"
+              label={t("auth.signUp")}
               loading={loading}
               type="submit"
             />

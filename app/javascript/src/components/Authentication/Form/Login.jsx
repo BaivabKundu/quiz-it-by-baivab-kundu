@@ -4,6 +4,7 @@ import React from "react";
 
 import { Button, Typography } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
+import { t } from "i18next";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const Login = ({ handleSubmit, initialValues, loading }) => (
@@ -16,7 +17,7 @@ const Login = ({ handleSubmit, initialValues, loading }) => (
         className="mt-6 text-center text-3xl font-extrabold
         leading-9 text-gray-700"
       >
-        Sign in
+        {t("auth.signIn")}
       </Typography>
       <div className="text-center">
         <Link
@@ -25,7 +26,7 @@ const Login = ({ handleSubmit, initialValues, loading }) => (
             text-blue-400 transition duration-150 ease-in-out
             focus:underline focus:outline-none"
         >
-          <Typography>Or register now</Typography>
+          <Typography>{t("auth.register")}</Typography>
         </Link>
       </div>
       <NeetoUIForm
@@ -37,24 +38,24 @@ const Login = ({ handleSubmit, initialValues, loading }) => (
       >
         <div className="w-full">
           <div className="space-y-2">
-            <Typography>Email</Typography>
+            <Typography>{t("auth.labels.email")}</Typography>
             <Input
               required
               name="email"
-              placeholder="Enter email"
+              placeholder={t("auth.placeholders.email")}
               size="medium"
             />
-            <Typography>Password</Typography>
+            <Typography>{t("auth.labels.password")}</Typography>
             <Input
               required
               name="password"
-              placeholder="********"
+              placeholder={t("auth.placeholders.password")}
               size="medium"
               type="password"
             />
             <Button
               className="w-full justify-center bg-blue-500 px-4 py-3"
-              label="Sign in"
+              label={t("auth.signIn")}
               loading={loading}
               type="submit"
             />

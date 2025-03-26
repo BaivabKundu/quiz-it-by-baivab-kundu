@@ -42,13 +42,13 @@ mentioned
 [here](https://github.com/bigbinary/wheel/blob/main/docs/using_docker.md) to use
 docker for development.
 
-## Replace Wheel with your project name
+## Replace QuizIt with your project name
 
 Let's say that the project name is `Pump`. Execute the command below to replace
-all occurrences of `Wheel` with `Pump`.
+all occurrences of `QuizIt` with `Pump`.
 
 ```bash
-perl -pi -w -e 's/Wheel/Pump/g;' $(git ls-files)
+perl -pi -w -e 's/QuizIt/Pump/g;' $(git ls-files)
 ```
 
 ## Features
@@ -77,7 +77,7 @@ perl -pi -w -e 's/Wheel/Pump/g;' $(git ls-files)
 [neetoDeploy Review](https://www.neeto.com/neetodeploy) is enabled on this
 application. Thus all PRs will have a review app and once the PR is merged to
 main, it will be deployed to production instance. The neetoDeploy instance for
-Wheel is hosted in `neeto-engineering` organization.
+QuizIt is hosted in `neeto-engineering` organization.
 
 ## About BigBinary
 

@@ -1,5 +1,12 @@
 import React from "react";
 
-const App = () => <>Hello World</>;
+import Main from "components/Main";
+import { BrowserRouter as Router } from "react-router-dom";
+
+const App = () => (
+  <Router>
+    <Main />
+  </Router>
+);
 
 export default App;

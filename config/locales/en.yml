@@ -30,14 +30,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  not_found: "%{entity} not found!"
-  invalid_credentials: "Incorrect email or password!"
-  successfully_created: "%{entity} was successfully created!"
-  successfully_updated: "%{entity} has been successfully updated!"
-  successfully_deleted:
-    one: "%{entity} has been successfully deleted!"
-    other: "%{entity} have been successfully deleted!"
-  update_failure: "Couldn't update the %{entity}! Please try again."
-  signup_successful: "Signup successful. Please login to continue"
+  authorization:
+    denied: "Access denied. You are not authorized to perform this action."
   session:
-    expiry: "Your session has expired. Please login again."
+    could_not_auth: "Could not authenticate with the provided credentials."
+    incorrect_credentials: "Incorrect credentials, try again."
+  successfully_created: "%{entity} was successfully created!"
+  successfully_updated: "%{entity} was successfully updated!"
+  successfully_deleted: "%{entity} was successfully deleted!"
+  not_found: "Couldn't find %{entity}"

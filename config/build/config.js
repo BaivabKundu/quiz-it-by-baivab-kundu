@@ -24,9 +24,11 @@ const alias = {
   constants: absolutePath("src/constants"),
   contexts: absolutePath("src/contexts"),
   reducers: absolutePath("src/reducers"),
+  hooks: absolutePath("src/hooks"),
   neetoui: "@bigbinary/neetoui",
   neetoicons: "@bigbinary/neeto-icons",
   neetocist: "@bigbinary/neeto-cist",
+  reactquery: "@tanstack/react-query",
   utils: absolutePath("src/utils"),
   assets: absolutePath("../assets"),
 };

@@ -1,30 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 
-import authApi from "apis/auth";
+import { useSignup } from "hooks/reactQuery/useAuthApi";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 import SignupForm from "./Form/Signup";
 
 const Signup = () => {
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
-  const handleSubmit = async values => {
-    setLoading(true);
-    await authApi.signup({
-      username: values.username,
-      email: values.email,
-      password: values.password,
-      password_confirmation: values.password_confirmation,
+  const { mutate: signup, isLoading } = useSignup();
+
+  const handleSubmit = values => {
+    signup(values, {
+      onSuccess: () => history.push("/dashboard"),
     });
-    setLoading(false);
-    history.push("/dashboard");
   };
 
   return (
     <SignupForm
       handleSubmit={handleSubmit}
-      loading={loading}
+      loading={isLoading}
       initialValues={{
         username: "",
         email: "",

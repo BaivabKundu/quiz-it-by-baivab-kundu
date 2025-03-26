@@ -11,8 +11,18 @@
 import "../stylesheets/application.scss";
 import React from "react";
 import ReactRailsUJS from "react_ujs";
+import "common/i18n";
 
 import App from "../src/App";
+import {
+  registerIntercepts,
+  setAuthHeaders,
+  setDefaultParams,
+} from "apis/axios";
+
+registerIntercepts();
+setAuthHeaders();
+setDefaultParams();
 
 // Support component names relative to this directory:
 const componentsContext = { App };

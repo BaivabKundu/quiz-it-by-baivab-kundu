@@ -1,0 +1,37 @@
+{
+  "auth": {
+    "signUp": "Sign up",
+    "signIn": "Sign in",
+    "register": "Or register now",
+    "login": "Or login now",
+    "createAccount": "Create an account",
+    "loginFailed": "Login failed",
+    "labels": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password"
+    },
+    "placeholders": {
+      "name": "Oliver Smith",
+      "email": "oliver@example.com",
+      "password": "******"
+    },
+    "validations": {
+      "nameRequired": "Name is required",
+      "nameMaxLength": "Name must be less than 50 characters",
+      "nameMinLength": "Name must be at least 2 characters",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required",
+      "passwordConfirmationRequired": "Password confirmation is required",
+      "passwordsMustMatch": "Passwords must match",
+      "passwordMinLength": "Password must be at least 8 characters"
+    },
+    "errors": {
+      "signupFailed": "Sign up failed",
+      "loginFailed": "Login failed",
+      "defaultErrorNotification": "Something went wrong!"
+    }
+  }
+}

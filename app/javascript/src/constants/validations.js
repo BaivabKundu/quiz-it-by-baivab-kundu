@@ -1,32 +1,36 @@
+import { t } from "i18next";
 import * as yup from "yup";
 
 export const loginSchema = yup.object({
   email: yup
     .string()
-    .required("Email is required")
-    .email("Invalid email format"),
+    .required(t("auth.validations.emailRequired"))
+    .email(t("auth.validations.emailInvalid")),
   password: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .required(t("auth.validations.passwordRequired"))
+    .min(8, t("auth.validations.passwordMinLength")),
 });
 
 export const signupSchema = yup.object({
   username: yup
     .string()
-    .required("Name is required")
-    .min(2, "Name must be at least 2 characters")
-    .max(50, "Name must be less than 50 characters"),
+    .required(t("auth.validations.nameRequired"))
+    .min(2, t("auth.validations.nameMinLength"))
+    .max(50, t("auth.validations.nameMaxLength")),
   email: yup
     .string()
-    .required("Email is required")
-    .email("Invalid email format"),
+    .required(t("auth.validations.emailRequired"))
+    .email(t("auth.validations.emailInvalid")),
   password: yup
     .string()
-    .required("Password is required")
-    .min(8, "Password must be at least 8 characters"),
+    .required(t("auth.validations.passwordRequired"))
+    .min(8, t("auth.validations.passwordMinLength")),
   password_confirmation: yup
     .string()
-    .required("Password confirmation is required")
-    .oneOf([yup.ref("password"), null], "Passwords must match"),
+    .required(t("auth.validations.passwordConfirmationRequired"))
+    .oneOf(
+      [yup.ref("password"), null],
+      t("auth.validations.passwordsMustMatch")
+    ),
 });

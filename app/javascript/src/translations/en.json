@@ -6,12 +6,6 @@
     "login": "Or login now",
     "createAccount": "Create an account",
     "loginFailed": "Login failed",
-    "labels": {
-      "name": "Name",
-      "email": "Email",
-      "password": "Password",
-      "confirmPassword": "Confirm Password"
-    },
     "placeholders": {
       "name": "Oliver Smith",
       "email": "oliver@example.com",
@@ -33,5 +27,16 @@
       "loginFailed": "Login failed",
       "defaultErrorNotification": "Something went wrong!"
     }
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "header": "All quizzes",
+    "addQuizButton": "Add new quiz"
+  },
+  "inputPlaceholders": {
+    "searchInput": "Search quizzes"
   }
 }

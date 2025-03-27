@@ -38,21 +38,21 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
       >
         <div className="w-full">
           <div className="space-y-2">
-            <Typography>{t("auth.labels.name")}</Typography>
+            <Typography>{t("labels.name")}</Typography>
             <Input
               required
               name="username"
               placeholder={t("auth.placeholders.name")}
               size="medium"
             />
-            <Typography>{t("auth.labels.email")}</Typography>
+            <Typography>{t("labels.email")}</Typography>
             <Input
               required
               name="email"
               placeholder={t("auth.placeholders.email")}
               size="medium"
             />
-            <Typography>{t("auth.labels.password")}</Typography>
+            <Typography>{t("labels.password")}</Typography>
             <Input
               required
               name="password"
@@ -60,7 +60,7 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
               size="medium"
               type="password"
             />
-            <Typography>{t("auth.labels.confirmPassword")}</Typography>
+            <Typography>{t("labels.confirmPassword")}</Typography>
             <Input
               required
               name="password_confirmation"

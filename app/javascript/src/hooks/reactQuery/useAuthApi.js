@@ -2,6 +2,7 @@ import { QUERY_KEYS } from "constants/query";
 
 import authApi from "apis/auth";
 import { setAuthHeaders } from "apis/axios";
+import { t } from "i18next";
 import { Toastr } from "neetoui";
 import { useMutation } from "reactquery";
 import { setToLocalStorage } from "utils/storage";
@@ -16,13 +17,15 @@ export const useLogin = () =>
           authToken: response.authenticationToken,
           email: email.toLowerCase(),
           userId: response.id,
-          userName: response.name,
+          userName: response.username,
         });
         setAuthHeaders();
 
         return response;
       } catch (error) {
-        Toastr.error(error?.response?.data?.error || "Login failed");
+        Toastr.error(
+          error?.response?.data?.error || t("auth.errors.loginFailed")
+        );
         throw error;
       }
     },
@@ -47,7 +50,9 @@ export const useSignup = () =>
 
         return response;
       } catch (error) {
-        Toastr.error(error?.response?.data?.error || "Signup failed");
+        Toastr.error(
+          error?.response?.data?.error || t("auth.errors.signupFailed")
+        );
         throw error;
       }
     },

@@ -1,5 +1,7 @@
 import React from "react";
 
-const Dashboard = () => <>Dashboard page</>;
+import NeetoHeader from "components/commons/Header";
+
+const Dashboard = () => <NeetoHeader />;
 
 export default Dashboard;

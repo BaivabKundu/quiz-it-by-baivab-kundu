@@ -38,14 +38,14 @@ const Login = ({ handleSubmit, initialValues, loading }) => (
       >
         <div className="w-full">
           <div className="space-y-2">
-            <Typography>{t("auth.labels.email")}</Typography>
+            <Typography>{t("labels.email")}</Typography>
             <Input
               required
               name="email"
               placeholder={t("auth.placeholders.email")}
               size="medium"
             />
-            <Typography>{t("auth.labels.password")}</Typography>
+            <Typography>{t("labels.password")}</Typography>
             <Input
               required
               name="password"

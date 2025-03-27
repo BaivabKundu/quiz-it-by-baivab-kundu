@@ -28,6 +28,7 @@ const alias = {
   neetoui: "@bigbinary/neetoui",
   neetoicons: "@bigbinary/neeto-icons",
   neetocist: "@bigbinary/neeto-cist",
+  neetomolecules: "@bigbinary/neeto-molecules",
   reactquery: "@tanstack/react-query",
   utils: absolutePath("src/utils"),
   assets: absolutePath("../assets"),

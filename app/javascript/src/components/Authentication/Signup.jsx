@@ -17,16 +17,18 @@ const Signup = () => {
   };
 
   return (
-    <SignupForm
-      handleSubmit={handleSubmit}
-      loading={isLoading}
-      initialValues={{
-        username: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-      }}
-    />
+    <div className="w-full">
+      <SignupForm
+        handleSubmit={handleSubmit}
+        loading={isLoading}
+        initialValues={{
+          username: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+        }}
+      />
+    </div>
   );
 };
 

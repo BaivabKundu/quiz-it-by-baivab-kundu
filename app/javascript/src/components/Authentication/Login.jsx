@@ -17,14 +17,16 @@ const Login = () => {
   };
 
   return (
-    <LoginForm
-      handleSubmit={handleSubmit}
-      loading={isLoading}
-      initialValues={{
-        email: "",
-        password: "",
-      }}
-    />
+    <div className="w-full">
+      <LoginForm
+        handleSubmit={handleSubmit}
+        loading={isLoading}
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+      />
+    </div>
   );
 };
 

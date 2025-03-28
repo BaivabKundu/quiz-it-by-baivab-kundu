@@ -109,6 +109,7 @@
     "crypto-browserify": "^3.12.1",
     "css-loader": "^6.7.3",
     "cypress": "11.2.0",
+    "date-fns": "^4.1.0",
     "dayjs": "1.11.13",
     "dompurify": "^2.4.0",
     "dotenv-webpack": "^8.0.1",

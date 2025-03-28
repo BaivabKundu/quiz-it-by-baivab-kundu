@@ -7,6 +7,10 @@ class User < ApplicationRecord
   attribute :role, :string, default: "standard"
   enum :role, { standard: "standard", admin: "admin" }, default: :standard
 
+  belongs_to :assigned_organization, foreign_key: "assigned_organization_id", class_name: "Organization"
+
+  has_many :assigned_quizzes, foreign_key: :creator_id, class_name: "Quiz"
+
   has_secure_password
   has_secure_token :authentication_token
 

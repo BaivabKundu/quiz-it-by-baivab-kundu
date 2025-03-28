@@ -6,41 +6,35 @@ class Api::V1::QuestionsController < ApplicationController
 
   # GET /api/v1/quizzes/:quiz_slug/questions
   def index
-    @questions = @quiz.questions
+    @questions = @current_quiz.questions
     render json: @questions
   end
 
   # GET /api/v1/quizzes/:quiz_slug/questions/:id
   def show
     ensure_question_belongs_to_quiz
-    render json: @question
+    # render json: @question
   end
 
   # POST /api/v1/quizzes/:quiz_slug/questions
   def create
-    @question = @quiz.questions.new(question_params)
-    if @question.save
-      render json: @question, status: :created
-    else
-      render json: @question.errors, status: :unprocessable_entity
-    end
+    question = @current_quiz.questions.new(question_params)
+    question.save!
+    render_notice(t("successfully_created", entity: "Questions"))
   end
 
   # PATCH/PUT /api/v1/quizzes/:quiz_slug/questions/:id
   def update
     ensure_question_belongs_to_quiz
-    if @question.update(question_params)
-      render json: @question
-    else
-      render json: @question.errors, status: :unprocessable_entity
-    end
+    @question.update!(question_params)
+    render_notice(t("successfully_deleted", entity: "Questions"))
   end
 
   # DELETE /api/v1/quizzes/:quiz_slug/questions/:id
   def destroy
     ensure_question_belongs_to_quiz
     @question.destroy
-    head :no_content
+    render_notice(t("successfully_deleted", entity: "Questions"))
   end
 
   private
@@ -50,11 +44,11 @@ class Api::V1::QuestionsController < ApplicationController
     end
 
     def set_quiz
-      @quiz = Quiz.find_by!(slug: params[:quiz_slug])
+      @current_quiz = Quiz.find_by!(slug: params[:slug])
     end
 
     def ensure_question_belongs_to_quiz
-      unless @question.quiz_id == @quiz.id
+      unless @question.quiz_id == @current_quiz.id
         render json: { error: "Question does not belong to this quiz" }, status: :unprocessable_entity
       end
     end

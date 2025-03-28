@@ -52,9 +52,7 @@ export const useCreateQuiz = () =>
     mutationKey: [QUERY_KEYS.QUIZ, "create"],
     mutationFn: async payload => {
       try {
-        const response = await quizzesApi.create(payload);
-
-        return response;
+        await quizzesApi.create(payload);
       } catch (error) {
         throw handleQuizError(error);
       }
@@ -66,9 +64,7 @@ export const useUpdateQuiz = () =>
     mutationKey: [QUERY_KEYS.QUIZ, "update"],
     mutationFn: async ({ slug, payload }) => {
       try {
-        const response = await quizzesApi.update(slug, payload);
-
-        return response;
+        await quizzesApi.update(slug, payload);
       } catch (error) {
         throw handleQuizError(error);
       }
@@ -80,9 +76,7 @@ export const useDeleteQuiz = () =>
     mutationKey: [QUERY_KEYS.QUIZ, "delete"],
     mutationFn: async slug => {
       try {
-        const response = await quizzesApi.destroy(slug);
-
-        return response;
+        await quizzesApi.destroy(slug);
       } catch (error) {
         throw handleQuizError(error);
       }

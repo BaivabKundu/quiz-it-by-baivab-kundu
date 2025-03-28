@@ -10,11 +10,8 @@ class Api::V1::CategoriesController < ApplicationController
 
   def create
     category = Category.new(category_params)
-    if category.save
-      render status: :created, json: { category: }
-    else
-      render status: :unprocessable_entity, json: { errors: category.errors.full_messages }
-    end
+    category.save!
+    render_notice(t("successfully_created", entity: "Category"))
   end
 
   private

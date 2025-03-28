@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 
 const SidePane = ({ isOpen }) => {
-  const { data: quizResponse } = useFetchQuizzes();
+  const { data: { quizzes: quizResponse = [] } = {} } = useFetchQuizzes();
 
   const quizzes = quizResponse || [];
 

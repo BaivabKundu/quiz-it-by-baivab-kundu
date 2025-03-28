@@ -11,10 +11,21 @@ import { Avatar, Button, Tag, Typography } from "@bigbinary/neetoui";
 import authApi from "apis/auth";
 import { resetAuthTokens } from "apis/axios";
 import classnames from "classnames";
+import { useFetchQuizzes } from "hooks/reactQuery/useQuizzesApi";
 import { NavLink } from "react-router-dom";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 
 const SidePane = ({ isOpen }) => {
+  const { data: quizResponse } = useFetchQuizzes();
+
+  const quizzes = quizResponse || [];
+
+  const allCount = quizzes.length;
+  const publishedCount = quizzes.filter(
+    quiz => quiz.status === "published"
+  ).length;
+  const draftCount = quizzes.filter(quiz => quiz.status === "draft").length;
+
   const userName = getFromLocalStorage("authUserName");
   const email = getFromLocalStorage("authEmail");
 
@@ -52,17 +63,17 @@ const SidePane = ({ isOpen }) => {
               <Typography style="body2">Quizzes</Typography>
             </div>
             <div className="flex flex-col space-y-1">
-              <div className="ml-16 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
+              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
                 <Typography style="body2">All</Typography>
-                <Tag className="mr-2">0</Tag>
+                <Tag className="mr-2">{allCount}</Tag>
               </div>
-              <div className="ml-16 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
+              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
                 <Typography style="body2">Published</Typography>
-                <Tag className="mr-2">0</Tag>
+                <Tag className="mr-2">{publishedCount}</Tag>
               </div>
-              <div className="ml-16 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
+              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
                 <Typography style="body2">Draft</Typography>
-                <Tag className="mr-2">0</Tag>
+                <Tag className="mr-2">{draftCount}</Tag>
               </div>
             </div>
           </div>

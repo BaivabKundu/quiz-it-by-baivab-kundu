@@ -7,7 +7,7 @@ import { Button, Input } from "neetoui";
 
 const NeetoHeader = () => (
   <Header
-    className="p-5"
+    className="px-5"
     title={t("labels.header")}
     actionBlock={
       <>

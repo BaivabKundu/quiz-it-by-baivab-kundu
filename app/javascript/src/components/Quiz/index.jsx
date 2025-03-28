@@ -10,7 +10,6 @@ import {
 } from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
 import { format } from "date-fns";
-import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
 import {
   useFetchQuizzes,
   useUpdateQuiz,
@@ -27,26 +26,22 @@ const QuizList = () => {
     setSelectedRowKeys(selectedRowKeys);
   };
 
-  const { data: quizResponse, isLoading: isQuizzesLoading } = useFetchQuizzes();
+  const {
+    data: { quizzes: quizResponse = [] } = {},
+    isLoading: isQuizzesLoading,
+    refetch,
+  } = useFetchQuizzes();
   const { mutate: updateQuiz } = useUpdateQuiz();
   const { mutate: deleteQuiz } = useDeleteQuiz();
-  const { data: { categories: categoryResponse = [] } = {} } =
-    useFetchCategories();
 
   const fetchQuizzes = async () => {
     try {
       if (!quizResponse) return;
 
-      const quizzesWithCategory = quizResponse?.map(quiz => {
-        const category = categoryResponse.find(
-          cat => cat.id === quiz.assignedCategoryId
-        );
-
-        return {
-          ...quiz,
-          category: category ? category.name : null,
-        };
-      });
+      const quizzesWithCategory = quizResponse?.map(quiz => ({
+        ...quiz,
+        category: quiz.assignedCategory?.name,
+      }));
 
       const quizzesValues = quizzesWithCategory.map(quiz => ({
         ...quiz,
@@ -61,10 +56,10 @@ const QuizList = () => {
   };
 
   useEffect(() => {
-    if (quizResponse && categoryResponse) {
+    if (quizResponse) {
       fetchQuizzes();
     }
-  }, [quizResponse, categoryResponse]);
+  }, [quizResponse]);
 
   if (isQuizzesLoading) {
     return (
@@ -77,14 +72,14 @@ const QuizList = () => {
   if (error) return <div>Error: {error}</div>;
 
   const handlePublish = (slug, status) => {
-    const payload = {
-      status: status === "Published" ? "draft" : "published",
-    };
-
     updateQuiz(
-      { slug, payload },
+      {
+        slug,
+        payload: { status: status === "Published" ? "draft" : "published" },
+      },
       {
         onSuccess: () => {
+          refetch();
           setQuizzes(prevQuizzes =>
             prevQuizzes.map(quiz =>
               quiz.slug === slug

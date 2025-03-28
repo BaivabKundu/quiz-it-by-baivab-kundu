@@ -3,13 +3,15 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :users, only: [:index, :create]
-      resource :session, only: [:create, :destroy]
-      resources :quizzes, except: %i[new edit], param: :slug do
-        resources :questions, except: %i[new edit]
+      constraints(lambda { |req| req.format == :json }) do
+        resources :users, only: [:index, :create]
+        resource :session, only: [:create, :destroy]
+        resources :quizzes, except: %i[new edit], param: :slug do
+          resources :questions, except: %i[new edit]
+        end
+        resources :organizations, only: [:index]
+        resources :categories, only: [:index, :create]
       end
-      resources :organizations, only: [:index]
-      resources :categories, only: [:index, :create]
     end
   end
 

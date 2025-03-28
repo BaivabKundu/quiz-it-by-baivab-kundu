@@ -18,7 +18,7 @@ import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 const SidePane = ({ isOpen }) => {
   const { data: quizResponse } = useFetchQuizzes();
 
-  const quizzes = quizResponse || [];
+  const quizzes = quizResponse;
 
   const allCount = quizzes.length;
   const publishedCount = quizzes.filter(

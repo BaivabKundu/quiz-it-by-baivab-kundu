@@ -34,3 +34,30 @@ export const signupSchema = yup.object({
       t("auth.validations.passwordsMustMatch")
     ),
 });
+
+export const filterSchema = yup.object().shape({
+  name: yup.string(),
+  assignedCategoryName: yup.array().of(
+    yup.object().shape({
+      value: yup.string(),
+    })
+  ),
+  status: yup.object().shape({
+    value: yup.string(),
+  }),
+});
+
+export const newQuizSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required(t("quiz.validations.nameRequired"))
+    .min(2, t("quiz.validations.nameMinLength"))
+    .max(100, t("quiz.validations.nameMaxLength")),
+  assignedCategory: yup
+    .object()
+    .shape({
+      label: yup.string().required(t("quiz.validations.categoryRequired")),
+      value: yup.string().required(t("quiz.validations.categoryRequired")),
+    })
+    .required(t("quiz.validations.categoryRequired")),
+});

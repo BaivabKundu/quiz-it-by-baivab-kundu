@@ -68,7 +68,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/runtime": "7.26.0",
-    "@bigbinary/babel-preset-neeto": "1.0.8",
+    "@bigbinary/babel-preset-neeto": "1.0.7",
     "@bigbinary/neeto-cist": "1.0.15",
     "@bigbinary/neeto-commons-frontend": "4.13.25",
     "@bigbinary/neeto-datepicker": "^1.0.4",
@@ -171,5 +171,10 @@
   "resolutions": {
     "strip-ansi": "^6.0.1",
     "string-width": "^4.2.2"
+  },
+  "babel": {
+    "presets": [
+      "@bigbinary/neeto"
+    ]
   }
 }

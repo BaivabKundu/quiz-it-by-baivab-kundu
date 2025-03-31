@@ -25,6 +25,7 @@ const alias = {
   contexts: absolutePath("src/contexts"),
   reducers: absolutePath("src/reducers"),
   hooks: absolutePath("src/hooks"),
+  stores: absolutePath("src/stores"),
   neetoui: "@bigbinary/neetoui",
   neetoicons: "@bigbinary/neeto-icons",
   neetocist: "@bigbinary/neeto-cist",

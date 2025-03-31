@@ -1,0 +1,62 @@
+.custom-blue-table-pagination {
+
+  li:first-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0px 2px;
+  }
+
+  li:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0px 2px;
+  }
+
+  li:first-child::after {
+    content: "Back";
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
+
+  li:last-child::before {
+    content: "Next";
+    margin-left: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .ant-pagination-item {
+    border-color: rgba(0, 0, 0, 0.1);
+
+    a {
+      color: rgb(59, 130, 246);
+    }
+
+    &:hover {
+      border-color: rgb(37, 99, 235);
+      a {
+        color: rgb(37, 99, 235);
+      }
+    }
+  }
+
+  .ant-pagination-item-active {
+    background-color: rgb(59, 130, 246);
+    border-color: rgb(59, 130, 246);
+
+    a {
+      color: white !important;
+    }
+
+    &:hover {
+      border-color: rgb(37, 99, 235);
+      background-color: rgb(37, 99, 235);
+    }
+  }
+}
+

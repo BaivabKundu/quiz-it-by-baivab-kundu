@@ -8,7 +8,7 @@ class Quiz < ApplicationRecord
   enum :status, { draft: "draft", published: "published" }, default: :draft
   enum :accessibility, { discoverable: "discoverable", hidden: "hidden" }, default: :discoverable
 
-  belongs_to :assigned_category, foreign_key: "assigned_category_id", class_name: "Category"
+  belongs_to :category, foreign_key: "assigned_category_id", class_name: "Category"
   belongs_to :assigned_user, foreign_key: "creator_id", class_name: "User"
 
   has_many :questions

@@ -11,20 +11,31 @@ import { Avatar, Button, Tag, Typography } from "@bigbinary/neetoui";
 import authApi from "apis/auth";
 import { resetAuthTokens } from "apis/axios";
 import classnames from "classnames";
-import { useFetchQuizzes } from "hooks/reactQuery/useQuizzesApi";
+import useQueryParams from "hooks/useQueryParams";
+import { mergeLeft } from "ramda";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useQuizzesStore } from "stores/useQuizzesStore";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
+import { buildUrl } from "utils/url";
+
+import routes from "../../routes";
 
 const SidePane = ({ isOpen }) => {
-  const { data: { quizzes: quizResponse = [] } = {} } = useFetchQuizzes();
+  const { t } = useTranslation();
+  const queryParams = useQueryParams();
 
-  const quizzes = quizResponse || [];
+  const history = useHistory();
 
-  const allCount = quizzes.length;
-  const publishedCount = quizzes.filter(
-    quiz => quiz.status === "published"
-  ).length;
-  const draftCount = quizzes.filter(quiz => quiz.status === "draft").length;
+  const handleStatusClick = newStatus => {
+    history.push(
+      buildUrl(routes.dashboard, mergeLeft({ status: newStatus }, queryParams))
+    );
+  };
+
+  const quizCounts = useQuizzesStore(state => state.quizCounts);
+  const { allCount, draftCount, publishedCount } = quizCounts;
 
   const userName = getFromLocalStorage("authUserName");
   const email = getFromLocalStorage("authEmail");
@@ -60,19 +71,36 @@ const SidePane = ({ isOpen }) => {
           <div className="my-2">
             <div className="my-2 flex items-center space-x-4 rounded-lg bg-black p-2 text-white">
               <ListDetails className="h-6 w-6" />
-              <Typography style="body2">Quizzes</Typography>
+              <Typography style="body2">
+                {t("labels.sidePane.quizBar")}
+              </Typography>
             </div>
             <div className="flex flex-col space-y-1">
-              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
-                <Typography style="body2">All</Typography>
+              <div
+                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                onClick={() => handleStatusClick("all")}
+              >
+                <Typography style="body2">
+                  {t("labels.sidePane.allQuizzesBar")}
+                </Typography>
                 <Tag className="mr-2">{allCount}</Tag>
               </div>
-              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
-                <Typography style="body2">Published</Typography>
+              <div
+                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                onClick={() => handleStatusClick("published")}
+              >
+                <Typography style="body2">
+                  {t("labels.sidePane.publishedQuizzesBar")}
+                </Typography>
                 <Tag className="mr-2">{publishedCount}</Tag>
               </div>
-              <div className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200">
-                <Typography style="body2">Draft</Typography>
+              <div
+                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                onClick={() => handleStatusClick("draft")}
+              >
+                <Typography style="body2">
+                  {t("labels.sidePane.draftQuizzesBar")}
+                </Typography>
                 <Tag className="mr-2">{draftCount}</Tag>
               </div>
             </div>
@@ -83,15 +111,18 @@ const SidePane = ({ isOpen }) => {
             to="/settings"
           >
             <Settings className="h-6 w-6" />
-            <Typography style="body2">Settings</Typography>
+            <Typography style="body2">
+              {t("labels.sidePane.settingsBar")}
+            </Typography>
           </NavLink>
           <NavLink
-            // activeClassName="bg-black text-white"
             className="my-2 flex items-center space-x-4 rounded-lg p-2 hover:bg-gray-200"
             to="/"
           >
             <Globe className="h-6 w-6" />
-            <Typography style="body2">Public page</Typography>
+            <Typography style="body2">
+              {t("labels.sidePane.publicPageBar")}
+            </Typography>
             <ExternalLink className="h-4 w-4" />
           </NavLink>
         </div>
@@ -113,7 +144,7 @@ const SidePane = ({ isOpen }) => {
               className=" bg-white text-gray-700 hover:bg-gray-100"
               icon={Left}
               iconPosition="left"
-              label="Logout"
+              label={t("labels.buttons.logout")}
               size="medium"
               style="secondary"
               onClick={handleLogout}

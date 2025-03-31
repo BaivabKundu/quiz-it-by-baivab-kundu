@@ -1393,10 +1393,10 @@
     "@babel/helper-string-parser" "^7.25.9"
     "@babel/helper-validator-identifier" "^7.25.9"
 
-"@bigbinary/babel-preset-neeto@1.0.8":
-  version "1.0.8"
-  resolved "https://registry.yarnpkg.com/@bigbinary/babel-preset-neeto/-/babel-preset-neeto-1.0.8.tgz#c569a4e917b13566f21e97d343b6d3978b32e555"
-  integrity sha512-08z5eBdXPv5EDBLiVP/D11uVYQ+qtBB9PGEDFpj+lfARYNyRr+ZPiLW2ei8kRawS5yjFg1ivND2eNlLpX8D09A==
+"@bigbinary/babel-preset-neeto@1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@bigbinary/babel-preset-neeto/-/babel-preset-neeto-1.0.7.tgz#1150c650459631704d3c910b5124a909a1c1813b"
+  integrity sha512-DnlfTcxG+0eskCkSxVqgtp9SRYmV1v4EmDUYzTWzSrCrGcrV3UsOAtMOQVT6NwHwEZudjkzsVofLiZKSYjYZCA==
   dependencies:
     "@bigbinary/neeto-cist" "^1.0.4"
     "@bigbinary/neeto-commons-frontend" "^2.0.63"

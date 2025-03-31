@@ -28,15 +28,65 @@
       "defaultErrorNotification": "Something went wrong!"
     }
   },
+  "filter": {
+    "validations": {
+      "quizNameRequired": "Quiz name is required",
+      "quizCategoryRequired": "Quiz category is required",
+      "quizStatusRequired": "Quiz status is required"
+    }
+  },
   "labels": {
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "header": "All quizzes",
-    "addQuizButton": "Add new quiz"
+    "category": "Category",
+    "status": "Status",
+    "filter": "Filters",
+    "addNewQuiz": "Add new quiz",
+    "tooltips": {
+      "columns": "Show/hide columns",
+      "filters": "Filters"
+    },
+    "buttons": {
+      "addQuiz": "Add new quiz",
+      "addFilter": "Done",
+      "clearFilter": "Clear filters",
+      "saveQuiz": "Save",
+      "cancelQuiz": "Cancel",
+      "logout": "Logout"
+    },
+    "sidePane": {
+      "allQuizzesBar": "All",
+      "draftQuizzesBar": "Draft",
+      "publishedQuizzesBar": "Published",
+      "quizBar": "Quizzes",
+      "settingsBar": "Settings",
+      "publicPageBar": "Public page"
+    }
+  },
+  "messages": {
+    "noOfQuizzes": "{{noOfQuizzes}} quizzes",
+    "noQuizzesAvailable": "No quizzes available",
+    "alerts": {
+      "deleteQuiz": {
+        "title": "Delete quiz?",
+        "confirmButton": "Yes, delete",
+        "cancelButton": "No, cancel",
+        "message": "You're about to delete <strong>{{quizName}}</strong>. It'll be permanently deleted and we won't be able to recover it."
+      }
+    }
   },
   "inputPlaceholders": {
-    "searchInput": "Search quizzes"
+    "searchInput": "Search quizzes",
+    "quizNameInput": "Enter quiz name",
+    "quizCategoryInput": "Select quiz category",
+    "quizStatusInput": "Select quiz status"
+  },
+  "neetoMolecules": {
+    "columns": {
+      "columns": ""
+    }
   }
 }

@@ -55,8 +55,10 @@ export const useShowQuiz = slug => {
   return useQuery(queryConfig);
 };
 
-export const useCreateQuiz = () =>
-  useMutation({
+export const useCreateQuiz = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [QUERY_KEYS.QUIZ, "create"],
     mutationFn: async payload => {
       try {
@@ -65,7 +67,13 @@ export const useCreateQuiz = () =>
         throw handleQuizError(error);
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
   });
+};
 
 export const useUpdateQuiz = () =>
   useMutation({

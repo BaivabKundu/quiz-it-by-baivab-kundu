@@ -2,7 +2,7 @@ import { QUERY_KEYS } from "constants/query";
 
 import quizzesApi from "apis/quizzes";
 import { Toastr } from "neetoui";
-import { useQuery, useMutation } from "reactquery";
+import { useQuery, useMutation, useQueryClient } from "reactquery";
 
 const handleQuizError = error => {
   Toastr.error(error.message || "Something went wrong!", {
@@ -12,18 +12,26 @@ const handleQuizError = error => {
   return error;
 };
 
-export const useFetchQuizzes = () => {
+export const useFetchQuizzes = params => {
+  const queryClient = useQueryClient();
+
   const queryConfig = {
-    queryKey: [QUERY_KEYS.QUIZ],
+    queryKey: [QUERY_KEYS.QUIZ, params],
     queryFn: async () => {
       try {
-        const response = await quizzesApi.fetch();
+        const response = await quizzesApi.fetch(params);
 
         return response;
       } catch (error) {
         throw handleQuizError(error);
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
+    enabled: !!params,
   };
 
   return useQuery(queryConfig);

@@ -1,25 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { t } from "i18next";
-import { Search } from "neetoicons";
 import Header from "neetomolecules/Header";
-import { Button, Input } from "neetoui";
+import { Button } from "neetoui";
 
-const NeetoHeader = () => (
-  <Header
-    className="px-5"
-    title={t("labels.header")}
-    actionBlock={
-      <>
-        <Input
-          placeholder={t("inputPlaceholders.searchInput")}
-          prefix={<Search />}
-          type="search"
+import NewQuizPane from "../Quiz/NewQuizPane";
+
+const NeetoHeader = () => {
+  const [searchValue, setSearchValue] = useState("");
+  const [isCreateNewQuizPaneOpen, setIsCreateNewQuizPaneOpen] = useState(false);
+
+  return (
+    <>
+      <Header
+        className="px-5"
+        title={t("labels.header")}
+        actionBlock={
+          <Button
+            className="bg-blue-600"
+            label={t("labels.buttons.addQuiz")}
+            onClick={() => setIsCreateNewQuizPaneOpen(true)}
+          />
+        }
+        searchProps={{
+          onChange: event => {
+            setSearchValue(event.target.value);
+          },
+          value: searchValue,
+          placeholder: t("inputPlaceholders.searchInput"),
+        }}
+      />
+      {isCreateNewQuizPaneOpen && (
+        <NewQuizPane
+          isOpen={isCreateNewQuizPaneOpen}
+          initialValues={{
+            name: "",
+            assignedCategory: "",
+          }}
+          onClose={() => setIsCreateNewQuizPaneOpen(false)}
         />
-        <Button className="bg-blue-600" label={t("labels.addQuizButton")} />
-      </>
-    }
-  />
-);
+      )}
+    </>
+  );
+};
 
 export default NeetoHeader;

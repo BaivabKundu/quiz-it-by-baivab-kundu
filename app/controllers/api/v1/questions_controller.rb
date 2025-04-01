@@ -6,8 +6,7 @@ class Api::V1::QuestionsController < ApplicationController
 
   # GET /api/v1/quizzes/:quiz_slug/questions
   def index
-    @questions = @current_quiz.questions
-    render json: @questions
+    @questions = @current_quiz.questions.order(created_at: :desc)
   end
 
   # GET /api/v1/quizzes/:quiz_slug/questions/:id
@@ -20,21 +19,21 @@ class Api::V1::QuestionsController < ApplicationController
   def create
     question = @current_quiz.questions.new(question_params)
     question.save!
-    render_notice(t("successfully_created", entity: "Questions"))
+    render_notice(t("successfully_created", entity: "Question"))
   end
 
   # PATCH/PUT /api/v1/quizzes/:quiz_slug/questions/:id
   def update
     ensure_question_belongs_to_quiz
     @question.update!(question_params)
-    render_notice(t("successfully_deleted", entity: "Questions"))
+    render_notice(t("successfully_deleted", entity: "Question"))
   end
 
   # DELETE /api/v1/quizzes/:quiz_slug/questions/:id
   def destroy
     ensure_question_belongs_to_quiz
     @question.destroy
-    render_notice(t("successfully_deleted", entity: "Questions"))
+    render_notice(t("successfully_deleted", entity: "Question"))
   end
 
   private
@@ -44,7 +43,7 @@ class Api::V1::QuestionsController < ApplicationController
     end
 
     def set_quiz
-      @current_quiz = Quiz.find_by!(slug: params[:slug])
+      @current_quiz = Quiz.find_by!(slug: params[:quiz_slug])
     end
 
     def ensure_question_belongs_to_quiz
@@ -54,6 +53,6 @@ class Api::V1::QuestionsController < ApplicationController
     end
 
     def question_params
-      params.require(:question).permit(:body, :options, :answer_id)
+      params.require(:question).permit(:body, :answer_id, options: [:text, :is_correct])
     end
 end

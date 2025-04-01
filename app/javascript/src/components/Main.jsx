@@ -5,6 +5,8 @@ import { Login, Signup } from "components/Authentication";
 import { Route, Switch } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
+import QuizQuestions from "./Quiz/QuizQuestions";
+import QuestionBuilder from "./Quiz/QuizQuestions/QuestionBuilder";
 import Sidebar from "./Sidebar";
 
 import routes from "../routes";
@@ -25,7 +27,7 @@ const Main = () => {
         className={classnames(
           "overflow-auto transition-all duration-300 ease-in-out",
           {
-            "ml-80": isSidebarOpen,
+            "ml-64": isSidebarOpen,
             "ml-0": !isSidebarOpen,
           }
         )}
@@ -34,6 +36,16 @@ const Main = () => {
         <Route exact component={Login} path={routes.login} />
         <Route exact component={Signup} path={routes.signup} />
         <Route exact component={Dashboard} path={routes.dashboard} />
+        <Route
+          exact
+          component={QuizQuestions}
+          path={routes.quizzes.questions.root}
+        />
+        <Route
+          exact
+          component={QuestionBuilder}
+          path={routes.quizzes.questions.build}
+        />
       </Switch>
     </div>
   );

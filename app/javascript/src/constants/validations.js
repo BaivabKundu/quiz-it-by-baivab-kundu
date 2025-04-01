@@ -37,7 +37,7 @@ export const signupSchema = yup.object({
 
 export const filterSchema = yup.object().shape({
   name: yup.string(),
-  assignedCategoryName: yup.array().of(
+  selectedCategories: yup.array().of(
     yup.object().shape({
       value: yup.string(),
     })
@@ -60,4 +60,25 @@ export const newQuizSchema = yup.object().shape({
       value: yup.string().required(t("quiz.validations.categoryRequired")),
     })
     .required(t("quiz.validations.categoryRequired")),
+});
+
+export const questionSchema = yup.object().shape({
+  question: yup
+    .string()
+    .required(t("quiz.validations.questionRequired"))
+    .min(5, t("quiz.validations.questionMinLength")),
+  options: yup
+    .array()
+    .of(
+      yup.object().shape({
+        text: yup.string().required(t("quiz.validations.optionRequired")),
+        isCorrect: yup.boolean(),
+      })
+    )
+    .min(2, t("quiz.validations.minOptionsRequired"))
+    .test(
+      "has-correct-answer",
+      t("quiz.validations.correctAnswerRequired"),
+      options => options.some(option => option.isCorrect)
+    ),
 });

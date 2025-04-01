@@ -5,6 +5,7 @@ json.quiz do
 
   json.question do
     json.extract! @question,
+      :id,
       :body,
       :answer_id
     json.options @question.options["entries"] || []

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { ExternalLink, LeftArrow } from "@bigbinary/neeto-icons";
-import { Button } from "@bigbinary/neetoui";
+import { Button, Typography } from "@bigbinary/neetoui";
+import dayjs from "dayjs";
 import {
   Link,
   useHistory,
@@ -9,11 +10,24 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 
-const Navbar = ({ activeTab, setActiveTab }) => {
+const Navbar = ({
+  activeTab,
+  setActiveTab,
+  handleQuizPublish,
+  quizStatus,
+  quizUpdatedAt,
+}) => {
   const { slug } = useParams();
   const quizName = slug.replace(/-/g, " ");
   const history = useHistory();
   const location = useLocation();
+  const [draftSavedAt, setDraftSavedAt] = useState(null);
+
+  useEffect(() => {
+    if (quizStatus === "draft") {
+      setDraftSavedAt(quizUpdatedAt);
+    }
+  }, [quizStatus, quizUpdatedAt]);
 
   return (
     <div className="border-b border-gray-200 p-4">
@@ -51,8 +65,18 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </Link>
           </div>
         </div>
-        <div className="flex w-72 justify-end">
-          <Button className="mr-1 rounded-r-none bg-blue-600" label="Publish" />
+        <div className="flex w-96 justify-end">
+          {quizStatus === "draft" && draftSavedAt && (
+            <Typography className="mr-2 flex items-center text-sm text-gray-500">
+              Draft saved at{" "}
+              {dayjs(draftSavedAt).format("h:mm A, D MMMM YYYY ")}
+            </Typography>
+          )}
+          <Button
+            className="mx-1 rounded-r-none bg-blue-600"
+            label={quizStatus === "published" ? "Draft" : "Publish"}
+            onClick={() => handleQuizPublish(slug)}
+          />
           <Button className="rounded-l-none bg-blue-600" icon={ExternalLink} />
         </div>
       </div>

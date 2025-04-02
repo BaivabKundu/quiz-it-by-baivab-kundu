@@ -29,7 +29,7 @@ class Api::V1::QuestionsController < ApplicationController
 
   # DELETE /api/v1/quizzes/:quiz_slug/questions/:id
   def destroy
-    @question.destroy
+    @question.destroy!
     render_notice(t("successfully_deleted", entity: "Question"))
   end
 

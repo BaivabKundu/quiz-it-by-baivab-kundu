@@ -67,6 +67,11 @@ export const questionSchema = yup.object().shape({
     .string()
     .required(t("quiz.validations.questionRequired"))
     .min(5, t("quiz.validations.questionMinLength")),
+  correctOptionId: yup
+    .number()
+    .typeError(t("quiz.validations.correctAnswerRequired"))
+    .required(t("quiz.validations.correctAnswerRequired"))
+    .moreThan(0, t("quiz.validations.correctAnswerRequired")),
   options: yup
     .array()
     .of(
@@ -80,5 +85,10 @@ export const questionSchema = yup.object().shape({
       "has-correct-answer",
       t("quiz.validations.correctAnswerRequired"),
       options => options.some(option => option.isCorrect)
-    ),
+    )
+    .test("unique-options", t("quiz.validations.duplicateOptions"), options => {
+      const texts = options.map(option => option.text);
+
+      return new Set(texts).size === texts.length;
+    }),
 });

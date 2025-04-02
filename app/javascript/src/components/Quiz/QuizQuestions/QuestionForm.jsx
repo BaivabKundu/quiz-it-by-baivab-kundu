@@ -8,7 +8,6 @@ import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 
 const QuestionForm = ({
   options,
-  isValid,
   onQuestionChange,
   onOptionChange,
   onCorrectAnswerChange,
@@ -16,6 +15,7 @@ const QuestionForm = ({
   onRemoveOption,
   initialValues,
   handleSubmit,
+  handleSubmitAndAddNew,
 }) => (
   <NeetoUIForm
     formikProps={{
@@ -25,12 +25,20 @@ const QuestionForm = ({
       enableReinitialize: true,
     }}
   >
-    {({ values, setFieldValue }) => (
+    {({
+      values,
+      setFieldValue,
+      errors,
+      touched,
+      validateForm,
+      setFieldTouched,
+    }) => (
       <>
         <div className="mb-8">
           <Input
             nakedInput
             className="w-full border-b border-gray-200 p-3 focus:outline-none"
+            error={touched.question && errors.question}
             name="question"
             placeholder="Type your question here..."
             style={{
@@ -43,7 +51,7 @@ const QuestionForm = ({
             }}
           />
         </div>
-        <div className="mb-6 space-y-4">
+        <div className="mb-6 space-y-4" name="correctOptionId">
           {options.map((option, index) => (
             <div
               className="flex items-center rounded-lg border border-gray-200 p-2"
@@ -62,6 +70,7 @@ const QuestionForm = ({
                     };
                   });
                   setFieldValue("options", newOptions);
+                  setFieldValue("correctOptionId", Number(option.id));
                 }}
               >
                 {option.isCorrect ? (
@@ -75,6 +84,10 @@ const QuestionForm = ({
                 className="flex-grow p-2 focus:outline-none"
                 name={`options[${index}].text`}
                 placeholder={`Type option ${index + 1}`}
+                error={
+                  touched.options?.[index]?.text &&
+                  errors.options?.[index]?.text
+                }
                 style={{
                   fontSize: "1rem",
                 }}
@@ -93,6 +106,11 @@ const QuestionForm = ({
               </Button>
             </div>
           ))}
+          {errors.correctOptionId && touched.correctOptionId && (
+            <div className="mb-2 text-sm text-red-700">
+              {errors.correctOptionId}
+            </div>
+          )}
         </div>
         {options.length < 6 && (
           <Button
@@ -105,29 +123,25 @@ const QuestionForm = ({
         <div className="flex space-x-4">
           <Button
             className="bg-blue-500 text-white"
-            disabled={!isValid}
             label="Save"
             style="text"
             type="submit"
-            onClick={e => {
-              e.preventDefault();
-              handleSubmit(values, "");
-            }}
           />
           <Button
-            disabled={!isValid}
             label="Save & add new question"
             style="text"
             type="button"
-            onClick={() => {
-              handleSubmit(values, "Save & add new question");
-              setFieldValue("question", "");
-              setFieldValue("options", [
-                { id: 1, text: "", isCorrect: false },
-                { id: 2, text: "", isCorrect: false },
-                { id: 3, text: "", isCorrect: false },
-                { id: 4, text: "", isCorrect: false },
-              ]);
+            onClick={async () => {
+              setFieldTouched("question", true);
+              setFieldTouched("correctOptionId", true);
+              values.options.forEach((_, index) => {
+                setFieldTouched(`options[${index}].text`, true);
+              });
+
+              const errors = await validateForm(values);
+              if (Object.keys(errors).length === 0) {
+                await handleSubmitAndAddNew(values);
+              }
             }}
           />
         </div>

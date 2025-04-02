@@ -96,7 +96,7 @@ const QuestionBuilder = () => {
     }
   };
 
-  const handleSubmit = (values, buttonLabel = "") => {
+  const handleSubmit = values => {
     const { question, options } = values;
     if (isEditMode) {
       updateQuestion({
@@ -110,17 +110,47 @@ const QuestionBuilder = () => {
         },
       });
     } else {
-      createQuestion({
+      createQuestion(
+        {
+          body: question,
+          options: options.map(option => ({
+            text: option.text,
+            isCorrect: option.isCorrect,
+          })),
+          answerId: options.find(option => option.isCorrect)?.id,
+        },
+        {
+          onSuccess: () => {
+            history.push(`/quizzes/${slug}/questions`);
+          },
+        }
+      );
+    }
+  };
+
+  const handleSubmitAndAddNew = values => {
+    const { question, options } = values;
+    createQuestion(
+      {
         body: question,
         options: options.map(option => ({
           text: option.text,
           isCorrect: option.isCorrect,
         })),
         answerId: options.find(option => option.isCorrect)?.id,
-      });
-    }
-
-    if (buttonLabel === "") history.push(`/quizzes/${slug}/questions`);
+      },
+      {
+        onSuccess: () => {
+          setQuestion("");
+          setOptions([
+            { id: 1, text: "", isCorrect: false },
+            { id: 2, text: "", isCorrect: false },
+            { id: 3, text: "", isCorrect: false },
+            { id: 4, text: "", isCorrect: false },
+          ]);
+        },
+      }
+    );
   };
 
   const [activeTab, setActiveTab] = useState("questions");
@@ -138,12 +168,14 @@ const QuestionBuilder = () => {
         </div>
         <QuestionForm
           handleSubmit={handleSubmit}
+          handleSubmitAndAddNew={handleSubmitAndAddNew}
           isValid={isValid}
           options={options}
           question={question}
           initialValues={{
             question,
             options,
+            correctOptionId: options.find(opt => opt.isCorrect)?.id || 0,
           }}
           onAddOption={handleAddOption}
           onCorrectAnswerChange={handleCorrectAnswerChange}

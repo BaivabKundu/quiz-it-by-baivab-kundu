@@ -7,7 +7,9 @@ Rails.application.routes.draw do
         resources :users, only: [:index, :create]
         resource :session, only: [:create, :destroy]
         resources :quizzes, except: %i[new edit], param: :slug
-        resources :questions, except: %i[new edit]
+        resources :questions, except: %i[new edit] do
+          post "clone", on: :member, to: "questions/clones#clone"
+        end
         resources :organizations, only: [:index]
         resources :categories, only: [:index, :create]
       end

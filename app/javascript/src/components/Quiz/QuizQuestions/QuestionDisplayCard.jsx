@@ -4,7 +4,7 @@ import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Radio, Dropdown } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-const QuestionDisplayCard = ({ question, handleDelete }) => {
+const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
   const { Menu, MenuItem, Divider } = Dropdown;
   const { Button: MenuButton } = MenuItem;
 
@@ -41,7 +41,11 @@ const QuestionDisplayCard = ({ question, handleDelete }) => {
             </MenuItem>
             <Divider />
             <MenuItem>
-              <MenuButton className="text-black" style="link">
+              <MenuButton
+                className="text-black"
+                style="link"
+                onClick={() => handleClone(question.id)}
+              >
                 Clone
               </MenuButton>
             </MenuItem>

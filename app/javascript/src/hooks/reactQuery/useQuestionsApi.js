@@ -113,3 +113,23 @@ export const useDeleteQuestion = () => {
     },
   });
 };
+
+export const useCloneQuestion = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [QUERY_KEYS.QUESTION, "clone"],
+    mutationFn: async ({ questionId }) => {
+      try {
+        await questionsApi.clone(questionId);
+      } catch (error) {
+        throw handleQuestionError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUESTION],
+      });
+    },
+  });
+};

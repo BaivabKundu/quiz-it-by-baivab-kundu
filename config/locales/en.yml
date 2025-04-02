@@ -37,6 +37,7 @@ en:
     incorrect_credentials: "Incorrect credentials, try again."
   successfully_created: "%{entity} was successfully created!"
   successfully_updated: "%{entity} was successfully updated!"
+  successfully_cloned: "%{entity} was successfully cloned!"
   successfully_deleted: "%{entity} was successfully deleted!"
   not_found: "Couldn't find %{entity}"
   quiz:

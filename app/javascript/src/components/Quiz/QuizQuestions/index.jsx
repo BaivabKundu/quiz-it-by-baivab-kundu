@@ -5,6 +5,7 @@ import PageLoader from "components/commons/PageLoader";
 import {
   useFetchQuestions,
   useDeleteQuestion,
+  useCloneQuestion,
 } from "hooks/reactQuery/useQuestionsApi";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -21,9 +22,16 @@ const QuizCreation = () => {
   } = useFetchQuestions(slug);
 
   const { mutate: deleteQuestion } = useDeleteQuestion();
+  const { mutate: cloneQuestion } = useCloneQuestion();
 
   const handleDelete = questionId => {
     deleteQuestion({
+      questionId,
+    });
+  };
+
+  const handleClone = questionId => {
+    cloneQuestion({
       questionId,
     });
   };
@@ -72,6 +80,7 @@ const QuizCreation = () => {
                         key={question.id}
                       >
                         <QuestionDisplayCard
+                          handleClone={handleClone}
                           handleDelete={handleDelete}
                           question={question}
                         />

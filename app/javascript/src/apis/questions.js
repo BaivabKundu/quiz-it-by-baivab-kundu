@@ -16,12 +16,15 @@ const update = (questionId, payload) =>
 
 const destroy = questionId => axios.delete(`questions/${questionId}`);
 
+const clone = questionId => axios.post(`questions/${questionId}/clone`);
+
 const questionsApi = {
   fetch,
   show,
   create,
   update,
   destroy,
+  clone,
 };
 
 export default questionsApi;

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Question < ApplicationRecord
+  include DeepCloneable
   belongs_to :quiz
 
   validates :body, presence: true

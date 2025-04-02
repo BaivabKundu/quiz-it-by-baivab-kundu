@@ -16,7 +16,7 @@ export const useFetchQuestions = quizSlug => {
   const queryClient = useQueryClient();
 
   const queryConfig = {
-    queryKey: [QUERY_KEYS.QUESTION],
+    queryKey: [QUERY_KEYS.QUESTION, quizSlug],
     queryFn: async () => {
       try {
         const response = await questionsApi.fetch(quizSlug);
@@ -28,7 +28,7 @@ export const useFetchQuestions = quizSlug => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.QUESTION],
+        queryKey: [QUERY_KEYS.QUESTION, quizSlug],
       });
     },
   };
@@ -36,12 +36,12 @@ export const useFetchQuestions = quizSlug => {
   return useQuery(queryConfig);
 };
 
-export const useShowQuestion = questionId => {
+export const useShowQuestion = (questionId, quizSlug) => {
   const queryConfig = {
     queryKey: [QUERY_KEYS.QUESTION, questionId],
     queryFn: async () => {
       try {
-        const response = await questionsApi.show(questionId);
+        const response = await questionsApi.show(questionId, quizSlug);
 
         return response;
       } catch (error) {
@@ -74,8 +74,10 @@ export const useCreateQuestion = quizSlug => {
   });
 };
 
-export const useUpdateQuestion = () =>
-  useMutation({
+export const useUpdateQuestion = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [QUERY_KEYS.QUESTION, "update"],
     mutationFn: async ({ questionId, payload }) => {
       try {
@@ -84,7 +86,13 @@ export const useUpdateQuestion = () =>
         throw handleQuestionError(error);
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUESTION],
+      });
+    },
   });
+};
 
 export const useDeleteQuestion = () =>
   useMutation({

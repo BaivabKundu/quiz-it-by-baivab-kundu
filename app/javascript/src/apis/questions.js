@@ -3,7 +3,10 @@ import axios from "axios";
 const fetch = quizSlug =>
   axios.get("questions", { params: { quiz_slug: quizSlug } });
 
-const show = questionId => axios.get(`questions/${questionId}`);
+const show = (questionId, quizSlug) =>
+  axios.get(`questions/${questionId}`, {
+    params: { quiz_slug: quizSlug },
+  });
 
 const create = (quizSlug, payload) =>
   axios.post(`questions`, { question: payload, quiz_slug: quizSlug });

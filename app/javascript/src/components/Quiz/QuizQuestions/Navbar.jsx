@@ -1,17 +1,25 @@
 import React from "react";
 
-import { LeftArrow } from "@bigbinary/neeto-icons";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { ExternalLink, LeftArrow } from "@bigbinary/neeto-icons";
+import { Button } from "@bigbinary/neetoui";
+import {
+  Link,
+  useHistory,
+  useLocation,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const { slug } = useParams();
   const quizName = slug.replace(/-/g, " ");
+  const history = useHistory();
+  const location = useLocation();
 
   return (
     <div className="border-b border-gray-200 p-4">
       <div className="flex w-full items-center">
         <div className="flex min-w-fit items-center font-medium text-gray-700">
-          <Link to="/dashboard">
+          <Link onClick={() => history.goBack()}>
             <LeftArrow className="mx-4 h-7 w-7 rounded-full p-1 transition-all duration-200 hover:bg-gray-300 " />
           </Link>
           <span className="text-xl capitalize">{quizName}</span>
@@ -22,7 +30,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
               to={`/quizzes/${slug}/questions`}
               className={`px-6 py-4 text-sm font-medium ${
                 activeTab === "questions" &&
-                window.location.pathname.split("/").pop() === "questions"
+                location.pathname.split("/").pop() === "questions"
                   ? "border-b-2 border-blue-600 text-blue-600"
                   : "text-gray-500 "
               }`}
@@ -43,7 +51,10 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </Link>
           </div>
         </div>
-        <div className="w-72" />
+        <div className="flex w-72 justify-end">
+          <Button className="mr-1 rounded-r-none bg-blue-600" label="Publish" />
+          <Button className="rounded-l-none bg-blue-600" icon={ExternalLink} />
+        </div>
       </div>
     </div>
   );

@@ -46,6 +46,11 @@ const Main = () => {
           component={QuestionBuilder}
           path={routes.quizzes.questions.build}
         />
+        <Route
+          exact
+          component={QuestionBuilder}
+          path={routes.quizzes.questions.edit}
+        />
       </Switch>
     </div>
   );

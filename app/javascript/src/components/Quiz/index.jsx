@@ -110,7 +110,7 @@ const QuizList = () => {
     updateQuiz(
       {
         slug,
-        payload: { status: status === "Published" ? "draft" : "published" },
+        payload: { status: status === "published" ? "draft" : "published" },
       },
       {
         onSuccess: () => {
@@ -120,7 +120,7 @@ const QuizList = () => {
               quiz.slug === slug
                 ? {
                     ...quiz,
-                    status: status === "Published" ? "Draft" : "Published",
+                    status: status === "published" ? "Draft" : "Published",
                   }
                 : quiz
             )
@@ -231,7 +231,7 @@ const QuizList = () => {
                 style="link"
                 onClick={() => handlePublish(record.slug, record.status)}
               >
-                {record.status === "Published" ? "Unpublish" : "Publish"}
+                {record.status === "published" ? "Unpublish" : "Publish"}
               </MenuButton>
             </MenuItem>
             <Divider />

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.quiz do
   json.extract! @current_quiz,
     :name,
@@ -5,9 +7,8 @@ json.quiz do
 
   json.question do
     json.extract! @question,
-      :id,
       :body,
       :answer_id
-    json.options @question.options["entries"] || []
+    json.options @question.options || []
   end
 end

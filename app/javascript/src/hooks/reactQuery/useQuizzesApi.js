@@ -87,8 +87,10 @@ export const useUpdateQuiz = () =>
     },
   });
 
-export const useDeleteQuiz = () =>
-  useMutation({
+export const useDeleteQuiz = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [QUERY_KEYS.QUIZ, "delete"],
     mutationFn: async slug => {
       try {
@@ -97,4 +99,10 @@ export const useDeleteQuiz = () =>
         throw handleQuizError(error);
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
   });
+};

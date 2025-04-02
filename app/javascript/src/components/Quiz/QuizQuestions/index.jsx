@@ -54,9 +54,12 @@ const QuizCreation = () => {
                   <div className="mb-4 w-full max-w-[800px]">
                     <Typography>{questionResponse.length} questions</Typography>
                   </div>
-                  <div className="relative flex h-[calc(100vh-300px)] w-full max-w-[800px] flex-col overflow-y-auto">
+                  <div className="relative flex h-[calc(100vh-300px)] w-full flex-col items-center overflow-y-auto">
                     {questionResponse.map(question => (
-                      <div className="mb-4 w-full" key={question.id}>
+                      <div
+                        className="mb-4 w-full max-w-[800px]"
+                        key={question.id}
+                      >
                         <QuestionDisplayCard question={question} />
                       </div>
                     ))}

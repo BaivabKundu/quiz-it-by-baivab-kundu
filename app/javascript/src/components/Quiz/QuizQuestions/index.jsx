@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import { Typography } from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
-import { useFetchQuestions } from "hooks/reactQuery/useQuestionsApi";
+import {
+  useFetchQuestions,
+  useDeleteQuestion,
+} from "hooks/reactQuery/useQuestionsApi";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import Navbar from "./Navbar";
@@ -16,6 +19,14 @@ const QuizCreation = () => {
     data: { questions: questionResponse = [] } = {},
     isLoading: isQuestionsLoading,
   } = useFetchQuestions(slug);
+
+  const { mutate: deleteQuestion } = useDeleteQuestion();
+
+  const handleDelete = questionId => {
+    deleteQuestion({
+      questionId,
+    });
+  };
 
   if (isQuestionsLoading) {
     return (
@@ -60,7 +71,10 @@ const QuizCreation = () => {
                         className="mb-4 w-full max-w-[800px]"
                         key={question.id}
                       >
-                        <QuestionDisplayCard question={question} />
+                        <QuestionDisplayCard
+                          handleDelete={handleDelete}
+                          question={question}
+                        />
                       </div>
                     ))}
                   </div>

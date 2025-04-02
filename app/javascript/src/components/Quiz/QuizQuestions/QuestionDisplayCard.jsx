@@ -4,7 +4,7 @@ import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Radio, Dropdown } from "@bigbinary/neetoui";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-const QuestionDisplayCard = ({ question }) => {
+const QuestionDisplayCard = ({ question, handleDelete }) => {
   const { Menu, MenuItem, Divider } = Dropdown;
   const { Button: MenuButton } = MenuItem;
 
@@ -47,7 +47,12 @@ const QuestionDisplayCard = ({ question }) => {
             </MenuItem>
             <Divider />
             <MenuItem>
-              <MenuButton label="Delete" style="danger" type="delete">
+              <MenuButton
+                label="Delete"
+                style="danger"
+                type="delete"
+                onClick={() => handleDelete(question.id)}
+              >
                 Delete
               </MenuButton>
             </MenuItem>

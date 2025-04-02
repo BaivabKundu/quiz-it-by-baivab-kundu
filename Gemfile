@@ -105,3 +105,5 @@ end
 gem "pundit"
 
 gem "pagy"
+
+gem "deep_cloneable", "~> 3.2.1"

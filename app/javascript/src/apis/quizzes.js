@@ -11,12 +11,15 @@ const update = (slug, payload) =>
 
 const destroy = slug => axios.delete(`quizzes/${slug}`);
 
+const clone = slug => axios.post(`quizzes/${slug}/clone`);
+
 const quizzesApi = {
   fetch,
   show,
   create,
   update,
   destroy,
+  clone,
 };
 
 export default quizzesApi;

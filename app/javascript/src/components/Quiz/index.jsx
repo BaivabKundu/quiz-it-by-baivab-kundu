@@ -15,6 +15,7 @@ import {
   useFetchQuizzes,
   useUpdateQuiz,
   useDeleteQuiz,
+  useCloneQuiz,
 } from "hooks/reactQuery/useQuizzesApi";
 import useQueryParams from "hooks/useQueryParams";
 import SubHeader from "neetomolecules/SubHeader";
@@ -103,6 +104,7 @@ const QuizList = () => {
   }
 
   const { mutate: updateQuiz } = useUpdateQuiz();
+  const { mutate: cloneQuiz } = useCloneQuiz();
   const { mutate: deleteQuiz } = useDeleteQuiz();
 
   const handleApplyFilters = newFilters => {
@@ -150,6 +152,12 @@ const QuizList = () => {
         },
       }
     );
+  };
+
+  const handleClone = slug => {
+    cloneQuiz({
+      slug,
+    });
   };
 
   const handleDelete = slug => {
@@ -251,6 +259,16 @@ const QuizList = () => {
                 onClick={() => handlePublish(record.slug, record.status)}
               >
                 {record.status === "published" ? "Unpublish" : "Publish"}
+              </MenuButton>
+            </MenuItem>
+            <Divider />
+            <MenuItem>
+              <MenuButton
+                className="text-black"
+                style="link"
+                onClick={() => handleClone(record.slug)}
+              >
+                Clone
               </MenuButton>
             </MenuItem>
             <Divider />

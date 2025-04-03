@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Quiz < ApplicationRecord
+  include DeepCloneable
+
   MAX_NAME_LENGTH = 125
 
   attribute :status, :string, default: "published"

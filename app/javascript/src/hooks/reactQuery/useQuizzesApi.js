@@ -118,3 +118,23 @@ export const useDeleteQuiz = () => {
     },
   });
 };
+
+export const useCloneQuiz = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [QUERY_KEYS.QUIZ, "clone"],
+    mutationFn: async ({ slug }) => {
+      try {
+        await quizzesApi.clone(slug);
+      } catch (error) {
+        throw handleQuizError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
+  });
+};

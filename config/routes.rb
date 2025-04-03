@@ -6,7 +6,9 @@ Rails.application.routes.draw do
       constraints(lambda { |req| req.format == :json }) do
         resources :users, only: [:index, :create]
         resource :session, only: [:create, :destroy]
-        resources :quizzes, except: %i[new edit], param: :slug
+        resources :quizzes, except: %i[new edit], param: :slug do
+          post "clone", on: :member, to: "quizzes/clones#clone"
+        end
         resources :questions, except: %i[new edit] do
           post "clone", on: :member, to: "questions/clones#clone"
         end

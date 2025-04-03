@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import { ExternalLink, LeftArrow } from "@bigbinary/neeto-icons";
+import Rename from "@bigbinary/neeto-molecules/Rename";
 import { Button, Typography } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
+import { useShowQuiz, useUpdateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import {
   Link,
   useHistory,
@@ -18,10 +20,21 @@ const Navbar = ({
   quizUpdatedAt,
 }) => {
   const { slug } = useParams();
-  const quizName = slug.replace(/-/g, " ");
   const history = useHistory();
   const location = useLocation();
   const [draftSavedAt, setDraftSavedAt] = useState(null);
+
+  const { data: quiz } = useShowQuiz(slug);
+  const { mutate: updateQuiz } = useUpdateQuiz();
+
+  const quizName = quiz?.name;
+
+  const handleRename = values => {
+    updateQuiz({
+      slug,
+      payload: { name: values },
+    });
+  };
 
   useEffect(() => {
     if (quizStatus === "draft") {
@@ -36,7 +49,15 @@ const Navbar = ({
           <Link onClick={() => history.goBack()}>
             <LeftArrow className="mx-4 h-7 w-7 rounded-full p-1 transition-all duration-200 hover:bg-gray-300 " />
           </Link>
-          <span className="text-xl capitalize">{quizName}</span>
+          <Typography style="h4">
+            <Rename
+              hideMenu
+              allowEmptySubmission={false}
+              placeholder="Enter quiz name"
+              value={quizName}
+              onRename={handleRename}
+            />
+          </Typography>
         </div>
         <div className="flex flex-1 justify-center">
           <div className="flex items-center space-x-4 border-gray-200">

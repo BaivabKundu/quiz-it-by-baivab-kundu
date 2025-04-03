@@ -14,7 +14,8 @@ class QuizCloneService
     def clone
       cloned_quiz = @quiz.deep_clone include: :questions
       cloned_quiz.submissions_count = 0
-      cloned_quiz.name = "Copy of #{@quiz.name}"
+      clone_count = Quiz.where("name LIKE ?", "Copy of #{@quiz.name}%").count
+      cloned_quiz.name = clone_count > 0 ? "Copy of #{@quiz.name} (#{clone_count + 1})" : "Copy of #{@quiz.name}"
       cloned_quiz.slug = nil
       cloned_quiz.save!
       cloned_quiz

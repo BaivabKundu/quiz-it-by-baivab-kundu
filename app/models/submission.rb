@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+class Submission < ApplicationRecord
+  attribute :status, :string, default: "incomplete"
+  enum status: { completed: "completed", incomplete: "incomplete" }, default: :incomplete
+
+  belongs_to :user, foreign_key: "assigned_user_id", class_name: "User"
+  belongs_to :quiz, foreign_key: "assigned_quiz_id", class_name: "Quiz", counter_cache: true
+
+  validates :total_questions, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :correct_answers_count, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :wrong_answers_count, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+  validates :unanswered_count, numericality: { greater_than_or_equal_to: 0, only_integer: true }
+end

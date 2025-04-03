@@ -6,21 +6,19 @@ import {
   Link as NeetoLinkIcon,
 } from "@bigbinary/neeto-icons";
 import Rename from "@bigbinary/neeto-molecules/Rename";
-import { Button, Typography } from "@bigbinary/neetoui";
+import { Button, Typography, Tab } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
 import { useShowQuiz, useUpdateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { Toastr } from "neetoui";
 import {
   Link,
   useHistory,
-  useLocation,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const { slug } = useParams();
   const history = useHistory();
-  const location = useLocation();
 
   const { data: quiz } = useShowQuiz(slug);
   const { mutate: updateQuiz } = useUpdateQuiz();
@@ -70,29 +68,26 @@ const Navbar = ({ activeTab, setActiveTab }) => {
         </div>
         <div className="flex flex-1 justify-center">
           <div className="flex items-center space-x-4 border-gray-200">
-            <Link
-              to={`/quizzes/${slug}/questions`}
-              className={`px-6 py-4 text-sm font-medium ${
-                activeTab === "questions" &&
-                location.pathname.split("/").pop() === "questions"
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "text-gray-500 "
-              }`}
-              onClick={() => setActiveTab("questions")}
-            >
-              Questions
-            </Link>
-            <Link
-              to={`/quizzes/${slug}/submissions`}
-              className={`px-6 py-4 text-sm font-medium ${
-                activeTab === "submissions"
-                  ? "border-b-2 border-blue-600 text-blue-600"
-                  : "text-gray-500 "
-              }`}
-              onClick={() => setActiveTab("submissions")}
-            >
-              Submissions
-            </Link>
+            <Tab size="small">
+              <Tab.Item
+                active={activeTab === "questions"}
+                onClick={() => {
+                  setActiveTab("questions");
+                  history.push(`/quizzes/${slug}/questions`);
+                }}
+              >
+                Questions
+              </Tab.Item>
+              <Tab.Item
+                active={activeTab === "submissions"}
+                onClick={() => {
+                  setActiveTab("questions");
+                  history.push(`/quizzes/${slug}/submissions`);
+                }}
+              >
+                Submissions
+              </Tab.Item>
+            </Tab>
           </div>
         </div>
         <div className="flex w-auto items-center justify-end">

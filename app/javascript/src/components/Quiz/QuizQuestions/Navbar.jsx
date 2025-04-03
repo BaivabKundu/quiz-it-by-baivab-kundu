@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { ExternalLink, LeftArrow } from "@bigbinary/neeto-icons";
+import {
+  ExternalLink,
+  LeftArrow,
+  Link as NeetoLinkIcon,
+} from "@bigbinary/neeto-icons";
 import Rename from "@bigbinary/neeto-molecules/Rename";
 import { Button, Typography } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
 import { useShowQuiz, useUpdateQuiz } from "hooks/reactQuery/useQuizzesApi";
+import { Toastr } from "neetoui";
 import {
   Link,
   useHistory,
@@ -99,6 +104,17 @@ const Navbar = ({
             onClick={() => handleQuizPublish(slug)}
           />
           <Button className="rounded-l-none bg-blue-600" icon={ExternalLink} />
+          <Button
+            style="text"
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.origin}/public/quizzes/${slug}`
+              );
+              Toastr.success("Link copied to clipboard!");
+            }}
+          >
+            <NeetoLinkIcon className="h-10 w-5" />
+          </Button>
         </div>
       </div>
     </div>

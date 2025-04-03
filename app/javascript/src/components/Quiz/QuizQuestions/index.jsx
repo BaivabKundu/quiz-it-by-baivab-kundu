@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Typography } from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
@@ -7,7 +7,6 @@ import {
   useDeleteQuestion,
   useCloneQuestion,
 } from "hooks/reactQuery/useQuestionsApi";
-import { useUpdateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import Navbar from "./Navbar";
@@ -15,29 +14,16 @@ import QuestionDisplayCard from "./QuestionDisplayCard";
 
 const QuizCreation = () => {
   const [activeTab, setActiveTab] = useState("questions");
-  const [currentQuizStatus, setCurrentQuizStatus] = useState(null);
-  const [currentQuizUpdatedAt, setCurrentQuizUpdatedAt] = useState(null);
+
   const { slug } = useParams();
 
   const {
-    data: { questions: questionResponse = [], quizStatus, quizUpdatedAt } = {},
+    data: { questions: questionResponse = [] } = {},
     isLoading: isQuestionsLoading,
   } = useFetchQuestions(slug);
 
-  useEffect(() => {
-    if (quizStatus) {
-      setCurrentQuizStatus(quizStatus);
-    }
-
-    if (quizUpdatedAt) {
-      setCurrentQuizUpdatedAt(quizUpdatedAt);
-    }
-  }, [quizStatus, quizUpdatedAt]);
-
   const { mutate: deleteQuestion } = useDeleteQuestion();
   const { mutate: cloneQuestion } = useCloneQuestion();
-
-  const { mutate: updateQuiz } = useUpdateQuiz(slug);
 
   const handleDelete = questionId => {
     deleteQuestion({
@@ -51,25 +37,6 @@ const QuizCreation = () => {
     });
   };
 
-  const handleQuizPublish = slug => {
-    updateQuiz(
-      {
-        slug,
-        payload: {
-          status: currentQuizStatus === "published" ? "draft" : "published",
-        },
-      },
-      {
-        onSuccess: () => {
-          setCurrentQuizStatus(prevQuizStatus =>
-            prevQuizStatus === "published" ? "draft" : "published"
-          );
-          setCurrentQuizUpdatedAt(quizUpdatedAt);
-        },
-      }
-    );
-  };
-
   if (isQuestionsLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
@@ -80,13 +47,7 @@ const QuizCreation = () => {
 
   return (
     <div className="ml-16 flex min-h-screen w-full flex-col bg-white">
-      <Navbar
-        activeTab={activeTab}
-        handleQuizPublish={handleQuizPublish}
-        quizStatus={currentQuizStatus}
-        quizUpdatedAt={currentQuizUpdatedAt}
-        setActiveTab={setActiveTab}
-      />
+      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <main className="mx-auto h-full w-full flex-1 px-4">
         <div className="my-4 flex justify-end">
           <Link

@@ -17,20 +17,17 @@ import {
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 
-const Navbar = ({
-  activeTab,
-  setActiveTab,
-  handleQuizPublish,
-  quizStatus,
-  quizUpdatedAt,
-}) => {
+const Navbar = ({ activeTab, setActiveTab }) => {
   const { slug } = useParams();
   const history = useHistory();
   const location = useLocation();
-  const [draftSavedAt, setDraftSavedAt] = useState(null);
 
   const { data: quiz } = useShowQuiz(slug);
   const { mutate: updateQuiz } = useUpdateQuiz();
+
+  const [draftSavedAt, setDraftSavedAt] = useState("");
+
+  const currentQuizStatus = quiz?.status;
 
   const quizName = quiz?.name;
 
@@ -41,11 +38,18 @@ const Navbar = ({
     });
   };
 
+  const handleQuizPublish = slug => {
+    updateQuiz({
+      slug,
+      payload: {
+        status: currentQuizStatus === "published" ? "draft" : "published",
+      },
+    });
+  };
+
   useEffect(() => {
-    if (quizStatus === "draft") {
-      setDraftSavedAt(quizUpdatedAt);
-    }
-  }, [quizStatus, quizUpdatedAt]);
+    setDraftSavedAt(quiz?.updatedAt);
+  }, [quiz, quiz?.status, quiz?.updatedAt]);
 
   return (
     <div className="border-b border-gray-200 p-4">
@@ -91,19 +95,22 @@ const Navbar = ({
             </Link>
           </div>
         </div>
-        <div className="flex w-96 justify-end">
-          {quizStatus === "draft" && draftSavedAt && (
+        <div className="flex w-auto items-center justify-end">
+          {currentQuizStatus === "draft" && (
             <Typography className="mr-2 flex items-center text-sm text-gray-500">
               Draft saved at{" "}
-              {dayjs(draftSavedAt).format("h:mm A, D MMMM YYYY ")}
+              {dayjs(draftSavedAt).format("h:mm:ss A, D MMMM YYYY ")}
             </Typography>
           )}
           <Button
             className="mx-1 rounded-r-none bg-blue-600"
-            label={quizStatus === "published" ? "Draft" : "Publish"}
+            label={currentQuizStatus === "published" ? "Draft" : "Publish"}
             onClick={() => handleQuizPublish(slug)}
           />
-          <Button className="rounded-l-none bg-blue-600" icon={ExternalLink} />
+          <Button
+            className="mr-2 rounded-l-none bg-blue-600"
+            icon={ExternalLink}
+          />
           <Button
             style="text"
             onClick={() => {
@@ -113,7 +120,7 @@ const Navbar = ({
               Toastr.success("Link copied to clipboard!");
             }}
           >
-            <NeetoLinkIcon className="h-10 w-5" />
+            <NeetoLinkIcon className="h-5 w-5" />
           </Button>
         </div>
       </div>

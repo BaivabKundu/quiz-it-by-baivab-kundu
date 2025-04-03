@@ -75,7 +75,7 @@ export const useCreateQuiz = () => {
   });
 };
 
-export const useUpdateQuiz = slug => {
+export const useUpdateQuiz = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -87,9 +87,13 @@ export const useUpdateQuiz = slug => {
         throw handleQuizError(error);
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, { slug }) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.QUESTION, slug],
+        queryKey: [QUERY_KEYS.QUIZ, slug],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
       });
     },
   });

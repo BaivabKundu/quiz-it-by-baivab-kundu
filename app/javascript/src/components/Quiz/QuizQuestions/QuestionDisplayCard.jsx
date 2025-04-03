@@ -12,12 +12,17 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
 
   return (
     <div className="relative flex w-full rounded-md border border-gray-100 bg-white p-4 shadow-lg md:w-[600px] lg:w-[800px]">
-      <Radio disabled stacked label={question.body}>
+      <Radio
+        stacked
+        label={question.body}
+        labelProps={{ className: "text-lg mb-3" }}
+      >
         {question.options.map(option => (
           <Radio.Item
             checked={option.isCorrect}
             key={option.text}
             label={option.text}
+            labelProps={{ className: "text-gray-400" }}
             name={`stackedOptions-${question.id}`}
             value={option.text}
           />

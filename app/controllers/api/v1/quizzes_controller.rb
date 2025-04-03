@@ -4,7 +4,7 @@ class Api::V1:: QuizzesController < ApplicationController
   before_action :set_quiz, only: [:show, :update, :destroy]
 
   def index
-    quizzes = Quiz.order(created_at: :desc).includes(:category)
+    quizzes = Quiz.order(updated_at: :desc).includes(:category)
     quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
 
     quizzes = ::SearchQuizService.new(quizzes, params[:search_key]).process

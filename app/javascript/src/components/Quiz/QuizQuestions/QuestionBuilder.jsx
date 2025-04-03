@@ -99,16 +99,22 @@ const QuestionBuilder = () => {
   const handleSubmit = values => {
     const { question, options } = values;
     if (isEditMode) {
-      updateQuestion({
-        questionId,
-        payload: {
-          body: values.question,
-          options: values.options.map(option => ({
-            text: option.text,
-            isCorrect: option.isCorrect,
-          })),
+      updateQuestion(
+        {
+          questionId,
+          slug,
+          payload: {
+            body: values.question,
+            options: values.options.map(option => ({
+              text: option.text,
+              isCorrect: option.isCorrect,
+            })),
+          },
         },
-      });
+        {
+          onSuccess: () => history.push(`/quizzes/${slug}/questions`),
+        }
+      );
     } else {
       createQuestion(
         {

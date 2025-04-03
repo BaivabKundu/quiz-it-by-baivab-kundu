@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1::QuestionsController < ApplicationController
+  before_action :load_quiz, only: [:index, :create, :show, :update, :destroy]
   before_action :load_question, only: [:update, :destroy]
-  before_action :load_quiz, only: [:index, :create, :show]
 
   # GET /api/v1/quizzes/:quiz_slug/questions
   def index
@@ -36,7 +36,7 @@ class Api::V1::QuestionsController < ApplicationController
   private
 
     def load_question
-      @question = Question.find(params[:id])
+      @question = @current_quiz.questions.find(params[:id])
     end
 
     def load_quiz

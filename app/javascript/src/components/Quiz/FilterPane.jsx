@@ -7,6 +7,10 @@ import { Input, Select, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { buildUrl } from "utils/url";
+
+import routes from "../../routes";
 
 const FilterPane = ({
   isOpen,
@@ -15,6 +19,7 @@ const FilterPane = ({
   onApplyFilters,
   currentFilters = {},
 }) => {
+  const history = useHistory();
   const [name, setName] = useState(currentFilters.name || "");
   const [selectedCategories, setSelectedCategories] = useState(
     currentFilters.selectedCategories
@@ -31,7 +36,7 @@ const FilterPane = ({
           label: currentFilters.status === "draft" ? "Draft" : "Published",
           value: currentFilters.status,
         }
-      : null
+      : {}
   );
 
   const { t } = useTranslation();
@@ -54,9 +59,20 @@ const FilterPane = ({
     const filters = {
       name: values.name || null,
       selectedCategories:
-        selectedCategories.map(category => category.value) || null,
-      status: status?.value || null,
+        selectedCategories.map(category => category.value) || [],
+      status: status?.value || {},
     };
+
+    const queryParams = {};
+    if (filters.name) queryParams.filterName = filters.name;
+
+    if (filters.selectedCategories && filters.selectedCategories.length > 0) {
+      queryParams.filterCategories = filters.selectedCategories.join(",");
+    }
+
+    if (filters.status) queryParams.filterStatus = filters.status;
+
+    history.push(buildUrl(routes.dashboard, queryParams));
 
     onApplyFilters(filters);
     onClose();
@@ -65,7 +81,10 @@ const FilterPane = ({
   const handleClearFilters = () => {
     setName("");
     setSelectedCategories([]);
-    setStatus(null);
+    setStatus({});
+
+    history.push(routes.dashboard);
+
     onApplyFilters({});
     onClose();
   };

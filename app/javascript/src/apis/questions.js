@@ -11,8 +11,11 @@ const show = (questionId, quizSlug) =>
 const create = (quizSlug, payload) =>
   axios.post(`questions`, { question: payload, quiz_slug: quizSlug });
 
-const update = (questionId, payload) =>
-  axios.put(`questions/${questionId}`, { question: payload });
+const update = (questionId, quizSlug, payload) =>
+  axios.put(`questions/${questionId}`, {
+    question: payload,
+    quizSlug,
+  });
 
 const destroy = questionId => axios.delete(`questions/${questionId}`);
 

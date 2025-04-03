@@ -79,9 +79,9 @@ export const useUpdateQuestion = () => {
 
   return useMutation({
     mutationKey: [QUERY_KEYS.QUESTION, "update"],
-    mutationFn: async ({ questionId, payload }) => {
+    mutationFn: async ({ questionId, slug, payload }) => {
       try {
-        await questionsApi.update(questionId, payload);
+        await questionsApi.update(questionId, slug, payload);
       } catch (error) {
         throw handleQuestionError(error);
       }

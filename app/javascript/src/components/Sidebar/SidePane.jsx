@@ -4,8 +4,8 @@ import {
   Globe,
   ListDetails,
   Settings,
-  Left,
   ExternalLink,
+  LeftArrow,
 } from "@bigbinary/neeto-icons";
 import { Avatar, Button, Tag, Typography } from "@bigbinary/neetoui";
 import authApi from "apis/auth";
@@ -15,7 +15,10 @@ import useQueryParams from "hooks/useQueryParams";
 import { mergeLeft } from "ramda";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import { useQuizzesStore } from "stores/useQuizzesStore";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 import { buildUrl } from "utils/url";
@@ -27,6 +30,7 @@ const SidePane = ({ isOpen }) => {
   const queryParams = useQueryParams();
 
   const history = useHistory();
+  const location = useLocation();
 
   const handleStatusClick = newStatus => {
     history.push(
@@ -69,46 +73,62 @@ const SidePane = ({ isOpen }) => {
       <div className="flex h-full flex-col justify-between p-4">
         <div>
           <div className="my-2">
-            <div className="my-2 flex items-center space-x-4 rounded-lg bg-black p-2 text-white">
+            <NavLink
+              activeClassName="bg-black text-white"
+              to="/dashboard"
+              className={classnames(
+                "my-2 flex items-center space-x-4 rounded-lg p-2",
+                {
+                  "hover:bg-gray-200": !location.pathname.includes("dashboard"),
+                }
+              )}
+            >
               <ListDetails className="h-6 w-6" />
               <Typography style="body2">
                 {t("labels.sidePane.quizBar")}
               </Typography>
-            </div>
-            <div className="flex flex-col space-y-1">
-              <div
-                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
-                onClick={() => handleStatusClick("all")}
-              >
-                <Typography style="body2">
-                  {t("labels.sidePane.allQuizzesBar")}
-                </Typography>
-                <Tag className="mr-2">{allCount}</Tag>
+            </NavLink>
+            {location.pathname.includes("dashboard") && (
+              <div className="flex flex-col space-y-1">
+                <div
+                  className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                  onClick={() => handleStatusClick("all")}
+                >
+                  <Typography style="body2">
+                    {t("labels.sidePane.allQuizzesBar")}
+                  </Typography>
+                  <Tag className="mr-2">{allCount}</Tag>
+                </div>
+                <div
+                  className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                  onClick={() => handleStatusClick("published")}
+                >
+                  <Typography style="body2">
+                    {t("labels.sidePane.publishedQuizzesBar")}
+                  </Typography>
+                  <Tag className="mr-2">{publishedCount}</Tag>
+                </div>
+                <div
+                  className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
+                  onClick={() => handleStatusClick("draft")}
+                >
+                  <Typography style="body2">
+                    {t("labels.sidePane.draftQuizzesBar")}
+                  </Typography>
+                  <Tag className="mr-2">{draftCount}</Tag>
+                </div>
               </div>
-              <div
-                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
-                onClick={() => handleStatusClick("published")}
-              >
-                <Typography style="body2">
-                  {t("labels.sidePane.publishedQuizzesBar")}
-                </Typography>
-                <Tag className="mr-2">{publishedCount}</Tag>
-              </div>
-              <div
-                className="ml-10 flex cursor-pointer justify-between rounded-lg p-2 hover:bg-gray-200"
-                onClick={() => handleStatusClick("draft")}
-              >
-                <Typography style="body2">
-                  {t("labels.sidePane.draftQuizzesBar")}
-                </Typography>
-                <Tag className="mr-2">{draftCount}</Tag>
-              </div>
-            </div>
+            )}
           </div>
           <NavLink
             activeClassName="bg-black text-white"
-            className="my-2 flex items-center space-x-4 rounded-lg p-2 hover:bg-gray-200"
             to="/settings"
+            className={classnames(
+              "my-2 flex items-center space-x-4 rounded-lg p-2",
+              {
+                "hover:bg-gray-200": !location.pathname.includes("settings"),
+              }
+            )}
           >
             <Settings className="h-6 w-6" />
             <Typography style="body2">
@@ -116,8 +136,14 @@ const SidePane = ({ isOpen }) => {
             </Typography>
           </NavLink>
           <NavLink
-            className="my-2 flex items-center space-x-4 rounded-lg p-2 hover:bg-gray-200"
-            to="/"
+            activeClassName="bg-black text-white"
+            to="/public"
+            className={classnames(
+              "my-2 flex items-center space-x-4 rounded-lg p-2",
+              {
+                "hover:bg-gray-200": !location.pathname.includes("public"),
+              }
+            )}
           >
             <Globe className="h-6 w-6" />
             <Typography style="body2">
@@ -141,8 +167,8 @@ const SidePane = ({ isOpen }) => {
           </div>
           <div className="mt-2 border-t pt-4">
             <Button
-              className=" bg-white text-gray-700 hover:bg-gray-100"
-              icon={Left}
+              className="flex w-full bg-white pr-44 text-gray-700 hover:bg-gray-200"
+              icon={LeftArrow}
               iconPosition="left"
               label={t("labels.buttons.logout")}
               size="medium"

@@ -34,7 +34,6 @@ const QuizList = () => {
   const [error, setError] = useState(null);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false);
-  const [filters, setFilters] = useState({});
   const [visibleColumnKeys, setVisibleColumnKeys] = useState([
     "category",
     "submissionsCount",
@@ -49,7 +48,27 @@ const QuizList = () => {
   const history = useHistory();
 
   const queryParams = useQueryParams();
-  const { searchTerm, page, status = "all" } = queryParams;
+  const {
+    searchTerm,
+    page,
+    status = "all",
+    filterName,
+    filterCategories,
+    filterStatus,
+  } = queryParams;
+
+  const [filters, setFilters] = useState(() => {
+    const initialFilters = {};
+    if (filterName) initialFilters.name = filterName;
+
+    if (filterCategories) {
+      initialFilters.selectedCategories = filterCategories.split(",");
+    }
+
+    if (filterStatus) initialFilters.status = filterStatus;
+
+    return initialFilters;
+  });
 
   const quizzesParams = {
     searchKey: searchTerm,

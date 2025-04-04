@@ -11,8 +11,9 @@ import {
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
 
-import Navbar from "./Navbar";
 import QuestionForm from "./QuestionForm";
+
+import Navbar from "../Navbar";
 
 const QuestionBuilder = () => {
   const history = useHistory();
@@ -58,7 +59,7 @@ const QuestionBuilder = () => {
   useEffect(() => {
     const hasQuestion = question.trim().length > 0;
     const hasEnoughOptions =
-      options.filter(opt => opt.text.trim().length > 0).length >= 2;
+      options.filter(opt => opt.text?.trim().length > 0).length >= 2;
     const hasCorrectAnswer = options.some(opt => opt.isCorrect);
 
     setIsValid(hasQuestion && hasEnoughOptions && hasCorrectAnswer);

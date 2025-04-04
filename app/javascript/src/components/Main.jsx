@@ -7,6 +7,7 @@ import { Route, Switch } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import QuizQuestions from "./Quiz/QuizQuestions";
 import QuestionBuilder from "./Quiz/QuizQuestions/QuestionBuilder";
+import SubmissionList from "./Quiz/Submissions";
 import Sidebar from "./Sidebar";
 
 import routes from "../routes";
@@ -50,6 +51,11 @@ const Main = () => {
           exact
           component={QuestionBuilder}
           path={routes.quizzes.questions.edit}
+        />
+        <Route
+          exact
+          component={SubmissionList}
+          path={routes.quizzes.submissions}
         />
       </Switch>
     </div>

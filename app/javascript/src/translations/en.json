@@ -88,5 +88,16 @@
     "columns": {
       "columns": ""
     }
+  },
+  "neetoFilters": {
+    "messages": {
+      "enterResource": "Enter {{resource}}",
+      "selectResource": "Select status"
+    },
+    "common": {
+      "filters": "Filters",
+      "done": "Done",
+      "clearFilters": "Clear filters"
+    }
   }
 }

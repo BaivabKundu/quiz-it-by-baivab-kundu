@@ -319,7 +319,7 @@ const QuizList = () => {
   );
 
   return (
-    <div className="w-auto px-4 py-8">
+    <div className="px-4 py-8">
       <SubHeader
         leftActionBlock={
           <Typography component="h4" style="h4">
@@ -329,7 +329,7 @@ const QuizList = () => {
         rightActionBlock={
           <SubHeader.RightBlock
             columnsButtonProps={{
-              localStorageKey: "my-table-columns",
+              localStorageKey: "my-quiz-table-columns",
               columnData: columns,
               actionBlock: null,
               isSearchable: false,

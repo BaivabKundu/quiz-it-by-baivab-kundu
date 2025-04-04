@@ -9,6 +9,7 @@ const routes = {
       build: "/quizzes/:slug/questions/build",
       edit: "/quizzes/:slug/questions/:id/edit",
     },
+    submissions: "/quizzes/:slug/submissions",
   },
 };
 

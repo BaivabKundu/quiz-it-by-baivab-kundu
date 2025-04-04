@@ -14,6 +14,7 @@ class Quiz < ApplicationRecord
   belongs_to :assigned_user, foreign_key: "creator_id", class_name: "User"
 
   has_many :questions
+  has_many :submissions, foreign_key: :assigned_quiz_id, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }
   validates :questions_count, numericality: { greater_than_or_equal_to: 0 }

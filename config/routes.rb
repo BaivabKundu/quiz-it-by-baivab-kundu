@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         resources :questions, except: %i[new edit] do
           post "clone", on: :member, to: "questions/clones#clone"
         end
+        resources :submissions, only: %i[index], param: :slug
         resources :organizations, only: [:index]
         resources :categories, only: [:index, :create]
       end

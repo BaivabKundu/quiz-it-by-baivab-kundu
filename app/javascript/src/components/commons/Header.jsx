@@ -3,10 +3,11 @@ import React, { useState } from "react";
 import { t } from "i18next";
 import Header from "neetomolecules/Header";
 import { Button } from "neetoui";
+import { isEmpty } from "ramda";
 
 import NewQuizPane from "../Quiz/NewQuizPane";
 
-const NeetoHeader = () => {
+const NeetoHeader = (pageName = "") => {
   const [searchValue, setSearchValue] = useState("");
   const [isCreateNewQuizPaneOpen, setIsCreateNewQuizPaneOpen] = useState(false);
 
@@ -14,20 +15,25 @@ const NeetoHeader = () => {
     <>
       <Header
         className="px-5"
-        title={t("labels.header")}
+        title={pageName === "" ? t("labels.header") : "All Submissions"}
         actionBlock={
-          <Button
-            className="bg-blue-600"
-            label={t("labels.buttons.addQuiz")}
-            onClick={() => setIsCreateNewQuizPaneOpen(true)}
-          />
+          isEmpty(pageName) ? (
+            <Button
+              className="bg-blue-600"
+              label={t("labels.buttons.addQuiz")}
+              onClick={() => setIsCreateNewQuizPaneOpen(true)}
+            />
+          ) : null
         }
         searchProps={{
           onChange: event => {
             setSearchValue(event.target.value);
           },
           value: searchValue,
-          placeholder: t("inputPlaceholders.searchInput"),
+          placeholder:
+            pageName === ""
+              ? t("inputPlaceholders.searchInput")
+              : "Search names",
         }}
       />
       {isCreateNewQuizPaneOpen && (

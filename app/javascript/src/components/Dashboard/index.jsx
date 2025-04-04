@@ -1,7 +1,6 @@
 import React from "react";
 
-import NeetoHeader from "./Header";
-
+import NeetoHeader from "../commons/Header";
 import QuizList from "../Quiz";
 
 const Dashboard = () => (

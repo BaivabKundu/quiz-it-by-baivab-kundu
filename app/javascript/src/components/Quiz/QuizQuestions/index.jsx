@@ -9,8 +9,9 @@ import {
 } from "hooks/reactQuery/useQuestionsApi";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-import Navbar from "./Navbar";
 import QuestionDisplayCard from "./QuestionDisplayCard";
+
+import Navbar from "../Navbar";
 
 const QuizCreation = () => {
   const [activeTab, setActiveTab] = useState("questions");

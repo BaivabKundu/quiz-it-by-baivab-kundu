@@ -4,14 +4,14 @@ class Api::V1:: QuizzesController < ApplicationController
   before_action :set_quiz, only: [:show, :update, :destroy]
 
   def index
-    quizzes = Quiz.order(updated_at: :desc).includes(:category)
+    quizzes = Quiz.order(created_at: :desc).includes(:category)
     quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
 
-    quizzes = ::SearchQuizService.new(quizzes, params[:search_key]).process
+    quizzes = SearchQuizService.new(quizzes, params[:search_key]).process
 
-    quizzes = ::FilterQuizService.new(quizzes, params[:filters]).process
+    quizzes = FilterQuizService.new(quizzes, params[:filters]).process
 
-    pagination_service = ::PaginationService.new(quizzes, index_params)
+    pagination_service = PaginationService.new(quizzes, index_params)
     result = pagination_service.paginate
 
     @quizzes = result[:records]

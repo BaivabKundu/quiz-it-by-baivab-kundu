@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Submission < ApplicationRecord
-  attribute :status, :string, default: "incomplete"
-  enum status: { completed: "completed", incomplete: "incomplete" }, default: :incomplete
+  enum status: { completed: "completed", incomplete: "incomplete" }, _prefix: :status
 
   belongs_to :user, foreign_key: "assigned_user_id", class_name: "User"
   belongs_to :quiz, foreign_key: "assigned_quiz_id", class_name: "Quiz", counter_cache: true

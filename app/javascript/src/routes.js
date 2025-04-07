@@ -1,15 +1,20 @@
 const routes = {
   root: "/",
-  login: "/login",
-  signup: "/signup",
-  dashboard: "/dashboard",
-  quizzes: {
-    questions: {
-      root: "/quizzes/:slug/questions",
-      build: "/quizzes/:slug/questions/build",
-      edit: "/quizzes/:slug/questions/:id/edit",
+  admin: {
+    dashboard: "/admin/dashboard",
+    signup: "/admin/signup",
+    login: "/admin/login",
+    quizzes: {
+      questions: "/admin/quizzes/:slug/questions",
+      question: {
+        new: "/admin/quizzes/:slug/question/new",
+        edit: "/admin/quizzes/:slug/questions/:id/edit",
+      },
+      submissions: "/admin/quizzes/:slug/submissions",
     },
-    submissions: "/quizzes/:slug/submissions",
+    settings: {
+      base: "/admin/settings",
+    },
   },
 };
 

@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleSubmit = values => {
     login(values, {
-      onSuccess: () => history.push("/dashboard"),
+      onSuccess: () => history.push("/admin/dashboard"),
     });
   };
 

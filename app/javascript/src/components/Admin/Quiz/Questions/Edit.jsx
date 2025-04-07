@@ -57,7 +57,7 @@ const EditQuestion = () => {
         })),
       },
     });
-    if (buttonLabel === "") history.push(`/quizzes/${slug}/questions`);
+    if (buttonLabel === "") history.push(`/admin/quizzes/${slug}/questions`);
   };
 
   if (isQuestionLoading) return <PageLoader />;

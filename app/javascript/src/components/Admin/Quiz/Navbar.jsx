@@ -73,7 +73,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                 active={activeTab === "questions"}
                 onClick={() => {
                   setActiveTab("questions");
-                  history.push(`/quizzes/${slug}/questions`);
+                  history.push(`/admin/quizzes/${slug}/questions`);
                 }}
               >
                 Questions
@@ -82,7 +82,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                 active={activeTab === "submissions"}
                 onClick={() => {
                   setActiveTab("questions");
-                  history.push(`/quizzes/${slug}/submissions`);
+                  history.push(`/admin/quizzes/${slug}/submissions`);
                 }}
               >
                 Submissions

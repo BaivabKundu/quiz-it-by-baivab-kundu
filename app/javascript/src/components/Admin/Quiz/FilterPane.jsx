@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { buildUrl } from "utils/url";
 
-import routes from "../../routes";
+import routes from "../../../routes";
 
 const FilterPane = ({
   isOpen,
@@ -72,7 +72,7 @@ const FilterPane = ({
 
     if (filters.status) queryParams.filterStatus = filters.status;
 
-    history.push(buildUrl(routes.dashboard, queryParams));
+    history.push(buildUrl(routes.admin.dashboard, queryParams));
 
     onApplyFilters(filters);
     onClose();
@@ -83,7 +83,7 @@ const FilterPane = ({
     setSelectedCategories([]);
     setStatus({});
 
-    history.push(routes.dashboard);
+    history.push(routes.admin.dashboard);
 
     onApplyFilters({});
     onClose();

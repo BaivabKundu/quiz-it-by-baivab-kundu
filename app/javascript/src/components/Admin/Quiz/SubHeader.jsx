@@ -8,7 +8,7 @@ import { buildUrl } from "utils/url";
 
 import BulkActions from "./BulkActions";
 
-import routes from "../../routes";
+import routes from "../../../routes";
 
 const QuizSubHeader = ({
   meta,
@@ -106,7 +106,7 @@ const QuizSubHeader = ({
               label="Clear filters"
               style="secondary"
               onClick={() => {
-                history.push(buildUrl(routes.dashboard));
+                history.push(buildUrl(routes.admin.dashboard));
                 onApplyFilters({});
               }}
             />

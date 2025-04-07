@@ -15,7 +15,7 @@ export const handleSubmit =
           },
         },
         {
-          onSuccess: () => history.push(`/quizzes/${slug}/questions`),
+          onSuccess: () => history.push(`/admin/quizzes/${slug}/questions`),
         }
       );
     } else {
@@ -30,7 +30,7 @@ export const handleSubmit =
         },
         {
           onSuccess: () => {
-            history.push(`/quizzes/${slug}/questions`);
+            history.push(`/admin/quizzes/${slug}/questions`);
           },
         }
       );

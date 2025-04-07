@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
-import { Typography } from "@bigbinary/neetoui";
+import { NoData, Typography } from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
 import {
   useFetchQuestions,
   useDeleteQuestion,
   useCloneQuestion,
 } from "hooks/reactQuery/useQuestionsApi";
+import { isEmpty } from "ramda";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import QuestionDisplayCard from "./DisplayCard";
@@ -55,7 +56,7 @@ const QuizCreation = () => {
           <Link
             className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
             to={{
-              pathname: `/quizzes/${slug}/questions/build`,
+              pathname: `/admin/quizzes/${slug}/question/new`,
               state: { questionNumber: questionResponse.length + 1 },
             }}
           >
@@ -64,11 +65,9 @@ const QuizCreation = () => {
         </div>
         <div className="py-16">
           {activeTab === "questions" &&
-            (isQuestionsLoading ? (
-              <div className="flex h-72 items-center justify-center">
-                <Typography className="text-xl font-medium text-gray-700">
-                  There are no questions to show
-                </Typography>
+            (isEmpty(questionResponse) ? (
+              <div className="flex h-96 items-center justify-center">
+                <NoData title="No questions to show" />
               </div>
             ) : (
               <div className="w-full">

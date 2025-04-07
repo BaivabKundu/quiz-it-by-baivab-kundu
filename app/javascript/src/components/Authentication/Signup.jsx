@@ -12,7 +12,7 @@ const Signup = () => {
 
   const handleSubmit = values => {
     signup(values, {
-      onSuccess: () => history.push("/dashboard"),
+      onSuccess: () => history.push("/admin/dashboard"),
     });
   };
 

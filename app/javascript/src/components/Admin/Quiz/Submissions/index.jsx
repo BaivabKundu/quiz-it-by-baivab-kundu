@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { Table as NeetoTable, Typography } from "@bigbinary/neetoui";
-import PageLoader from "components/commons/PageLoader";
+import { Table as NeetoTable, NoData } from "@bigbinary/neetoui";
+import PageLoader from "components/Admin/commons/PageLoader";
 import { useFetchSubmissions } from "hooks/reactQuery/useSubmissionsApi";
 import useQueryParams from "hooks/useQueryParams";
 import { mergeLeft, isEmpty } from "ramda";
@@ -14,7 +14,7 @@ import { buildUrl } from "utils/url";
 import { submissionColumns, columns, filterColumns } from "./columns";
 import SubHeaderComponent from "./SubHeader";
 
-import routes from "../../../routes";
+import routes from "../../../../routes";
 import NeetoHeader from "../../commons/Header";
 import { DEFAULT_PAGE_INDEX } from "../constants";
 import Navbar from "../Navbar";
@@ -72,7 +72,10 @@ const SubmissionList = () => {
 
   const handlePageNavigation = newPage => {
     history.push(
-      buildUrl(routes.dashboard, mergeLeft({ page: newPage }, queryParams))
+      buildUrl(
+        routes.admin.dashboard,
+        mergeLeft({ page: newPage }, queryParams)
+      )
     );
   };
 
@@ -87,16 +90,20 @@ const SubmissionList = () => {
     <div className="ml-16 flex w-full flex-1 flex-col overflow-hidden">
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <NeetoHeader />
-      <div className="px-4 py-8">
-        <SubHeaderComponent
-          columns={columns}
-          filterColumns={filterColumns}
-          handleColumnVisibilityChange={handleColumnVisibilityChange}
-          isFilterPaneOpen={isFilterPaneOpen}
-          setIsFilterPaneOpen={setIsFilterPaneOpen}
-          submissionResponse={submissionResponse}
-        />
-        {!isSubmissionsLoading ? (
+      {isEmpty(submissionResponse) ? (
+        <div className="flex h-96 items-center justify-center">
+          <NoData title="No submissions to show" />
+        </div>
+      ) : (
+        <div className="px-4 py-8">
+          <SubHeaderComponent
+            columns={columns}
+            filterColumns={filterColumns}
+            handleColumnVisibilityChange={handleColumnVisibilityChange}
+            isFilterPaneOpen={isFilterPaneOpen}
+            setIsFilterPaneOpen={setIsFilterPaneOpen}
+            submissionResponse={submissionResponse}
+          />
           <div className="custom-table">
             <NeetoTable
               rowSelection
@@ -114,10 +121,8 @@ const SubmissionList = () => {
               onRowSelect={handleSelect}
             />
           </div>
-        ) : (
-          <Typography>No submissions available</Typography>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

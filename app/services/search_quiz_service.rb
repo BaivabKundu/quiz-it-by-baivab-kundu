@@ -9,6 +9,6 @@ class SearchQuizService
   def process
     return @quizzes if @search_key.blank?
 
-    @quizzes.where("LOWER(name) LIKE ?", "%#{@search_key.downcase}%")
+    @quizzes.where("LOWER(quizzes.name) LIKE ?", "%#{@search_key.downcase}%")
   end
 end

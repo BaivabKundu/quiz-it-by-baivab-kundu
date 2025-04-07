@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Typography } from "@bigbinary/neetoui";
-import PageLoader from "components/commons/PageLoader";
+import PageLoader from "components/Admin/commons/PageLoader";
 import {
   useShowQuestion,
   useUpdateQuestion,

@@ -6,7 +6,7 @@ import {
   Alert,
   NoData,
 } from "@bigbinary/neetoui";
-import PageLoader from "components/commons/PageLoader";
+import PageLoader from "components/Admin/commons/PageLoader";
 import {
   useFetchQuizzes,
   useUpdateQuiz,

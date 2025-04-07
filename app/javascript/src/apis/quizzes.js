@@ -13,6 +13,16 @@ const destroy = slug => axios.delete(`quizzes/${slug}`);
 
 const clone = slug => axios.post(`quizzes/${slug}/clone`);
 
+const bulkUpdate = ({ id, update_fields }) =>
+  axios.put("quizzes/bulk_update", {
+    quizzes: { id, update_fields },
+  });
+
+const bulkDelete = ({ id }) =>
+  axios.delete("quizzes/bulk_destroy", {
+    data: { quizzes: { id } },
+  });
+
 const quizzesApi = {
   fetch,
   show,
@@ -20,6 +30,8 @@ const quizzesApi = {
   update,
   destroy,
   clone,
+  bulkUpdate,
+  bulkDelete,
 };
 
 export default quizzesApi;

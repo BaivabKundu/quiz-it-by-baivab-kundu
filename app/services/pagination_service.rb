@@ -17,16 +17,23 @@ class PaginationService
 
     pagy, paginated_records = pagy(@relation, limit: @per_page, page: @page, items: @per_page)
 
+    meta = {
+      current_page: pagy.page,
+      total_pages: pagy.pages,
+      total_count: pagy.count,
+      items_per_page: @per_page,
+      next_page: pagy.next,
+      prev_page: pagy.prev
+    }
+
+    if @relation.klass == Quiz
+      meta[:published_count] = @relation.published.count
+      meta[:draft_count] = @relation.draft.count
+    end
+
     {
       records: paginated_records,
-      meta: {
-        current_page: pagy.page,
-        total_pages: pagy.pages,
-        total_count: pagy.count,
-        items_per_page: @per_page,
-        next_page: pagy.next,
-        prev_page: pagy.prev
-      }
+      meta: meta
     }
   end
 end

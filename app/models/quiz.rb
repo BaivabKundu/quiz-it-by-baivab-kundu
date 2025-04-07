@@ -3,6 +3,9 @@
 class Quiz < ApplicationRecord
   include DeepCloneable
 
+  scope :published, -> { where(status: "published") }
+  scope :draft, -> { where(status: "draft") }
+
   MAX_NAME_LENGTH = 125
 
   attribute :status, :string, default: "published"

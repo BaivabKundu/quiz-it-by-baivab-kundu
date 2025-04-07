@@ -99,9 +99,9 @@ export const useDeleteQuestion = () => {
 
   return useMutation({
     mutationKey: [QUERY_KEYS.QUESTION, "delete"],
-    mutationFn: async ({ questionId }) => {
+    mutationFn: async ({ questionId, quizSlug }) => {
       try {
-        await questionsApi.destroy(questionId);
+        await questionsApi.destroy(questionId, quizSlug);
       } catch (error) {
         throw handleQuestionError(error);
       }

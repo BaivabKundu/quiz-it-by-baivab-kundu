@@ -10,9 +10,9 @@ import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import { getFromLocalStorage } from "utils/storage";
 
-const FilterPane = ({ isOpen, initialValues, onClose }) => {
+const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
   const [name, setName] = useState("");
-  const [assignedCategory, setAssignedCategory] = useState("");
+  const [assignedCategory, setAssignedCategory] = useState(null);
 
   const { t } = useTranslation();
 
@@ -42,7 +42,7 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
 
   const handleClearFilters = () => {
     setName("");
-    setAssignedCategory("");
+    setAssignedCategory(null);
     onClose();
   };
 
@@ -57,7 +57,7 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
         formikProps={{
           initialValues,
           validationSchema: newQuizSchema,
-          onSubmit: values => handleCreateNewQuiz(values),
+          onSubmit: handleCreateNewQuiz,
         }}
       >
         {({ setFieldValue }) => (
@@ -75,7 +75,6 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
                     onChange={({ target: { value } }) => {
                       setName(value);
                       setFieldValue("name", value);
-                      initialValues.name = value;
                     }}
                   />
                   <Typography className="text-md font-bold">
@@ -86,14 +85,9 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
                     options={categoryOptions}
                     placeholder={t("inputPlaceholders.quizCategoryInput")}
                     value={assignedCategory}
-                    onBlur={() => {
-                      if (!assignedCategory) {
-                        setFieldValue("assignedCategory", "");
-                      }
-                    }}
                     onChange={value => {
-                      setAssignedCategory(value);
-                      setFieldValue("assignedCategory", value || "");
+                      setAssignedCategory(value || null);
+                      setFieldValue("assignedCategory", value || null);
                     }}
                   />
                 </div>
@@ -102,7 +96,6 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
             <Pane.Footer className="flex items-center space-x-2">
               <Button
                 className="bg-blue-600 px-5 text-white"
-                disabled={!name || !assignedCategory}
                 label={t("labels.buttons.saveQuiz")}
                 style="text"
                 type="submit"
@@ -121,4 +114,4 @@ const FilterPane = ({ isOpen, initialValues, onClose }) => {
   );
 };
 
-export default FilterPane;
+export default NewQuizPane;

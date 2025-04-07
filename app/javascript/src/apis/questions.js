@@ -17,7 +17,8 @@ const update = (questionId, quizSlug, payload) =>
     quizSlug,
   });
 
-const destroy = questionId => axios.delete(`questions/${questionId}`);
+const destroy = (questionId, quizSlug) =>
+  axios.delete(`questions/${questionId}`, { params: { quiz_slug: quizSlug } });
 
 const clone = questionId => axios.post(`questions/${questionId}/clone`);
 

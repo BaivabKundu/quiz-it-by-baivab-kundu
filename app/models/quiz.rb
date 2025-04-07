@@ -13,7 +13,7 @@ class Quiz < ApplicationRecord
   belongs_to :category, foreign_key: "assigned_category_id", class_name: "Category"
   belongs_to :assigned_user, foreign_key: "creator_id", class_name: "User"
 
-  has_many :questions
+  has_many :questions, dependent: :destroy
   has_many :submissions, foreign_key: :assigned_quiz_id, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: MAX_NAME_LENGTH }

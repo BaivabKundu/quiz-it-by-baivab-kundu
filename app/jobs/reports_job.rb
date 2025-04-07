@@ -3,12 +3,13 @@
 class ReportsJob
   include Sidekiq::Job
 
-  def perform(user_id, slug, report_path)
+  def perform(user_id, slug, timezone, report_path)
     ActionCable.server.broadcast(user_id, { message: I18n.t("report.render"), progress: 25 })
     submissions = Submission.joins(:quiz).where(quizzes: { slug: })
     content = ApplicationController.render(
       assigns: {
-        submissions:
+        submissions:,
+        timezone:
       },
       template: "api/v1/submissions/report/download",
       layout: "pdf"

@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 
-import { Table as NeetoTable, Typography, Alert } from "@bigbinary/neetoui";
+import {
+  Table as NeetoTable,
+  Typography,
+  Alert,
+  NoData,
+} from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
 import {
   useFetchQuizzes,
@@ -31,7 +36,7 @@ import {
   handleBulkDelete,
 } from "./utils";
 
-import routes from "../../routes";
+import routes from "../../../routes";
 
 const QuizList = () => {
   const [quizzes, setQuizzes] = useState([]);
@@ -121,7 +126,10 @@ const QuizList = () => {
 
   const handlePageNavigation = newPage => {
     history.push(
-      buildUrl(routes.dashboard, mergeLeft({ page: newPage }, queryParams))
+      buildUrl(
+        routes.admin.dashboard,
+        mergeLeft({ page: newPage }, queryParams)
+      )
     );
   };
 
@@ -177,97 +185,106 @@ const QuizList = () => {
 
   return (
     <div className="px-4 py-8">
-      <QuizSubHeader
-        columns={columns}
-        filters={filters}
-        handleColumnVisibilityChange={handleColumnVisibilityChangeWrapper}
-        isFilterPaneOpen={isFilterPaneOpen}
-        meta={meta}
-        selectedRowKeys={selectedRowKeys}
-        setIsFilterPaneOpen={setIsFilterPaneOpen}
-        onApplyFilters={handleApplyFilters}
-        onBulkDelete={() => setShowBulkDeleteAlert(true)}
-        onBulkUpdate={handleBulkUpdateWrapper}
-      />
-      {!isQuizzesLoading ? (
-        <div className="custom-table">
-          <NeetoTable
-            rowSelection
-            columnData={filteredColumns}
-            currentPageNumber={Number(meta.currentPage) || DEFAULT_PAGE_INDEX}
-            defaultPageSize={meta.itemsPerPage}
-            handlePageChange={handlePageNavigation}
-            rowData={quizResponse}
-            selectedRowKeys={selectedRowKeys}
-            totalCount={meta.totalCount}
-            paginationProps={{
-              className: "custom-blue-table-pagination flex justify-start mt-4",
-            }}
-            onRowSelect={handleSelect}
-          />
+      {isEmpty(quizResponse) ? (
+        <div className="flex h-96 items-center justify-center">
+          <NoData title={t("messages.noQuizzesAvailable")} />
         </div>
       ) : (
-        <Typography>{t("messages.noQuizzesAvailable")}</Typography>
-      )}
-      {isFilterPaneOpen && (
-        <FilterPane
-          currentFilters={filters}
-          isOpen={isFilterPaneOpen}
-          initialValues={{
-            name: "",
-            selectedCategories: [],
-            status: "",
-          }}
-          onApplyFilters={handleApplyFilters}
-          onClose={() => setIsFilterPaneOpen(false)}
-        />
-      )}
-      {showDeleteAlert && (
-        <Alert
-          cancelButtonLabel={t("messages.alerts.deleteQuiz.cancelButton")}
-          isOpen={showDeleteAlert}
-          submitButtonLabel={t("messages.alerts.deleteQuiz.confirmButton")}
-          title={t("messages.alerts.deleteQuiz.title")}
-          message={
-            <Typography>
-              <Trans
-                i18nKey="messages.alerts.deleteQuiz.message"
-                components={{
-                  strong: <strong />,
-                }}
-                values={{
-                  quizName: quizzes.find(quiz => quiz.slug === quizToDelete)
-                    ?.name,
-                }}
-              />
-            </Typography>
-          }
-          onClose={() => setShowDeleteAlert(false)}
-          onSubmit={confirmDeleteWrapper}
-        />
-      )}
-      {showBulkDeleteAlert && (
-        <Alert
-          cancelButtonLabel={t("messages.alerts.bulkDeleteQuiz.cancelButton")}
-          isOpen={showBulkDeleteAlert}
-          submitButtonLabel={t("messages.alerts.bulkDeleteQuiz.confirmButton")}
-          title={t("messages.alerts.bulkDeleteQuiz.title")}
-          message={
-            <Typography>
-              <Trans
-                i18nKey="messages.alerts.bulkDeleteQuiz.message"
-                components={{
-                  strong: <strong />,
-                }}
-                values={{
-                  count: selectedRowKeys.length,
-                }}
-              />
-            </Typography>
-          }
-          onClose={() => setShowBulkDeleteAlert(false)}
-          onSubmit={handleBulkDeleteWrapper}
-        />
+        <>
+          <QuizSubHeader
+            columns={columns}
+            filters={filters}
+            handleColumnVisibilityChange={handleColumnVisibilityChangeWrapper}
+            isFilterPaneOpen={isFilterPaneOpen}
+            meta={meta}
+            selectedRowKeys={selectedRowKeys}
+            setIsFilterPaneOpen={setIsFilterPaneOpen}
+            onApplyFilters={handleApplyFilters}
+            onBulkDelete={() => setShowBulkDeleteAlert(true)}
+            onBulkUpdate={handleBulkUpdateWrapper}
+          />
+          <div className="custom-table">
+            <NeetoTable
+              rowSelection
+              columnData={filteredColumns}
+              currentPageNumber={Number(meta.currentPage) || DEFAULT_PAGE_INDEX}
+              defaultPageSize={meta.itemsPerPage}
+              handlePageChange={handlePageNavigation}
+              rowData={quizResponse}
+              selectedRowKeys={selectedRowKeys}
+              totalCount={meta.totalCount}
+              paginationProps={{
+                className:
+                  "custom-blue-table-pagination flex justify-start mt-4",
+              }}
+              onRowSelect={handleSelect}
+            />
+          </div>
+          {isFilterPaneOpen && (
+            <FilterPane
+              currentFilters={filters}
+              isOpen={isFilterPaneOpen}
+              initialValues={{
+                name: "",
+                selectedCategories: [],
+                status: "",
+              }}
+              onApplyFilters={handleApplyFilters}
+              onClose={() => setIsFilterPaneOpen(false)}
+            />
+          )}
+          {showDeleteAlert && (
+            <Alert
+              cancelButtonLabel={t("messages.alerts.deleteQuiz.cancelButton")}
+              isOpen={showDeleteAlert}
+              submitButtonLabel={t("messages.alerts.deleteQuiz.confirmButton")}
+              title={t("messages.alerts.deleteQuiz.title")}
+              message={
+                <Typography>
+                  <Trans
+                    i18nKey="messages.alerts.deleteQuiz.message"
+                    components={{
+                      strong: <strong />,
+                    }}
+                    values={{
+                      quizName: quizzes.find(quiz => quiz.slug === quizToDelete)
+                        ?.name,
+                    }}
+                  />
+                </Typography>
+              }
+              onClose={() => setShowDeleteAlert(false)}
+              onSubmit={confirmDeleteWrapper}
+            />
+          )}
+          {showBulkDeleteAlert && (
+            <Alert
+              isOpen={showBulkDeleteAlert}
+              title={t("messages.alerts.bulkDeleteQuiz.title")}
+              cancelButtonLabel={t(
+                "messages.alerts.bulkDeleteQuiz.cancelButton"
+              )}
+              message={
+                <Typography>
+                  <Trans
+                    i18nKey="messages.alerts.bulkDeleteQuiz.message"
+                    components={{
+                      strong: <strong />,
+                    }}
+                    values={{
+                      count: selectedRowKeys.length,
+                    }}
+                  />
+                </Typography>
+              }
+              submitButtonLabel={t(
+                "messages.alerts.bulkDeleteQuiz.confirmButton"
+              )}
+              onClose={() => setShowBulkDeleteAlert(false)}
+              onSubmit={handleBulkDeleteWrapper}
+            />
+          )}
+        </>
       )}
     </div>
   );

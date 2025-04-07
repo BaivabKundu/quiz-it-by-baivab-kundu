@@ -38,7 +38,7 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
             <MenuItem>
               <MenuButton
                 style="link"
-                to={`/quizzes/${slug}/questions/${question.id}/edit`}
+                to={`/admin/quizzes/${slug}/questions/${question.id}/edit`}
               >
                 Edit
               </MenuButton>

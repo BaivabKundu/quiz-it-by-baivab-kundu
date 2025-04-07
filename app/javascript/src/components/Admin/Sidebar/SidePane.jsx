@@ -23,7 +23,7 @@ import { useQuizzesStore } from "stores/useQuizzesStore";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 import { buildUrl } from "utils/url";
 
-import routes from "../../routes";
+import routes from "../../../routes";
 
 const SidePane = ({ isOpen }) => {
   const { t } = useTranslation();
@@ -34,7 +34,10 @@ const SidePane = ({ isOpen }) => {
 
   const handleStatusClick = newStatus => {
     history.push(
-      buildUrl(routes.dashboard, mergeLeft({ status: newStatus }, queryParams))
+      buildUrl(
+        routes.admin.dashboard,
+        mergeLeft({ status: newStatus }, queryParams)
+      )
     );
   };
 
@@ -75,7 +78,7 @@ const SidePane = ({ isOpen }) => {
           <div className="my-2">
             <NavLink
               activeClassName="bg-black text-white"
-              to="/dashboard"
+              to="/admin/dashboard"
               className={classnames(
                 "my-2 flex items-center space-x-4 rounded-lg p-2",
                 {
@@ -122,7 +125,7 @@ const SidePane = ({ isOpen }) => {
           </div>
           <NavLink
             activeClassName="bg-black text-white"
-            to="/settings"
+            to="/admin/settings"
             className={classnames(
               "my-2 flex items-center space-x-4 rounded-lg p-2",
               {

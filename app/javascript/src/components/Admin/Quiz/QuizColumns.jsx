@@ -18,7 +18,7 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
         <Tooltip content={text} position="top">
           <Link
             className="block max-w-xs truncate"
-            to={`/quizzes/${record.slug}/questions`}
+            to={`/admin/quizzes/${record.slug}/questions`}
           >
             {text.length > 30 ? `${text.slice(0, 30)}...` : text}
           </Link>

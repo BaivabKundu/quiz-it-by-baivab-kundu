@@ -2,7 +2,7 @@ import { QUERY_KEYS } from "constants/query";
 
 import submissionsApi from "apis/submissions";
 import { Toastr } from "neetoui";
-import { useQuery, useQueryClient } from "reactquery";
+import { useQuery, useQueryClient, useMutation } from "reactquery";
 
 const handleSubmissionError = error => {
   Toastr.error(error.message || "Something went wrong!", {
@@ -37,3 +37,15 @@ export const useFetchSubmissions = (slug, params) => {
 
   return useQuery(queryConfig);
 };
+
+export const useGeneratePdf = slug =>
+  useMutation({
+    mutationFn: async () => await submissionsApi.generatePdf(slug),
+    onError: error => handleSubmissionError(error),
+  });
+
+export const useDownloadPdf = () =>
+  useMutation({
+    mutationFn: async () => await submissionsApi.downloadPdf(),
+    onError: error => handleSubmissionError(error),
+  });

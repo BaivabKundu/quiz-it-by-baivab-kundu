@@ -37,7 +37,6 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
           <Menu>
             <MenuItem>
               <MenuButton
-                className="text-black"
                 style="link"
                 to={`/quizzes/${slug}/questions/${question.id}/edit`}
               >
@@ -46,21 +45,16 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
             </MenuItem>
             <Divider />
             <MenuItem>
-              <MenuButton
-                className="text-black"
-                style="link"
-                onClick={() => handleClone(question.id)}
-              >
+              <MenuButton style="link" onClick={() => handleClone(question.id)}>
                 Clone
               </MenuButton>
             </MenuItem>
             <Divider />
             <MenuItem>
               <MenuButton
-                label="Delete"
                 style="danger"
                 type="delete"
-                onClick={() => handleDelete(question.id)}
+                onClick={() => handleDelete(question.id, slug)}
               >
                 Delete
               </MenuButton>

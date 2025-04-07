@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         resource :session, only: [:create, :destroy]
         resources :quizzes, except: %i[new edit], param: :slug do
           post "clone", on: :member, to: "quizzes/clones#clone"
+          collection do
+            delete :bulk_destroy
+            put :bulk_update
+          end
         end
         resources :questions, except: %i[new edit] do
           post "clone", on: :member, to: "questions/clones#clone"

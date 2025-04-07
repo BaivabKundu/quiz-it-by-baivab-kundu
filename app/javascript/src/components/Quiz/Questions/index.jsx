@@ -9,7 +9,7 @@ import {
 } from "hooks/reactQuery/useQuestionsApi";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-import QuestionDisplayCard from "./QuestionDisplayCard";
+import QuestionDisplayCard from "./DisplayCard";
 
 import Navbar from "../Navbar";
 
@@ -26,9 +26,10 @@ const QuizCreation = () => {
   const { mutate: deleteQuestion } = useDeleteQuestion();
   const { mutate: cloneQuestion } = useCloneQuestion();
 
-  const handleDelete = questionId => {
+  const handleDelete = (questionId, quizSlug) => {
     deleteQuestion({
       questionId,
+      quizSlug,
     });
   };
 

@@ -5,8 +5,8 @@ import { Login, Signup } from "components/Authentication";
 import { Route, Switch } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
-import QuizQuestions from "./Quiz/QuizQuestions";
-import QuestionBuilder from "./Quiz/QuizQuestions/QuestionBuilder";
+import QuizQuestions from "./Quiz/Questions";
+import QuestionBuilder from "./Quiz/Questions/Builder";
 import SubmissionList from "./Quiz/Submissions";
 import Sidebar from "./Sidebar";
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Typography } from "@bigbinary/neetoui";
 import PageLoader from "components/commons/PageLoader";
 import {
   useShowQuestion,
@@ -11,7 +12,7 @@ import {
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
 
-import QuestionForm from "./QuestionForm";
+import QuestionForm from "./Form";
 
 import Navbar from "../Navbar";
 
@@ -66,9 +67,9 @@ const EditQuestion = () => {
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="mx-auto mt-20 w-2/3 px-4 py-8">
         <div className="mb-8 flex items-center text-sm text-gray-500">
-          <span>All Questions</span>
-          <span className="mx-2">›</span>
-          <span className="font-semibold">Edit Question</span>
+          <Typography>All Questions</Typography>
+          <Typography className="mx-2">›</Typography>
+          <Typography className="font-semibold">Edit Question</Typography>
         </div>
         <QuestionForm
           handleSubmit={handleSubmit}

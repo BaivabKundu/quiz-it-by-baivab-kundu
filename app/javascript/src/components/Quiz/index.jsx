@@ -94,14 +94,9 @@ const QuizList = () => {
   } = useFetchQuizzes(quizzesParams);
 
   if (quizResponse) {
-    const allCount = quizResponse.length;
-    const publishedCount = quizResponse.filter(
-      quiz => quiz.status === "published"
-    ).length;
-
-    const draftCount = quizResponse.filter(
-      quiz => quiz.status === "draft"
-    ).length;
+    const allCount = meta.totalCount;
+    const publishedCount = meta.publishedCount;
+    const draftCount = meta.draftCount;
 
     setQuizCounts({ allCount, draftCount, publishedCount });
   }

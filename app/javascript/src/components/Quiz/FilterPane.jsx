@@ -60,7 +60,7 @@ const FilterPane = ({
       name: values.name || null,
       selectedCategories:
         selectedCategories.map(category => category.value) || [],
-      status: status?.value || {},
+      status: status?.value || null,
     };
 
     const queryParams = {};
@@ -130,14 +130,9 @@ const FilterPane = ({
                     options={categoryOptions}
                     placeholder={t("inputPlaceholders.quizCategoryInput")}
                     value={selectedCategories}
-                    onBlur={() => {
-                      if (!selectedCategories.length) {
-                        setFieldValue("selectedCategories", null);
-                      }
-                    }}
                     onChange={value => {
                       setSelectedCategories(value);
-                      setFieldValue("selectedCategories", value || null);
+                      setFieldValue("selectedCategories", value || []);
                     }}
                   />
                   <Typography className="text-md font-bold">
@@ -148,14 +143,9 @@ const FilterPane = ({
                     options={statusOptions}
                     placeholder={t("inputPlaceholders.quizStatusInput")}
                     value={status}
-                    onBlur={() => {
-                      if (!status) {
-                        setFieldValue("status", null);
-                      }
-                    }}
                     onChange={value => {
                       setStatus(value);
-                      setFieldValue("status", value || null);
+                      setFieldValue("status", value || {});
                     }}
                   />
                 </div>

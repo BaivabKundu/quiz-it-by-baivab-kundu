@@ -107,3 +107,15 @@ gem "pundit"
 gem "pagy"
 
 gem "deep_cloneable", "~> 3.2.1"
+
+# PDF generation gem
+gem "wicked_pdf"
+# wicked_pdf uses the following binary
+gem "wkhtmltopdf-binary"
+
+gem "redis", "~> 4.0"
+
+# To load the environment variables
+gem "dotenv-rails"
+
+gem "bcrypt", "~> 3.1.7"

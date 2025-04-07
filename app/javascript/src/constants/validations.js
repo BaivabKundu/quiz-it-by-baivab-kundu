@@ -55,11 +55,13 @@ export const newQuizSchema = yup.object().shape({
     .max(100, t("quiz.validations.nameMaxLength")),
   assignedCategory: yup
     .object()
+    .nullable()
+    .required(t("quiz.validations.categoryRequired"))
     .shape({
       label: yup.string().required(t("quiz.validations.categoryRequired")),
       value: yup.string().required(t("quiz.validations.categoryRequired")),
-    })
-    .required(t("quiz.validations.categoryRequired")),
+      id: yup.string().required(t("quiz.validations.categoryRequired")),
+    }),
 });
 
 export const questionSchema = yup.object().shape({

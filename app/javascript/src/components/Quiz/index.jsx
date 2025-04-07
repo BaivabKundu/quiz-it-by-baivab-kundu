@@ -17,7 +17,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { useQuizzesStore } from "stores/useQuizzesStore";
 import { buildUrl } from "utils/url";
 
-import { DEFAULT_PAGE_INDEX } from "./constants";
+import { DEFAULT_PAGE_INDEX, columns } from "./constants";
 import FilterPane from "./FilterPane";
 import { getQuizColumns } from "./QuizColumns";
 import QuizSubHeader from "./SubHeader";
@@ -27,7 +27,6 @@ import {
   handleDelete,
   confirmDelete,
   handleColumnVisibilityChange,
-  columns,
   handleBulkUpdate,
   handleBulkDelete,
 } from "./utils";

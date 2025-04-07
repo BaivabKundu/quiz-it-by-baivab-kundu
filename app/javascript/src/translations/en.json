@@ -93,6 +93,9 @@
   "neetoMolecules": {
     "columns": {
       "columns": ""
+    },
+    "common": {
+      "download": "Download report"
     }
   },
   "neetoFilters": {

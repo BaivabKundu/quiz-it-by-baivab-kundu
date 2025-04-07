@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Api::V1:: QuizzesController < ApplicationController
-  before_action :set_quiz, only: [:show, :update, :destroy]
+  before_action :load_quiz, only: [:show, :update, :destroy]
+  before_action :load_quizzes, only: %i[bulk_update bulk_destroy]
 
   def index
     quizzes = Quiz.order(created_at: :desc).includes(:category)
@@ -38,9 +39,19 @@ class Api::V1:: QuizzesController < ApplicationController
     render_notice(t("successfully_deleted", entity: "Quiz"))
   end
 
+  def bulk_update
+    @quizzes.update_all(bulk_update_params[:update_fields].to_h)
+    render_notice(t("successfully_updated", entity: "Quizzes"))
+  end
+
+  def bulk_destroy
+    @quizzes.destroy_all
+    render_notice(t("successfully_deleted", entity: "Quizzes"))
+  end
+
   private
 
-    def set_quiz
+    def load_quiz
       @quiz = Quiz.find_by!(slug: params[:slug])
     end
 
@@ -53,6 +64,17 @@ class Api::V1:: QuizzesController < ApplicationController
         :submissions_count,
         :creator_id
       )
+    end
+
+    def bulk_update_params
+      params.require(:quizzes)
+        .permit(update_fields: [:status, :assigned_category_id], id: [])
+    end
+
+    def load_quizzes
+      puts "params -----> #{params}"
+      @quizzes = Quiz.where(id: params[:quizzes][:id])
+      render_error(t("not_found", entity: "Quizzes")) if @quizzes.empty?
     end
 
     def index_params

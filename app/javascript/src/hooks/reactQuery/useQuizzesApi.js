@@ -138,3 +138,43 @@ export const useCloneQuiz = () => {
     },
   });
 };
+
+export const useBulkUpdateQuizzes = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [QUERY_KEYS.QUIZ, "bulk_update"],
+    mutationFn: async payload => {
+      try {
+        await quizzesApi.bulkUpdate(payload);
+      } catch (error) {
+        throw handleQuizError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
+  });
+};
+
+export const useBulkDeleteQuizzes = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationKey: [QUERY_KEYS.QUIZ, "bulk_delete"],
+    mutationFn: async payload => {
+      try {
+        await quizzesApi.bulkDelete(payload);
+      } catch (error) {
+        throw handleQuizError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
+  });
+};

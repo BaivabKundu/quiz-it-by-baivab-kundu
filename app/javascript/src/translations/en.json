@@ -75,6 +75,12 @@
         "confirmButton": "Yes, delete",
         "cancelButton": "No, cancel",
         "message": "You're about to delete <strong>{{quizName}}</strong>. It'll be permanently deleted and we won't be able to recover it."
+      },
+      "bulkDeleteQuiz": {
+        "title": "Delete quizzes?",
+        "cancelButton": "No, cancel",
+        "confirmButton": "Yes, delete",
+        "message": "You're about to delete <strong>{{count}}</strong> quizzes. It'll be permanently deleted and we won't be able to recover it."
       }
     }
   },

@@ -1,0 +1,33 @@
+<div>
+  <p class="heading"><%= @submissions.first.quiz.name %></p>
+  <p class="mt-12">Quiz submissions report</p>
+  <table class="mt-12">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Submission date</th>
+      <th>Correct answers</th>
+      <th>Wrong answers</th>
+      <th>Unanswered</th>
+      <th>Questions</th>
+      <th>status</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  <% @submissions.each do |submission| %>
+   <tr>
+      <td><%= submission.user.username %> </td>
+      <td><%= submission.user.email %> </td>
+      <td><%= date_and_time_from_timestamp(submission.updated_at, @timezone) %> </td>
+      <td><%= submission.correct_answers_count %> </td>
+      <td><%= submission.wrong_answers_count %> </td>
+      <td><%= submission.unanswered_count %> </td>
+      <td><%= submission.total_questions %> </td>
+      <td><%= submission.status.capitalize %> </td>
+    </tr>
+  <% end %>
+  </tbody>
+  </table>
+</div>

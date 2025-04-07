@@ -27,7 +27,7 @@ const setAuthHeaders = () => {
 };
 
 const transformResponseKeysToCamelCase = response => {
-  if (response.data) {
+  if (response.data && !(response.data instanceof Blob)) {
     response.data = keysToCamelCase(response.data);
   }
 };

@@ -20,6 +20,7 @@ class User < ApplicationRecord
   validates :password_confirmation, presence: true, if: :password_required
 
   before_save :to_lowercase
+  before_validation :assign_default_organization, on: :create
 
   private
 
@@ -29,5 +30,9 @@ class User < ApplicationRecord
 
     def password_required
       password_digest.nil? || !password.nil?
+    end
+
+    def assign_default_organization
+      self.assigned_organization ||= Organization.find_by(name: "BigBinary Academy")
     end
 end

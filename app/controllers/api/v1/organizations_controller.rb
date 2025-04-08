@@ -15,7 +15,7 @@ class Api::V1::OrganizationsController < ApplicationController
   private
 
     def load_organization
-      @organization = Organization.find(params[:id])
+      @organization = Organization.first
     end
 
     def organization_params

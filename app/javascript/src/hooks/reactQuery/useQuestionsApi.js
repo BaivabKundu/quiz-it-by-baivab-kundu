@@ -70,6 +70,10 @@ export const useCreateQuestion = quizSlug => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.QUESTION],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ, quizSlug],
+      });
     },
   });
 };
@@ -89,6 +93,10 @@ export const useUpdateQuestion = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.QUESTION],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
       });
     },
   });
@@ -110,6 +118,10 @@ export const useDeleteQuestion = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.QUESTION],
       });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
     },
   });
 };
@@ -129,6 +141,10 @@ export const useCloneQuestion = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.QUESTION],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
       });
     },
   });

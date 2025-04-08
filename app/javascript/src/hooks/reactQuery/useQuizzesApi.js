@@ -39,7 +39,7 @@ export const useFetchQuizzes = params => {
 
 export const useShowQuiz = slug => {
   const queryConfig = {
-    queryKey: [QUERY_KEYS.QUIZ, slug],
+    queryKey: [QUERY_KEYS.QUIZ, "show", slug],
     queryFn: async () => {
       try {
         const response = await quizzesApi.show(slug);
@@ -89,7 +89,7 @@ export const useUpdateQuiz = () => {
     },
     onSuccess: (_, { slug }) => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.QUIZ, slug],
+        queryKey: [QUERY_KEYS.QUIZ, "show", slug],
       });
 
       queryClient.invalidateQueries({

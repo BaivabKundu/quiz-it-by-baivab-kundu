@@ -15,6 +15,7 @@ class Quiz < ApplicationRecord
 
   belongs_to :category, foreign_key: "assigned_category_id", class_name: "Category"
   belongs_to :creator, foreign_key: "creator_id", class_name: "User"
+  belongs_to :organization, foreign_key: "assigned_organization_id", class_name: "Organization"
 
   has_many :questions, dependent: :destroy
   has_many :submissions, foreign_key: :assigned_quiz_id, dependent: :destroy

@@ -14,7 +14,7 @@ class Quiz < ApplicationRecord
   enum :accessibility, { discoverable: "discoverable", hidden: "hidden" }, default: :discoverable
 
   belongs_to :category, foreign_key: "assigned_category_id", class_name: "Category"
-  belongs_to :assigned_user, foreign_key: "creator_id", class_name: "User"
+  belongs_to :creator, foreign_key: "creator_id", class_name: "User"
 
   has_many :questions, dependent: :destroy
   has_many :submissions, foreign_key: :assigned_quiz_id, dependent: :destroy

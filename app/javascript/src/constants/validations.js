@@ -94,3 +94,11 @@ export const questionSchema = yup.object().shape({
       return new Set(texts).size === texts.length;
     }),
 });
+
+export const generalSettingSchema = yup.object({
+  name: yup
+    .string()
+    .required("Quiz title required")
+    .min(2, "Quiz title length must be greater than 2 characters")
+    .max(100, "Quiz title length must be less than 100 characters"),
+});

@@ -76,7 +76,6 @@ class Api::V1:: QuizzesController < ApplicationController
     end
 
     def load_quizzes
-      puts "params -----> #{params}"
       @quizzes = Quiz.where(id: params[:quizzes][:id])
       render_error(t("not_found", entity: "Quizzes")) if @quizzes.empty?
     end

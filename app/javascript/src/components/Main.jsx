@@ -8,6 +8,7 @@ import Dashboard from "./Admin/Dashboard";
 import QuizQuestions from "./Admin/Quiz/Questions";
 import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
 import SubmissionList from "./Admin/Quiz/Submissions";
+import GeneralSettings from "./Admin/Settings/General";
 import Sidebar from "./Admin/Sidebar";
 
 import routes from "../routes";
@@ -56,6 +57,11 @@ const Main = () => {
           exact
           component={SubmissionList}
           path={routes.admin.quizzes.submissions}
+        />
+        <Route
+          exact
+          component={GeneralSettings}
+          path={routes.admin.settings.base}
         />
       </Switch>
     </div>

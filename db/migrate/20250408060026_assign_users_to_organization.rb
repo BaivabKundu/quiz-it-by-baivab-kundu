@@ -2,12 +2,12 @@
 
 class AssignUsersToOrganization < ActiveRecord::Migration[7.1]
   def up
-    big_binary = Organization.find_by(name: "BigBinary Academy")
+    organization = Organization.first
 
-    if big_binary
-      User.update_all(assigned_organization_id: big_binary.id)
+    if organization
+      User.update_all(assigned_organization_id: organization.id)
     else
-      raise "BigBinary Academy organization not found. Please create it first."
+      raise "Organizations not found. Please create it first."
     end
   end
 

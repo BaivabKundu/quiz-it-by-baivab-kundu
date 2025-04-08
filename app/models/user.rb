@@ -33,6 +33,6 @@ class User < ApplicationRecord
     end
 
     def assign_default_organization
-      self.assigned_organization ||= Organization.find_by(name: "BigBinary Academy")
+      self.assigned_organization ||= Organization.first
     end
 end

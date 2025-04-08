@@ -21,7 +21,7 @@ const Signup = ({ handleSubmit, initialValues, loading }) => (
       </Typography>
       <div className="text-center">
         <Link
-          to="/login"
+          to="/admin/login"
           className="mt-2 text-center text-sm font-medium
               text-blue-500 transition duration-150 ease-in-out
               focus:underline focus:outline-none"

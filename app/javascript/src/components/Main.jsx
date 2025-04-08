@@ -21,9 +21,9 @@ const Main = () => {
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-      {!["/login", "/signup"].includes(window.location.pathname) && (
-        <Sidebar onSidebarOpen={handleSidepane} />
-      )}
+      {!["/admin/login", "/admin/signup"].includes(
+        window.location.pathname
+      ) && <Sidebar onSidebarOpen={handleSidepane} />}
       <div
         className={classnames(
           "overflow-auto transition-all duration-300 ease-in-out",

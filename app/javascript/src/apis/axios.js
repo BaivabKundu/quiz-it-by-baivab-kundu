@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { t } from "i18next";
 import { keysToCamelCase, serializeKeysToSnakeCase } from "neetocist";
 import { Toastr } from "neetoui";
 import { evolve } from "ramda";
@@ -47,15 +46,11 @@ const handleSuccessResponse = response => {
 const handleErrorResponse = axiosErrorObject => {
   if (axiosErrorObject.response?.status === 401) {
     setToLocalStorage({ authToken: null, email: null, userId: null });
-    setTimeout(() => (window.location.href = "/"), 2000);
   }
 
   Toastr.error(
     axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
   );
-  if (axiosErrorObject.response?.status === 423) {
-    window.location.href = "/";
-  }
 
   return Promise.reject(axiosErrorObject);
 };
@@ -81,6 +76,7 @@ const resetAuthTokens = () => {
   delete axios.defaults.headers["X-Auth-Email"];
   delete axios.defaults.headers["X-Auth-Token"];
 };
+
 export {
   setAuthHeaders,
   registerIntercepts,

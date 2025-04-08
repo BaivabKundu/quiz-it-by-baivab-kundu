@@ -57,7 +57,7 @@ const SidePane = ({ isOpen }) => {
         userName: null,
       });
       resetAuthTokens();
-      window.location.href = "/login";
+      window.location.href = "/admin/login";
     } catch (error) {
       logger.error(error);
     }

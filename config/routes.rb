@@ -23,7 +23,7 @@ Rails.application.routes.draw do
             end
           end
         end
-        resources :organizations, only: [:index]
+        resource :organizations, only: [:show, :update]
         resources :categories, only: [:index, :create]
       end
     end

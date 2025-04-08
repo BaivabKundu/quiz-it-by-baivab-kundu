@@ -13,12 +13,14 @@ import { Toastr } from "neetoui";
 import {
   Link,
   useHistory,
+  useLocation,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const { slug } = useParams();
   const history = useHistory();
+  const location = useLocation();
 
   const { data: quiz } = useShowQuiz(slug);
   const { mutate: updateQuiz } = useUpdateQuiz();
@@ -53,7 +55,18 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     <div className="border-b border-gray-200 p-4">
       <div className="flex w-full items-center">
         <div className="flex min-w-fit items-center font-medium text-gray-700">
-          <Link onClick={() => history.goBack()}>
+          <Link
+            onClick={() => {
+              if (
+                location.pathname.includes("new") ||
+                location.pathname.includes("edit")
+              ) {
+                history.push(`/admin/quizzes/${slug}/questions`);
+              } else {
+                history.push("/admin/dashboard");
+              }
+            }}
+          >
             <LeftArrow className="mx-4 h-7 w-7 rounded-full p-1 transition-all duration-200 hover:bg-gray-300 " />
           </Link>
           <Typography style="h4">
@@ -90,33 +103,44 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             </Tab>
           </div>
         </div>
-        <div className="flex w-auto items-center justify-end">
-          {currentQuizStatus === "draft" && (
-            <Typography className="mr-2 flex items-center text-sm text-gray-500">
-              Draft saved at{" "}
-              {dayjs(draftSavedAt).format("h:mm:ss A, D MMMM YYYY ")}
-            </Typography>
-          )}
-          <Button
-            className="mx-1 rounded-r-none bg-blue-600"
-            label={currentQuizStatus === "published" ? "Draft" : "Publish"}
-            onClick={() => handleQuizPublish(slug)}
-          />
-          <Button
-            className="mr-2 rounded-l-none bg-blue-600"
-            icon={ExternalLink}
-          />
-          <Button
-            style="text"
-            onClick={() => {
-              navigator.clipboard.writeText(
-                `${window.location.origin}/public/quizzes/${slug}`
-              );
-              Toastr.success("Link copied to clipboard!");
-            }}
-          >
-            <NeetoLinkIcon className="h-5 w-5" />
-          </Button>
+        <div className="flex w-96 items-center justify-end">
+          {!location.pathname.includes("new") &&
+            !location.pathname.includes("edit") &&
+            !location.pathname.includes("submissions") && (
+              <div className="flex items-center">
+                {currentQuizStatus === "draft" && (
+                  <Typography className="mr-2 flex items-center text-sm text-gray-500">
+                    Draft saved at{" "}
+                    {dayjs(draftSavedAt).format("h:mm:ss A, D MMMM YYYY ")}
+                  </Typography>
+                )}
+                <Button
+                  className="mx-1 rounded-r-none bg-blue-600"
+                  disabled={currentQuizStatus === "published"}
+                  label={
+                    currentQuizStatus === "published" ? "Published" : "Publish"
+                  }
+                  onClick={() => handleQuizPublish(slug)}
+                />
+                <Button
+                  className="mr-2 rounded-l-none bg-blue-600"
+                  icon={ExternalLink}
+                  target="_blank"
+                  to={`/public/quizzes/${slug}`}
+                />
+                <Button
+                  style="text"
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/public/quizzes/${slug}`
+                    );
+                    Toastr.success("Link copied to clipboard!");
+                  }}
+                >
+                  <NeetoLinkIcon className="h-5 w-5" />
+                </Button>
+              </div>
+            )}
         </div>
       </div>
     </div>

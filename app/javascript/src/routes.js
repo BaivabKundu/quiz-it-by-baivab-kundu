@@ -17,7 +17,7 @@ const routes = {
     },
   },
   public: {
-    dashboard: "/public/dashboard",
+    dashboard: "/",
   },
 };
 

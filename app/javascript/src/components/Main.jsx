@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import classnames from "classnames";
 import { Login, Signup } from "components/Authentication";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, useLocation } from "react-router-dom";
 
 import PublicDashboard from "./_Public/Dashboard";
 import QuizDashboard from "./Admin/Dashboard";
@@ -16,6 +16,7 @@ import routes from "../routes";
 
 const Main = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const location = useLocation();
 
   const handleSidepane = isSidepaneOpen => {
     setIsSidebarOpen(isSidepaneOpen || false);
@@ -23,9 +24,9 @@ const Main = () => {
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
-      {!window.location.pathname.includes("login") &&
-        !window.location.pathname.includes("signup") &&
-        !window.location.pathname.includes("public") && (
+      {location.pathname.startsWith("/admin") &&
+        !location.pathname.includes("login") &&
+        !location.pathname.includes("signup") && (
           <Sidebar onSidebarOpen={handleSidepane} />
         )}
       <div

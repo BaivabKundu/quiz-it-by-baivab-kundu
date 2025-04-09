@@ -65,6 +65,7 @@ class Api::V1:: QuizzesController < ApplicationController
         :status,
         :accessibility,
         :assigned_category_id,
+        :assigned_organization_id,
         :submissions_count,
         :creator_id
       )

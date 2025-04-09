@@ -2,6 +2,7 @@
 
 class Api::V1::OrganizationsController < ApplicationController
   before_action :load_organization, only: [:show, :update]
+  skip_before_action :authenticate_user_using_x_auth_token
 
   def show
     render

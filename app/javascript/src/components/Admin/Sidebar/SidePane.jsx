@@ -140,7 +140,7 @@ const SidePane = ({ isOpen }) => {
           </NavLink>
           <NavLink
             activeClassName="bg-black text-white"
-            to="/public"
+            to="/public/dashboard"
             className={classnames(
               "my-2 flex items-center space-x-4 rounded-lg p-2",
               {

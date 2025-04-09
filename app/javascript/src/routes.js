@@ -16,6 +16,9 @@ const routes = {
       base: "/admin/settings",
     },
   },
+  public: {
+    dashboard: "/public/dashboard",
+  },
 };
 
 export default routes;

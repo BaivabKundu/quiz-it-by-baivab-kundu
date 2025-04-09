@@ -126,13 +126,13 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   className="mr-2 rounded-l-none bg-blue-600"
                   icon={ExternalLink}
                   target="_blank"
-                  to={`/public/quizzes/${slug}`}
+                  to={`/quizzes/${slug}`}
                 />
                 <Button
                   style="text"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/public/quizzes/${slug}`
+                      `${window.location.origin}/quizzes/${slug}`
                     );
                     Toastr.success("Link copied to clipboard!");
                   }}

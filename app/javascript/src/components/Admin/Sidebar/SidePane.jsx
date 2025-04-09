@@ -139,12 +139,14 @@ const SidePane = ({ isOpen }) => {
             </Typography>
           </NavLink>
           <NavLink
-            activeClassName="bg-black text-white"
-            to="/public/dashboard"
+            to="/"
+            activeClassName={
+              !location.pathname.includes("admin") ? "bg-black text-white" : ""
+            }
             className={classnames(
               "my-2 flex items-center space-x-4 rounded-lg p-2",
               {
-                "hover:bg-gray-200": !location.pathname.includes("public"),
+                "hover:bg-gray-200": location.pathname.includes("admin"),
               }
             )}
           >

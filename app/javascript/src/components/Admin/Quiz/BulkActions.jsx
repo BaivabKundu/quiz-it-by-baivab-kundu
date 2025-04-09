@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Delete, Search } from "@bigbinary/neeto-icons";
-import { Button, Dropdown, Input } from "@bigbinary/neetoui";
+import { Button, Dropdown, Input, Typography } from "@bigbinary/neetoui";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
 
 const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
@@ -46,7 +46,9 @@ const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
                       style="link"
                       onClick={() => handleCategoryChange(category.id)}
                     >
-                      <span className="text-base">{category.name}</span>
+                      <Typography className="text-base">
+                        {category.name}
+                      </Typography>
                     </MenuButton>
                   </MenuItem>
                 ))}

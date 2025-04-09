@@ -28,7 +28,9 @@ class QuizPolicy
     private
 
       def user_is_admin_and_creator_of_quiz
-        { creator_id: user.id, users: { role: :admin } }
+        if user
+          { creator_id: user.id, users: { role: :admin } }
+        end
       end
   end
 end

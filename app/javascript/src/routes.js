@@ -18,6 +18,12 @@ const routes = {
   },
   public: {
     dashboard: "/",
+    register: "/register",
+    quizzes: {
+      register: "/quizzes/:slug/register",
+      attempt: "/quizzes/:slug/attempt",
+      result: "/quizzes/:slug/:userId/result",
+    },
   },
 };
 

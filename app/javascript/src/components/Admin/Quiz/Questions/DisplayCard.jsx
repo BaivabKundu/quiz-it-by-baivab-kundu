@@ -19,6 +19,7 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
       >
         {question.options.map(option => (
           <Radio.Item
+            disabled
             checked={option.isCorrect}
             key={option.text}
             label={option.text}

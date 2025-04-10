@@ -14,7 +14,6 @@ import { buildUrl } from "utils/url";
 import { submissionColumns, columns, filterColumns } from "./columns";
 import SubHeaderComponent from "./SubHeader";
 
-import routes from "../../../../routes";
 import NeetoHeader from "../../commons/Header";
 import { DEFAULT_PAGE_INDEX } from "../constants";
 import Navbar from "../Navbar";
@@ -73,7 +72,7 @@ const SubmissionList = () => {
   const handlePageNavigation = newPage => {
     history.push(
       buildUrl(
-        routes.admin.dashboard,
+        `/admin/quizzes/${slug}/submissions`,
         mergeLeft({ page: newPage }, queryParams)
       )
     );

@@ -72,7 +72,7 @@ export const useCreateQuestion = quizSlug => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.QUIZ, quizSlug],
+        queryKey: [QUERY_KEYS.QUIZ],
       });
     },
   });

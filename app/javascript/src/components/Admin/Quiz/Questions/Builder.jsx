@@ -27,13 +27,19 @@ import Navbar from "../Navbar";
 const QuestionBuilder = () => {
   const history = useHistory();
   const location = useLocation();
-  const questionNumber = String(location.state?.questionNumber || 1).padStart(
-    2,
-    "0"
+  const [questionNumber, setQuestionNumber] = useState(
+    String(location.state?.questionNumber || 1).padStart(2, "0")
   );
   const isEditMode = location.pathname.includes("/edit");
   const { slug, id: questionId } = useParams();
   const { mutate: createQuestion } = useCreateQuestion(slug);
+
+  useEffect(() => {
+    history.replace({
+      ...location,
+      state: { ...location.state, questionNumber: Number(questionNumber) },
+    });
+  }, [questionNumber]);
 
   const {
     data: { quiz: { question: questionData } = {} } = {},
@@ -87,8 +93,13 @@ const QuestionBuilder = () => {
   );
 
   const handleSubmitAndAddNewQuestion = useCallback(
-    handleSubmitAndAddNew(createQuestion, setQuestion, setOptions),
-    [createQuestion, setQuestion, setOptions]
+    handleSubmitAndAddNew(
+      createQuestion,
+      setQuestion,
+      setOptions,
+      setQuestionNumber
+    ),
+    [createQuestion, setQuestion, setOptions, setQuestionNumber]
   );
 
   const [activeTab, setActiveTab] = useState("questions");

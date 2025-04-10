@@ -38,7 +38,7 @@ export const handleSubmit =
   };
 
 export const handleSubmitAndAddNew =
-  (createQuestion, setQuestion, setOptions) => values => {
+  (createQuestion, setQuestion, setOptions, setQuestionNumber) => values => {
     createQuestion(
       {
         body: values.question,
@@ -57,6 +57,8 @@ export const handleSubmitAndAddNew =
             { id: 3, text: "", isCorrect: false },
             { id: 4, text: "", isCorrect: false },
           ]);
+
+          setQuestionNumber(prev => String(Number(prev) + 1).padStart(2, "0"));
         },
       }
     );

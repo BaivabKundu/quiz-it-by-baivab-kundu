@@ -8,12 +8,13 @@ class Question < ApplicationRecord
   validates :options, presence: true
   validates :answer_id, presence: true
 
+  before_create :set_quiz_to_draft_if_published
   before_update :set_quiz_to_draft_if_published
 
   private
 
     def set_quiz_to_draft_if_published
-      if quiz.published? && (body_changed? || options_changed? || answer_id_changed?)
+      if quiz.published?
         quiz.update!(status: :draft)
       end
     end

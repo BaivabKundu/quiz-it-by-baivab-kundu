@@ -54,8 +54,12 @@ const QuestionForm = ({
         <div className="mb-6 space-y-4" name="correctOptionId">
           {options.map((option, index) => (
             <div
-              className="flex items-center rounded-lg border border-gray-200 p-2"
               key={option.id}
+              className={`flex items-center rounded-lg border p-2 ${
+                option.isCorrect
+                  ? "border-blue-500 bg-blue-50 text-blue-700"
+                  : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+              }`}
             >
               <Button
                 className="mr-3 flex-shrink-0 text-blue-500 focus:outline-none"
@@ -73,23 +77,22 @@ const QuestionForm = ({
                   setFieldValue("correctOptionId", Number(option.id));
                 }}
               >
-                {option.isCorrect ? (
-                  <Checkmark className="h-8 w-8 rounded-full bg-blue-100 py-1" />
-                ) : (
-                  <Checkmark className="h-6 w-6" />
-                )}
+                <Checkmark className="h-6 w-6" />
               </Button>
               <Input
                 nakedInput
-                className="flex-grow p-2 focus:outline-none"
                 name={`options[${index}].text`}
                 placeholder={`Type option ${index + 1}`}
+                className={`flex-grow p-2 focus:outline-none ${
+                  option.isCorrect ? "bg-blue-50" : ""
+                }`}
                 error={
                   touched.options?.[index]?.text &&
                   errors.options?.[index]?.text
                 }
                 style={{
                   fontSize: "1rem",
+                  backgroundColor: option.isCorrect ? "#EFF6FF" : "#FFFFFF",
                 }}
                 onChange={({ target: { value } }) => {
                   setFieldValue(`options[${index}].text`, value);

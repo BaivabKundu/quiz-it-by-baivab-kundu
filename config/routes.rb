@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       constraints(lambda { |req| req.format == :json }) do
-        resources :users, only: [:index, :create]
+        resources :users, only: [:index, :create] do
+          post :create_standard_user, on: :collection
+        end
         resource :session, only: [:create, :destroy]
         resources :quizzes, except: %i[new edit], param: :slug do
           post "clone", on: :member, to: "quizzes/clones#clone"

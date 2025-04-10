@@ -5,7 +5,7 @@ import { setAuthHeaders } from "apis/axios";
 import { t } from "i18next";
 import { Toastr } from "neetoui";
 import { useMutation } from "reactquery";
-import { setToLocalStorage } from "utils/storage";
+import { setToLocalStorage, setPublicUserToLocalStorage } from "utils/storage";
 
 export const useLogin = () =>
   useMutation({
@@ -52,6 +52,24 @@ export const useSignup = () =>
       } catch (error) {
         Toastr.error(
           error?.response?.data?.error || t("auth.errors.signupFailed")
+        );
+        throw error;
+      }
+    },
+  });
+
+export const useRegister = () =>
+  useMutation({
+    mutationKey: [QUERY_KEYS.AUTH],
+    mutationFn: async ({ username, email }) => {
+      try {
+        const response = await authApi.register({ username, email });
+        setPublicUserToLocalStorage(response.id);
+
+        return response;
+      } catch (error) {
+        Toastr.error(
+          error?.response?.data?.error || t("auth.errors.registrationFailed")
         );
         throw error;
       }

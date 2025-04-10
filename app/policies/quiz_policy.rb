@@ -30,6 +30,8 @@ class QuizPolicy
       def user_is_admin_and_creator_of_quiz
         if user
           { creator_id: user.id, users: { role: :admin } }
+        else
+          { status: :published }
         end
       end
   end

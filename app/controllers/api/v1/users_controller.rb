@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authenticate_user_using_x_auth_token, only: :create
+  skip_before_action :authenticate_user_using_x_auth_token, only: [:create, :create_standard_user]
 
   def index
     users = User.all
@@ -12,6 +12,25 @@ class Api::V1::UsersController < ApplicationController
     user = User.new(user_params)
     user.save!
     render_notice(t("successfully_created", entity: "User"))
+  end
+
+  def create_standard_user
+    user = User.find_by(email: user_params[:email], username: user_params[:username])
+    if user.present?
+      if user.admin?
+        render_error("Admin can't give quiz", :forbidden)
+      else
+        @user = user
+      end
+    else
+      user = User.new(
+        user_params.merge(
+          role: :standard, password: "standard_password",
+          password_confirmation: "standard_password"))
+      user.save!
+      @user = user
+    end
+    render
   end
 
   private

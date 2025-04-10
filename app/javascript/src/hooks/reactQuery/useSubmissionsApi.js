@@ -49,3 +49,51 @@ export const useDownloadPdf = () =>
     mutationFn: async () => await submissionsApi.downloadPdf(),
     onError: error => handleSubmissionError(error),
   });
+
+export const useCreateSubmission = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ slug, userId, userAnswers, status }) => {
+      try {
+        const response = await submissionsApi.create(
+          slug,
+          userId,
+          userAnswers,
+          status
+        );
+        sessionStorage.setItem("submissionId", response.id);
+
+        return response;
+      } catch (error) {
+        throw handleSubmissionError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.SUBMISSION],
+      });
+    },
+  });
+};
+
+export const useUpdateSubmission = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, slug, payload }) => {
+      try {
+        const response = await submissionsApi.update(id, slug, payload);
+
+        return response;
+      } catch (error) {
+        throw handleSubmissionError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.SUBMISSION],
+      });
+    },
+  });
+};

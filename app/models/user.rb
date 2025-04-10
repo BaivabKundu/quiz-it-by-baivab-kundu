@@ -5,7 +5,7 @@ class User < ApplicationRecord
   MIN_PASSWORD_LENGTH = 8
 
   attribute :role, :string, default: "standard"
-  enum :role, { standard: "standard", admin: "admin" }, default: :standard
+  enum :role, { standard: "standard", admin: "admin" }, default: :admin
 
   belongs_to :assigned_organization, foreign_key: "assigned_organization_id", class_name: "Organization"
 

@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Pane, Typography, Button } from "@bigbinary/neetoui";
 import { Input, Select, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
+import { useShowOrganization } from "hooks/reactQuery/useOrganizationsApi";
 import { useCreateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
@@ -17,6 +18,7 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
   const { t } = useTranslation();
 
   const { data: { categories = [] } = {} } = useFetchCategories();
+  const { data: { organization } = {} } = useShowOrganization();
 
   const categoryOptions = isEmpty(categories)
     ? []
@@ -35,6 +37,7 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
       name,
       category: assignedCategory.value,
       assignedCategoryId: assignedCategory.id,
+      assignedOrganizationId: organization?.id,
       creatorId: userId,
     });
     onClose();

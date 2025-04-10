@@ -9,10 +9,13 @@ const Card = ({ quiz }) => (
       <Tag className="p-2" label={quiz.category} style="info" />
     </div>
     <div>
-      <Typography className="mb-4 text-gray-600">{25} Questions</Typography>
+      <Typography className="mb-4 text-gray-600">
+        {quiz.questionsCount} Questions
+      </Typography>
       <Button
         className="w-full justify-center rounded bg-blue-600 py-3 text-center text-white transition-colors hover:bg-blue-700"
         label="Start quiz"
+        to={`/quizzes/${quiz.slug}/register`}
       />
     </div>
   </div>

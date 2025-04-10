@@ -5,6 +5,9 @@ import { Login, Signup } from "components/Authentication";
 import { Route, Switch, useLocation } from "react-router-dom";
 
 import PublicDashboard from "./_Public/Dashboard";
+import QuizAttempt from "./_Public/QuizAttempt";
+import QuizResult from "./_Public/QuizResult";
+import Register from "./_Public/Register";
 import QuizDashboard from "./Admin/Dashboard";
 import QuizQuestions from "./Admin/Quiz/Questions";
 import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
@@ -29,20 +32,39 @@ const Main = () => {
         !location.pathname.includes("signup") && (
           <Sidebar onSidebarOpen={handleSidepane} />
         )}
-      <div
-        className={classnames(
-          "overflow-auto transition-all duration-300 ease-in-out",
-          {
-            "ml-64": isSidebarOpen,
-            "ml-0": !isSidebarOpen,
-          }
+      {location.pathname.startsWith("/admin") &&
+        !location.pathname.includes("login") &&
+        !location.pathname.includes("signup") && (
+          <div
+            className={classnames(
+              "overflow-auto transition-all duration-300 ease-in-out",
+              {
+                "ml-64": isSidebarOpen,
+                "ml-0": !isSidebarOpen,
+              }
+            )}
+          />
         )}
-      />
       <Switch>
         <Route
           exact
           component={PublicDashboard}
           path={routes.public.dashboard}
+        />
+        <Route
+          exact
+          component={Register}
+          path={routes.public.quizzes.register}
+        />
+        <Route
+          exact
+          component={QuizAttempt}
+          path={routes.public.quizzes.attempt}
+        />
+        <Route
+          exact
+          component={QuizResult}
+          path={routes.public.quizzes.result}
         />
         <Route exact component={Login} path={routes.admin.login} />
         <Route exact component={Signup} path={routes.admin.signup} />

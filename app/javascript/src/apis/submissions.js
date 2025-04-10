@@ -11,6 +11,20 @@ const fetch = (slug, { searchKey, page, filters }) =>
     },
   });
 
+const create = (slug, userId, userAnswers, status) =>
+  axios.post("/submissions", {
+    slug,
+    user_id: userId,
+    answers: userAnswers,
+    status,
+  });
+
+const update = (id, slug, payload) =>
+  axios.put(`/submissions/${id}`, {
+    slug,
+    submission: payload,
+  });
+
 const generatePdf = slug =>
   axios.post("/submissions/report", {
     submission: { slug, timezone: browserTimeZone() },
@@ -19,6 +33,6 @@ const generatePdf = slug =>
 const downloadPdf = () =>
   axios.get("/submissions/report/download", { responseType: "blob" });
 
-const submissionsApi = { fetch, generatePdf, downloadPdf };
+const submissionsApi = { fetch, create, update, generatePdf, downloadPdf };
 
 export default submissionsApi;

@@ -159,10 +159,12 @@ const PublicDashboard = () => {
         </Dropdown>
       </div>
       {!isEmpty(quizResponse) && !isEmpty(meta) && (
-        <div className="mx-auto grid w-2/3 grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {quizResponse.map(quiz => (
-            <Card key={quiz.id} quiz={quiz} />
-          ))}
+        <div className="mx-auto w-2/3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {quizResponse.map(quiz => (
+              <Card key={quiz.id} quiz={quiz} />
+            ))}
+          </div>
           <div className="my-5 flex justify-center">
             <Pagination
               count={meta.totalCount}

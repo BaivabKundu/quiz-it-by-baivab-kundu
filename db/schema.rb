@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_08_094206) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_08_094206) do
     t.uuid "assigned_user_id"
     t.uuid "assigned_quiz_id"
     t.string "status", default: "incomplete", null: false
+    t.jsonb "answers", default: [], null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

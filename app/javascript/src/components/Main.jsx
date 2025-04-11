@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 
 import classnames from "classnames";
 import { Login, Signup } from "components/Authentication";
+import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, useLocation } from "react-router-dom";
+import { getFromLocalStorage } from "utils/storage";
 
 import PublicDashboard from "./_Public/Dashboard";
 import QuizAttempt from "./_Public/QuizAttempt";
 import QuizResult from "./_Public/QuizResult";
 import Register from "./_Public/Register";
+import PrivateRoute from "./Admin/commons/PrivateRoute";
 import QuizDashboard from "./Admin/Dashboard";
 import QuizQuestions from "./Admin/Quiz/Questions";
 import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
@@ -21,13 +24,16 @@ const Main = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
 
+  const authToken = getFromLocalStorage("authToken");
+  const isLoggedIn = !either(isNil, isEmpty)(authToken);
+
   const handleSidepane = isSidepaneOpen => {
     setIsSidebarOpen(isSidepaneOpen || false);
   };
 
   useEffect(() => {
     setIsSidebarOpen(false);
-  }, [location]);
+  }, [location.pathname.includes("admin")]);
 
   return (
     <div className="flex h-screen w-full overflow-hidden">
@@ -72,7 +78,49 @@ const Main = () => {
         />
         <Route exact component={Login} path={routes.admin.login} />
         <Route exact component={Signup} path={routes.admin.signup} />
-        <Route exact component={QuizDashboard} path={routes.admin.dashboard} />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.dashboard}
+          redirectRoute={routes.admin.login}
+          render={() => <QuizDashboard />}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.quizzes.questions}
+          redirectRoute={routes.admin.login}
+          render={() => <QuizQuestions />}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.quizzes.question.new}
+          redirectRoute={routes.admin.login}
+          render={() => <QuestionBuilder />}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.quizzes.question.edit}
+          redirectRoute={routes.admin.login}
+          render={() => <QuestionBuilder />}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.quizzes.submissions}
+          redirectRoute={routes.admin.login}
+          render={() => <SubmissionList />}
+        />
+        <PrivateRoute
+          exact
+          condition={isLoggedIn}
+          path={routes.admin.settings.base}
+          redirectRoute={routes.admin.login}
+          render={() => <GeneralSettings />}
+        />
+        {/* <Route exact component={QuizDashboard} path={routes.admin.dashboard} />
         <Route
           exact
           component={QuizQuestions}
@@ -97,7 +145,7 @@ const Main = () => {
           exact
           component={GeneralSettings}
           path={routes.admin.settings.base}
-        />
+        /> */}
       </Switch>
     </div>
   );

@@ -24,6 +24,7 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
 require "minitest/ci"
+require "mocha/minitest"
 
 Minitest::Ci.report_dir = "reports" if ENV["CI"]
 
@@ -32,6 +33,10 @@ class ActiveSupport::TestCase
 
   include FactoryBot::Syntax::Methods
   include ActionView::Helpers::TranslationHelper
+
+  teardown do
+    Faker::UniqueGenerator.clear
+  end
 end
 
 class ActionDispatch::IntegrationTest

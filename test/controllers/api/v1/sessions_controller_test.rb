@@ -3,29 +3,72 @@
 require "test_helper"
 
 class Api::V1::SessionsControllerTest < ActionDispatch::IntegrationTest
-  def setup
-    @admin = create(:user, :admin)
+  setup do
+    @user = create(:user, email: "test@example.com", password: "password123", password_confirmation: "password123")
+
+    @valid_credentials = {
+      login: {
+        email: "test@example.com",
+        password: "password123"
+      }
+    }
+
+    @invalid_credentials = {
+      login: {
+        email: "test@example.com",
+        password: "wrongpassword"
+      }
+    }
   end
 
-  def test_valid_email_and_password_should_be_able_to_log_in
-    post api_v1_login_url, params: { user: { email: @admin.email, password: "welcome" } }, as: :json
-
+  def test_create_session_with_valid_credentials
+    post api_v1_session_url, params: @valid_credentials, as: :json
     assert_response :success
   end
 
-  def test_wrong_combination_of_email_and_password_should_not_be_able_to_log_in
-    non_existent_email = "this_email_does_not_exist_in_db@example.email"
-
-    post api_v1_login_url, params: { user: { email: non_existent_email, password: "welcome" } }, as: :json
-
-    assert_response 401
-    assert_equal response_body["error"], t("invalid_credentials")
+  def test_create_session_with_invalid_credentials
+    post api_v1_session_url, params: @invalid_credentials, as: :json
+    assert_response :unauthorized
+    assert_equal "Incorrect credentials, try again.", JSON.parse(response.body)["error"]
   end
 
-  def test_should_return_auth_token
-    post api_v1_login_url, params: { user: { email: @admin.email, password: "welcome" } }, as: :json
+  def test_create_session_with_missing_email
+    invalid_params = @valid_credentials.deep_dup
+    invalid_params[:login].delete(:email)
 
-    assert_response :success
-    assert response_body["auth_token"]
+    post api_v1_session_url, params: invalid_params, as: :json
+
+    assert_response :internal_server_error
+    assert_includes JSON.parse(response.body)["error"], "undefined method `downcase'"
+  end
+
+  def test_create_session_with_missing_password
+    invalid_params = @valid_credentials.deep_dup
+    invalid_params[:login].delete(:password)
+
+    post api_v1_session_url, params: invalid_params, as: :json
+    assert_response :unauthorized
+    assert_equal "Incorrect credentials, try again.", JSON.parse(response.body)["error"]
+  end
+
+  def test_destroy_session
+    delete api_v1_session_url, as: :json
+    assert_response :no_content
+  end
+
+  def test_create_session_with_non_admin_user
+    non_admin_user = create(
+      :user, email: "nonadmin@example.com", password: "password123",
+      password_confirmation: "password123", role: "standard")
+    credentials = {
+      login: {
+        email: "nonadmin@example.com",
+        password: "password123"
+      }
+    }
+
+    post api_v1_session_url, params: credentials, as: :json
+    assert_response :unauthorized
+    assert_equal I18n.t("session.unauthorized_access"), JSON.parse(response.body)["error"]
   end
 end

@@ -8,6 +8,9 @@ class Api::V1::SessionsController < ApplicationController
     unless @user.authenticate(login_params[:password])
       render_error(t("session.incorrect_credentials"), :unauthorized)
     end
+    unless @user.admin?
+      render_error(t("session.unauthorized_access"), :unauthorized)
+    end
   end
 
   def destroy

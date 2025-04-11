@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
 import NewQuizPane from "../Quiz/NewQuizPane";
 
-const NeetoHeader = () => {
+const NeetoHeader = ({ onSearch }) => {
   const location = useLocation();
   const isSubmissionsPage = location.pathname.includes("/submissions");
 
@@ -35,6 +35,7 @@ const NeetoHeader = () => {
         searchProps={{
           onChange: event => {
             setSearchValue(event.target.value);
+            onSearch();
           },
           value: searchValue,
           placeholder: !isSubmissionsPage

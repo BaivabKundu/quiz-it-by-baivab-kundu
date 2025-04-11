@@ -18,7 +18,7 @@ class Api::V1::UsersController < ApplicationController
     user = User.find_by(email: user_params[:email], username: user_params[:username])
     if user.present?
       if user.admin?
-        render_error("Admin can't give quiz", :forbidden)
+
       else
         @user = user
       end

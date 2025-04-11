@@ -21,7 +21,7 @@ class FilterQuizService
     def filter_by_name
       return if @filters[:name].blank?
 
-      @quizzes = @quizzes.where("name ILIKE ?", "%#{@filters[:name]}%")
+      @quizzes = @quizzes.where("quizzes.name ILIKE ?", "%#{@filters[:name]}%")
     end
 
     def filter_by_status

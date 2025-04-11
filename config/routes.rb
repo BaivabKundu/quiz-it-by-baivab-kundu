@@ -25,11 +25,22 @@ Rails.application.routes.draw do
             end
           end
         end
-        resource :organizations, only: [:show, :update]
+        resources :organizations, only: [:index, :show, :update]
         resources :categories, only: [:index, :create]
       end
     end
   end
+
+  # if Rails.env.test?
+  get "/test_auth" => "test_authenticable#index"
+  get "database_error", to: "api_exceptions_test/test#raise_database_error"
+  get "authorization_error", to: "api_exceptions_test/test#raise_authorization_error"
+  get "parameter_missing", to: "api_exceptions_test/test#raise_parameter_missing"
+  get "record_not_found", to: "api_exceptions_test/test#raise_record_not_found"
+  get "record_not_unique", to: "api_exceptions_test/test#raise_record_not_unique"
+  get "validation_error", to: "api_exceptions_test/test#raise_validation_error"
+  get "generic_error", to: "api_exceptions_test/test#raise_generic_error"
+  # end
 
   root "home#index"
   get "*path", to: "home#index", via: :all

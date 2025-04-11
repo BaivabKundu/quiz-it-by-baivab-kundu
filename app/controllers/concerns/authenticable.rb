@@ -20,7 +20,7 @@ module Authenticable
         return
       end
 
-      user = user_email && User.find_by!(email: user_email)
+      user = user_email && User.find_by(email: user_email)
       is_valid_token = user && auth_token && ActiveSupport::SecurityUtils.secure_compare(
         user.authentication_token,
         auth_token)

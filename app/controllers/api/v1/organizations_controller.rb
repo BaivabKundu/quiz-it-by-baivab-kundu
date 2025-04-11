@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 class Api::V1::OrganizationsController < ApplicationController
-  before_action :load_organization, only: [:show, :update]
+  before_action :load_organization, only: [:index, :show, :update]
   skip_before_action :authenticate_user_using_x_auth_token
+
+  def index
+  end
 
   def show
     render

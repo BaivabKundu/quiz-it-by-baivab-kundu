@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import classnames from "classnames";
 import { Login, Signup } from "components/Authentication";
@@ -24,6 +24,10 @@ const Main = () => {
   const handleSidepane = isSidepaneOpen => {
     setIsSidebarOpen(isSidepaneOpen || false);
   };
+
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [location]);
 
   return (
     <div className="flex h-screen w-full overflow-hidden">

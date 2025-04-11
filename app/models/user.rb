@@ -18,6 +18,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: MIN_PASSWORD_LENGTH }, if: :password_required
   validates :password_confirmation, presence: true, if: :password_required
+  validates :assigned_organization, presence: true
 
   before_save :to_lowercase
   before_validation :assign_default_organization, on: :create

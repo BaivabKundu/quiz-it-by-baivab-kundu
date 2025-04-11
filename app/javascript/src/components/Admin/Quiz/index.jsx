@@ -38,9 +38,8 @@ import {
 
 import routes from "../../../routes";
 
-const QuizList = () => {
+const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
   const [quizzes, setQuizzes] = useState([]);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false);
   const [visibleColumnKeys, setVisibleColumnKeys] = useState([
     "category",
@@ -89,7 +88,7 @@ const QuizList = () => {
   const setQuizCounts = useQuizzesStore(state => state.setQuizCounts);
 
   const handleSelect = selectedRowKeys => {
-    setSelectedRowKeys(selectedRowKeys);
+    onSelectRowKeys(selectedRowKeys);
   };
 
   const {
@@ -114,6 +113,7 @@ const QuizList = () => {
 
   const handleApplyFilters = newFilters => {
     setFilters(newFilters);
+    onSelectRowKeys([]);
   };
 
   if (isQuizzesLoading) {
@@ -169,7 +169,7 @@ const QuizList = () => {
       selectedRowKeys,
       updateFields,
       reloadQuizzes,
-      setSelectedRowKeys
+      () => onSelectRowKeys([])
     );
   };
 
@@ -178,7 +178,7 @@ const QuizList = () => {
       bulkDeleteQuizzes,
       selectedRowKeys,
       reloadQuizzes,
-      setSelectedRowKeys,
+      () => onSelectRowKeys([]),
       setShowBulkDeleteAlert
     );
   };

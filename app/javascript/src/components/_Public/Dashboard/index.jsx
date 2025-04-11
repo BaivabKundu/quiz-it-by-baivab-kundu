@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@bigbinary/neetoui";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
-import { useShowOrganization } from "hooks/reactQuery/useOrganizationsApi";
+import { useFetchOrganization } from "hooks/reactQuery/useOrganizationsApi";
 import { useFetchQuizzes } from "hooks/reactQuery/useQuizzesApi";
 import useQueryParams from "hooks/useQueryParams";
 import Header from "neetomolecules/Header";
@@ -49,7 +49,7 @@ const PublicDashboard = () => {
 
   const { data: { quizzes: quizResponse = [], meta = {} } = {} } =
     useFetchQuizzes(quizzesParams);
-  const { data: { organization } = {} } = useShowOrganization();
+  const { data: { organization } = {} } = useFetchOrganization();
   const { data: { categories = [] } = {} } = useFetchCategories();
 
   const categoryOptions = isEmpty(categories)

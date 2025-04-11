@@ -139,6 +139,8 @@ const SidePane = ({ isOpen }) => {
             </Typography>
           </NavLink>
           <NavLink
+            rel="noopener noreferrer"
+            target="_blank"
             to="/"
             activeClassName={
               !location.pathname.includes("admin") ? "bg-black text-white" : ""
@@ -149,6 +151,9 @@ const SidePane = ({ isOpen }) => {
                 "hover:bg-gray-200": location.pathname.includes("admin"),
               }
             )}
+            onClick={() => {
+              localStorage.clear();
+            }}
           >
             <Globe className="h-6 w-6" />
             <Typography style="body2">

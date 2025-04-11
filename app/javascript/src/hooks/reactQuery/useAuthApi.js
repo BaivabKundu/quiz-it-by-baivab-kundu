@@ -4,11 +4,13 @@ import authApi from "apis/auth";
 import { setAuthHeaders } from "apis/axios";
 import { t } from "i18next";
 import { Toastr } from "neetoui";
-import { useMutation } from "reactquery";
+import { useMutation, useQueryClient } from "reactquery";
 import { setToLocalStorage, setPublicUserToLocalStorage } from "utils/storage";
 
-export const useLogin = () =>
-  useMutation({
+export const useLogin = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
     mutationKey: [QUERY_KEYS.AUTH],
     mutationFn: async ({ email, password }) => {
       try {
@@ -29,7 +31,11 @@ export const useLogin = () =>
         throw error;
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries([QUERY_KEYS.QUIZ]);
+    },
   });
+};
 
 export const useSignup = () =>
   useMutation({

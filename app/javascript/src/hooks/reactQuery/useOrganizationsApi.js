@@ -12,12 +12,12 @@ const handleOrganizationError = error => {
   return error;
 };
 
-export const useShowOrganization = () => {
+export const useFetchOrganization = () => {
   const queryConfig = {
     queryKey: [QUERY_KEYS.ORGANIZATION],
     queryFn: async () => {
       try {
-        const response = await organizationsApi.show();
+        const response = await organizationsApi.fetch();
 
         return response;
       } catch (error) {

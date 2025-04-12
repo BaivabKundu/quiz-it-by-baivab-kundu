@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 
-import { Search, Filter as FilterIcon } from "@bigbinary/neeto-icons";
-import {
-  Button,
-  Dropdown,
-  Input,
-  Pagination,
-  Select,
-  Typography,
-} from "@bigbinary/neetoui";
+import { Pagination, Typography } from "@bigbinary/neetoui";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
 import { useFetchOrganization } from "hooks/reactQuery/useOrganizationsApi";
 import { useFetchQuizzes } from "hooks/reactQuery/useQuizzesApi";
 import useQueryParams from "hooks/useQueryParams";
-import Header from "neetomolecules/Header";
+import { t } from "i18next";
 import { mergeLeft, isEmpty } from "ramda";
+import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { buildUrl } from "utils/url";
+import withTitle from "utils/withTitle";
 
 import Card from "./Card";
 import { DEFAULT_PAGE_INDEX } from "./constants";
+import DashboardHeader from "./Header";
+import SearchAndFilter from "./SearchAndFilter";
 
 import routes from "../../../routes";
 
 const PublicDashboard = () => {
   const history = useHistory();
+
+  const { t } = useTranslation();
 
   const queryParams = useQueryParams();
   const { searchTerm, page, filterCategories } = queryParams;
@@ -89,76 +87,18 @@ const PublicDashboard = () => {
 
   return (
     <div className="flex-1 overflow-auto px-4 pb-8">
-      <Header
-        className="px-5"
-        title={organization?.name}
-        actionBlock={
-          <Button
-            className="bg-blue-600"
-            label="Login as admin"
-            to="/admin/login"
-          />
-        }
+      <DashboardHeader organizationName={organization?.name} />
+      <SearchAndFilter
+        categoryOptions={categoryOptions}
+        filters={filters}
+        handleCategoriesFilter={handleCategoriesFilter}
+        isDropdownOpen={isDropdownOpen}
+        queryParams={queryParams}
+        searchValue={searchValue}
+        setIsDropdownOpen={setIsDropdownOpen}
+        setSearchValue={setSearchValue}
       />
-      <div className="mx-auto my-10 flex w-1/3 items-center space-x-2">
-        <Input
-          name="name"
-          placeholder="Search for a quiz"
-          prefix={<Search />}
-          value={searchValue}
-          onChange={event => {
-            setSearchValue(event.target.value);
-            history.push(
-              buildUrl(
-                routes.public.dashboard,
-                mergeLeft({ searchTerm: event.target.value }, queryParams)
-              )
-            );
-          }}
-        />
-        <Dropdown
-          className="p-3"
-          closeOnSelect={false}
-          isOpen={isDropdownOpen}
-          customTarget={
-            <FilterIcon
-              className="h-6 w-6 cursor-pointer text-gray-700"
-              onClick={() => setIsDropdownOpen(prev => !prev)}
-            />
-          }
-        >
-          <div className="overflow-y-hidden">
-            <Typography className="py-2">Category</Typography>
-            <Select
-              isMulti
-              name="selectedCategories"
-              options={categoryOptions}
-              placeholder="Select categories"
-              styles={{
-                menu: base => ({
-                  ...base,
-                  position: "relative",
-                  zIndex: 10,
-                }),
-                menuList: base => ({
-                  ...base,
-                  height: "200px",
-                }),
-              }}
-              value={
-                filters.selectedCategories?.map(category => ({
-                  label: category,
-                  value: category,
-                })) || []
-              }
-              onChange={value => {
-                handleCategoriesFilter(value);
-              }}
-            />
-          </div>
-        </Dropdown>
-      </div>
-      {!isEmpty(quizResponse) && !isEmpty(meta) && (
+      {!isEmpty(quizResponse) && !isEmpty(meta) ? (
         <div className="mx-auto w-2/3">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {quizResponse.map(quiz => (
@@ -174,9 +114,15 @@ const PublicDashboard = () => {
             />
           </div>
         </div>
+      ) : (
+        <div className="flex h-96 items-center justify-center">
+          <Typography className="text-xl font-medium">
+            {t("messages.noQuizzesAvailable")}
+          </Typography>
+        </div>
       )}
     </div>
   );
 };
 
-export default PublicDashboard;
+export default withTitle(PublicDashboard, t("title.home"));

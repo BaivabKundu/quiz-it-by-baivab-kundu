@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { getSubmissionColumns } from "./SubmissionColumns";
 
 export const submissionColumns = getSubmissionColumns();
@@ -6,42 +8,42 @@ export const columns = [
   {
     dataIndex: "name",
     key: "name",
-    title: "Name",
+    title: t("labels.table.name"),
   },
   {
     dataIndex: "email",
     key: "email",
-    title: "Email",
+    title: t("labels.table.email"),
   },
   {
     dataIndex: "createdAt",
     key: "createdAt",
-    title: "Submissions date",
+    title: t("labels.table.submissionsDate"),
   },
   {
     dataIndex: "correctAnswersCount",
     key: "correctAnswersCount",
-    title: "Correct answers",
+    title: t("labels.table.correctAnswers"),
   },
   {
     dataIndex: "wrongAnswersCount",
     key: "wrongAnswersCount",
-    title: "Wrong answers",
+    title: t("labels.table.wrongAnswers"),
   },
   {
     dataIndex: "unansweredCount",
     key: "unansweredCount",
-    title: "Unanswered",
+    title: t("labels.table.unanswered"),
   },
   {
     dataIndex: "totalQuestions",
     key: "totalQuestions",
-    title: "Questions",
+    title: t("labels.table.questions"),
   },
   {
     dataIndex: "status",
     key: "status",
-    title: "Status",
+    title: t("labels.table.status"),
   },
 ];
 

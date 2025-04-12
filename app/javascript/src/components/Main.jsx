@@ -17,6 +17,7 @@ import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
 import SubmissionList from "./Admin/Quiz/Submissions";
 import GeneralSettings from "./Admin/Settings/General";
 import Sidebar from "./Admin/Sidebar";
+import PageNotFound from "./commons/PageNotFound";
 
 import routes from "../routes";
 
@@ -25,7 +26,9 @@ const Main = () => {
   const location = useLocation();
 
   const authToken = getFromLocalStorage("authToken");
+  const submssionId = sessionStorage.getItem("submissionId");
   const isLoggedIn = !either(isNil, isEmpty)(authToken);
+  const isRegistered = !either(isNil, isEmpty)(submssionId);
 
   const handleSidepane = isSidepaneOpen => {
     setIsSidebarOpen(isSidepaneOpen || false);
@@ -66,10 +69,12 @@ const Main = () => {
           component={Register}
           path={routes.public.quizzes.register}
         />
-        <Route
+        <PrivateRoute
           exact
-          component={QuizAttempt}
+          condition={isRegistered}
           path={routes.public.quizzes.attempt}
+          redirectRoute={routes.public.dashboard}
+          render={() => <QuizAttempt />}
         />
         <Route
           exact
@@ -120,32 +125,7 @@ const Main = () => {
           redirectRoute={routes.admin.login}
           render={() => <GeneralSettings />}
         />
-        {/* <Route exact component={QuizDashboard} path={routes.admin.dashboard} />
-        <Route
-          exact
-          component={QuizQuestions}
-          path={routes.admin.quizzes.questions}
-        />
-        <Route
-          exact
-          component={QuestionBuilder}
-          path={routes.admin.quizzes.question.new}
-        />
-        <Route
-          exact
-          component={QuestionBuilder}
-          path={routes.admin.quizzes.question.edit}
-        />
-        <Route
-          exact
-          component={SubmissionList}
-          path={routes.admin.quizzes.submissions}
-        />
-        <Route
-          exact
-          component={GeneralSettings}
-          path={routes.admin.settings.base}
-        /> */}
+        <Route component={PageNotFound} path="*" />
       </Switch>
     </div>
   );

@@ -71,7 +71,9 @@ const SubHeaderComponent = ({
       <SubHeader
         leftActionBlock={
           <Typography component="h4" style="h4">
-            {submissionResponse.length} submissions
+            {t("labels.numberOfSubmissions", {
+              count: submissionResponse.length,
+            })}
           </Typography>
         }
         rightActionBlock={

@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { Delete, Search } from "@bigbinary/neeto-icons";
 import { Button, Dropdown, Input, Typography } from "@bigbinary/neetoui";
 import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
+import { useTranslation } from "react-i18next";
 
 const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
   const hasSelected = selectedRowKeys.length > 0;
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { t } = useTranslation();
 
   const { data: { categories = [] } = {} } = useFetchCategories();
 
@@ -28,13 +31,13 @@ const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
           <Dropdown
             buttonStyle="text"
             closeOnSelect={false}
-            label="Change category"
+            label={t("labels.buttons.changeCategory")}
             position="bottom-end"
             strategy="fixed"
           >
             <div className="flex flex-col gap-y-1 p-3">
               <Input
-                placeholder="Search category"
+                placeholder={t("inputPlaceholders.categoryInput")}
                 prefix={<Search />}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
@@ -57,7 +60,7 @@ const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
           </Dropdown>
           <Dropdown
             buttonStyle="text"
-            label="Change status"
+            label={t("labels.buttons.changeStatus")}
             position="bottom-end"
             strategy="fixed"
           >
@@ -68,24 +71,23 @@ const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
                   style="link"
                   onClick={() => onBulkUpdate({ status: "draft" })}
                 >
-                  Draft
+                  {t("labels.buttons.draft")}
                 </MenuButton>
               </MenuItem>
               <Divider />
               <MenuItem>
                 <MenuButton
-                  label="Delete"
                   style="link"
                   onClick={() => onBulkUpdate({ status: "published" })}
                 >
-                  Publish
+                  {t("labels.buttons.publish")}
                 </MenuButton>
               </MenuItem>
             </Menu>
           </Dropdown>
           <Button
             icon={Delete}
-            label="Delete"
+            label={t("labels.buttons.delete")}
             style="danger"
             onClick={onBulkDelete}
           />

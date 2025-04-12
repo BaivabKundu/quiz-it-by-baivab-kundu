@@ -2,6 +2,8 @@ import React from "react";
 
 import { CheckCircle, CloseCircle } from "@bigbinary/neeto-icons";
 import { Typography } from "@bigbinary/neetoui";
+import classNames from "classnames";
+import { useTranslation, Trans } from "react-i18next";
 
 const ShowQuestionResult = ({
   question,
@@ -13,13 +15,21 @@ const ShowQuestionResult = ({
     userAnswer?.selectedOptionIndex === correctAnswer?.correctOptionId;
   const isAnswered = userAnswer !== undefined && userAnswer !== null;
 
+  const { t } = useTranslation();
+
   return (
     <div className="w-full">
       <Typography className="mb-1 text-lg text-gray-600">
-        Question {questionIndex + 1}
+        {t("labels.quizResultPage.questionNumber", {
+          questionIndex: questionIndex + 1,
+        })}
       </Typography>
       <Typography className="mb-4 text-2xl font-bold">
-        {question.body}
+        <Trans
+          components={{ strong: <strong /> }}
+          i18nKey="labels.quizResultPage.question"
+          values={{ question: question.body }}
+        />
       </Typography>
       <div className="space-y-3">
         {question.options.map((option, oIndex) => {
@@ -38,7 +48,7 @@ const ShowQuestionResult = ({
                 <CheckCircle />
               </div>
             );
-            rightLabel = "Your answer";
+            rightLabel = t("labels.quizResultPage.userAnswer");
           } else if (userAnswer?.selectedOptionIndex === oIndex && !isCorrect) {
             optionStyle = "border-2 border-red-500 bg-white";
             iconComponent = (
@@ -46,7 +56,7 @@ const ShowQuestionResult = ({
                 <CloseCircle />
               </div>
             );
-            rightLabel = "Your answer";
+            rightLabel = t("labels.quizResultPage.userAnswer");
           } else if (correctAnswer?.correctOptionId === oIndex) {
             optionStyle = "border border-gray-200 bg-white";
             iconComponent = (
@@ -54,7 +64,7 @@ const ShowQuestionResult = ({
                 <CheckCircle />
               </div>
             );
-            rightLabel = "Correct answer";
+            rightLabel = t("labels.quizResultPage.correctAnswer");
           }
 
           return (
@@ -68,11 +78,13 @@ const ShowQuestionResult = ({
               </div>
               {rightLabel && (
                 <Typography
-                  className={
-                    userAnswer?.selectedOptionIndex === oIndex && !isCorrect
-                      ? "text-red-500"
-                      : "text-green-500"
-                  }
+                  className={classNames({
+                    "text-red-500":
+                      userAnswer?.selectedOptionIndex === oIndex && !isCorrect,
+                    "text-green-500": !(
+                      userAnswer?.selectedOptionIndex === oIndex && !isCorrect
+                    ),
+                  })}
                 >
                   {rightLabel}
                 </Typography>
@@ -83,15 +95,24 @@ const ShowQuestionResult = ({
       </div>
       {isAnswered ? (
         <div
-          className={`mt-3 rounded-lg p-4 ${
-            isCorrect ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
-          }`}
+          className={classNames("mt-3 rounded-lg p-4", {
+            "bg-green-50 text-green-700": isCorrect,
+            "bg-red-50 text-red-700": !isCorrect,
+          })}
         >
-          Your answer is {isCorrect ? "correct" : "incorrect"}
+          <Trans
+            components={{ span: <span /> }}
+            i18nKey="labels.quizResultPage.questionResult"
+            values={{
+              answer: isCorrect
+                ? t("labels.quizResultPage.correct")
+                : t("labels.quizResultPage.incorrect"),
+            }}
+          />
         </div>
       ) : (
         <div className="mt-3 rounded-lg bg-gray-50 p-4 text-gray-700">
-          You have not answered
+          {t("labels.quizResultPage.noAnswer")}
         </div>
       )}
     </div>

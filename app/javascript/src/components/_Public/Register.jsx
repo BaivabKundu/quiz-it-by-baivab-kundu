@@ -5,13 +5,16 @@ import React from "react";
 import { Typography, Button } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 import { useRegister } from "hooks/reactQuery/useAuthApi";
+import { useShowQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { useCreateSubmission } from "hooks/reactQuery/useSubmissionsApi";
-import { useTranslation } from "react-i18next";
+import { t } from "i18next";
+import { useTranslation, Trans } from "react-i18next";
 import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { getPublicUserFromLocalStorage } from "utils/storage";
+import withTitle from "utils/withTitle";
 
 const Register = () => {
   const initialValues = {
@@ -20,6 +23,8 @@ const Register = () => {
   };
 
   const { slug } = useParams();
+
+  const { data: quiz } = useShowQuiz(slug);
 
   const { t } = useTranslation();
 
@@ -58,7 +63,11 @@ const Register = () => {
           className="mt-6 text-center text-3xl font-extrabold
         leading-9 text-gray-700"
         >
-          Quiz registration
+          <Trans
+            components={{ strong: <strong /> }}
+            i18nKey="labels.publicRegistrationPage.heading"
+            values={{ quizName: quiz?.name }}
+          />
         </Typography>
         <NeetoUIForm
           formikProps={{
@@ -97,4 +106,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default withTitle(Register, t("title.register"));

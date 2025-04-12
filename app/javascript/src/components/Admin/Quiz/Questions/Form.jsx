@@ -5,6 +5,8 @@ import React from "react";
 import { Checkmark, Delete } from "@bigbinary/neeto-icons";
 import { Button } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
+import classNames from "classnames";
+import { t } from "i18next";
 
 const QuestionForm = ({
   options,
@@ -40,7 +42,7 @@ const QuestionForm = ({
             className="w-full border-b border-gray-200 p-3 focus:outline-none"
             error={touched.question && errors.question}
             name="question"
-            placeholder="Type your question here..."
+            placeholder={t("inputPlaceholders.questionInput")}
             style={{
               fontSize: "1.7rem",
               fontWeight: "500",
@@ -55,11 +57,11 @@ const QuestionForm = ({
           {options.map((option, index) => (
             <div
               key={option.id}
-              className={`flex items-center rounded-lg border p-2 ${
-                option.isCorrect
-                  ? "border-blue-500 bg-blue-50 text-blue-700"
-                  : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-              }`}
+              className={classNames("flex items-center rounded-lg border p-2", {
+                "border-blue-500 bg-blue-50 text-blue-700": option.isCorrect,
+                "border-gray-200 hover:border-gray-300 hover:bg-gray-50":
+                  !option.isCorrect,
+              })}
             >
               <Button
                 className="mr-3 flex-shrink-0 text-blue-500 focus:outline-none"
@@ -82,14 +84,16 @@ const QuestionForm = ({
               <Input
                 nakedInput
                 name={`options[${index}].text`}
-                placeholder={`Type option ${index + 1}`}
-                className={`flex-grow p-2 focus:outline-none ${
-                  option.isCorrect ? "bg-blue-50" : ""
-                }`}
+                className={classNames("flex-grow p-2 focus:outline-none", {
+                  "bg-blue-50": option.isCorrect,
+                })}
                 error={
                   touched.options?.[index]?.text &&
                   errors.options?.[index]?.text
                 }
+                placeholder={t("inputPlaceholders.optionInput", {
+                  optionIndex: index + 1,
+                })}
                 style={{
                   fontSize: "1rem",
                   backgroundColor: option.isCorrect ? "#EFF6FF" : "#FFFFFF",
@@ -118,7 +122,7 @@ const QuestionForm = ({
         {options.length < 6 && (
           <Button
             className="mb-12 font-medium text-blue-500 hover:text-blue-600 focus:outline-none"
-            label="Add new option"
+            label={t("labels.buttons.addNewOption")}
             style="text"
             onClick={onAddOption}
           />
@@ -126,12 +130,12 @@ const QuestionForm = ({
         <div className="flex space-x-4">
           <Button
             className="bg-blue-500 text-white"
-            label="Save"
+            label={t("labels.buttons.saveQuestion")}
             style="text"
             type="submit"
           />
           <Button
-            label="Save & add new question"
+            label={t("labels.buttons.saveAndAddNewQuestion")}
             style="text"
             type="button"
             onClick={async () => {

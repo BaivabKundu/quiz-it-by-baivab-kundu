@@ -2,6 +2,7 @@ import React from "react";
 
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Radio, Dropdown } from "@bigbinary/neetoui";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
@@ -9,6 +10,8 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
   const { Button: MenuButton } = MenuItem;
 
   const { slug } = useParams();
+
+  const { t } = useTranslation();
 
   return (
     <div className="relative flex w-full rounded-md border border-gray-100 bg-white p-4 shadow-lg md:w-[600px] lg:w-[800px]">
@@ -41,13 +44,13 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
                 style="link"
                 to={`/admin/quizzes/${slug}/questions/${question.id}/edit`}
               >
-                Edit
+                {t("labels.buttons.edit")}
               </MenuButton>
             </MenuItem>
             <Divider />
             <MenuItem>
               <MenuButton style="link" onClick={() => handleClone(question.id)}>
-                Clone
+                {t("labels.buttons.clone")}
               </MenuButton>
             </MenuItem>
             <Divider />
@@ -57,7 +60,7 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
                 type="delete"
                 onClick={() => handleDelete(question.id, slug)}
               >
-                Delete
+                {t("labels.buttons.delete")}
               </MenuButton>
             </MenuItem>
           </Menu>

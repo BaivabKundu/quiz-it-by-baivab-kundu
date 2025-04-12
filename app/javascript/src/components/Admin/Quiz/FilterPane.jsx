@@ -103,7 +103,7 @@ const FilterPane = ({
           onSubmit: values => handleApplyFilters(values),
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, dirty }) => (
           <>
             <Pane.Body>
               <div className="w-full">
@@ -118,7 +118,6 @@ const FilterPane = ({
                     onChange={({ target: { value } }) => {
                       setName(value);
                       setFieldValue("name", value);
-                      initialValues.name = value;
                     }}
                   />
                   <Typography className="text-md font-bold">
@@ -154,12 +153,14 @@ const FilterPane = ({
             <Pane.Footer className="flex items-center space-x-2">
               <Button
                 className="bg-blue-600 px-5 text-white"
+                disabled={!dirty}
                 label={t("labels.buttons.addFilter")}
                 style="text"
                 type="submit"
               />
               <Button
                 className="px-5"
+                disabled={!dirty}
                 label={t("labels.buttons.clearFilter")}
                 style="text"
                 onClick={handleClearFilters}

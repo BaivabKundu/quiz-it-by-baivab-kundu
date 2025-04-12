@@ -1,7 +1,9 @@
 import React from "react";
 
 import { useSignup } from "hooks/reactQuery/useAuthApi";
+import { t } from "i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import withTitle from "utils/withTitle";
 
 import SignupForm from "./Form/Signup";
 
@@ -32,4 +34,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default withTitle(Signup, t("title.signup"));

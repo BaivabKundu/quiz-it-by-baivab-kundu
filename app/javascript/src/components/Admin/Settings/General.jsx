@@ -4,26 +4,34 @@ import React from "react";
 
 import { Typography, Button } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
-import { useUpdateOrganization } from "hooks/reactQuery/useOrganizationsApi";
+import {
+  useUpdateOrganization,
+  useFetchOrganization,
+} from "hooks/reactQuery/useOrganizationsApi";
+import { t } from "i18next";
+import withTitle from "utils/withTitle";
 
 const GeneralSettings = () => {
   const initialValues = {
     name: "",
   };
 
+  const { data: { organization } = {} } = useFetchOrganization();
   const { mutate: updateOrganization } = useUpdateOrganization();
-
   const handleSubmit = ({ name }, { resetForm }) => {
-    updateOrganization({ name }, { onSuccess: () => resetForm() });
+    updateOrganization(
+      { id: organization?.id, payload: { name } },
+      { onSuccess: () => resetForm() }
+    );
   };
 
   return (
     <div className="m-32">
       <Typography className="mb-1 text-4xl font-bold">
-        General Settings
+        {t("labels.settings.heading")}
       </Typography>
       <Typography className="mb-8 text-gray-600">
-        Customise the quiz site name
+        {t("labels.settings.subheading")}
       </Typography>
       <NeetoUIForm
         formikProps={{
@@ -35,23 +43,23 @@ const GeneralSettings = () => {
         {({ dirty, resetForm }) => (
           <div className="w-96">
             <div className="space-y-2">
-              <Typography>Quiz title</Typography>
+              <Typography>{t("labels.settings.quizTitle")}</Typography>
               <Input
                 required
                 name="name"
-                placeholder="Enter the quiz title"
+                placeholder={t("inputPlaceholders.quizTitleInput")}
                 size="large"
               />
               <div className="flex space-x-4">
                 <Button
                   className="w-full justify-center bg-blue-500 px-4 py-3"
                   disabled={!dirty}
-                  label="Save changes"
+                  label={t("labels.buttons.saveChanges")}
                   type="submit"
                 />
                 <Button
                   className="w-full justify-center"
-                  label="Cancel"
+                  label={t("labels.buttons.cancel")}
                   style="text"
                   onClick={() => resetForm()}
                 />
@@ -64,4 +72,4 @@ const GeneralSettings = () => {
   );
 };
 
-export default GeneralSettings;
+export default withTitle(GeneralSettings, t("title.generalSettings"));

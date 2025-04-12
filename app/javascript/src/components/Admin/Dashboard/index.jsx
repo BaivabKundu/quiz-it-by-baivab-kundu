@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { t } from "i18next";
+import withTitle from "utils/withTitle";
+
 import NeetoHeader from "../commons/Header";
 import QuizList from "../Quiz";
 
@@ -21,4 +24,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default withTitle(Dashboard, t("title.adminHome"));

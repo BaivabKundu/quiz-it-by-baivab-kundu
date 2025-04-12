@@ -73,8 +73,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.string "accessibility", default: "discoverable", null: false
     t.string "status", default: "published", null: false
     t.string "slug", null: false
-    t.uuid "creator_id"
     t.uuid "assigned_category_id"
+    t.uuid "creator_id"
     t.uuid "assigned_organization_id"
     t.index ["slug"], name: "index_quizzes_on_slug", unique: true
   end
@@ -86,9 +86,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.integer "unanswered_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status", default: "incomplete", null: false
     t.uuid "assigned_user_id"
     t.uuid "assigned_quiz_id"
-    t.string "status", default: "incomplete", null: false
     t.jsonb "answers", default: [], null: false
   end
 

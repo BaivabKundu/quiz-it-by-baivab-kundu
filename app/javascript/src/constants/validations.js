@@ -110,7 +110,7 @@ export const questionSchema = yup.object().shape({
 export const generalSettingSchema = yup.object({
   name: yup
     .string()
-    .required("Quiz title required")
-    .min(2, "Quiz title length must be greater than 2 characters")
-    .max(100, "Quiz title length must be less than 100 characters"),
+    .required(t("settings.validations.quizTitleRequired"))
+    .min(2, t("settings.validations.minQuizTitleLength"))
+    .max(100, t("settings.validations.maxQuizTitleLength")),
 });

@@ -1,7 +1,9 @@
 import React from "react";
 
 import { useLogin } from "hooks/reactQuery/useAuthApi";
+import { t } from "i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import withTitle from "utils/withTitle";
 
 import LoginForm from "./Form/Login";
 
@@ -30,4 +32,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withTitle(Login, t("title.login"));

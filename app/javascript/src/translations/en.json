@@ -1,4 +1,20 @@
 {
+  "title": {
+    "app": "Quiz It",
+    "page": "{{title}} | Quiz It",
+    "questionBuilder": "Question builder",
+    "quizAttempt": "Quiz attempt",
+    "quizResult": "Quiz result",
+    "questions": "Questions",
+    "submissions": "Submissions",
+    "login": "Admin login",
+    "signup": "Admin signup",
+    "register": "Register",
+    "adminHome": "Admin home",
+    "home": "Home",
+    "generalSettings": "General settings",
+    "pageNotFound": "Page not found"
+  },
   "auth": {
     "signUp": "Sign up",
     "signIn": "Sign in",
@@ -35,16 +51,94 @@
       "quizStatusRequired": "Quiz status is required"
     }
   },
+  "settings": {
+    "validations": {
+      "quizTitleRequired": "Quiz title is required",
+      "minQuizTitleLength": "Quiz title length must be greater than 2 characters",
+      "maxQuizTitleLength": "Quiz title length must be less than 100 characters"
+    }
+  },
+  "quiz": {
+    "validations": {
+      "questionRequired": "Question is required",
+      "optionRequired": "Option is required",
+      "correctAnswerRequired": "Correct answer is required",
+      "nameRequired": "Quiz name is required",
+      "categoryRequired": "Quiz category is required"
+    }
+  },
   "labels": {
     "name": "Name",
     "email": "Email",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "header": "All quizzes",
+    "heading": "All quizzes",
+    "questions": "Questions",
+    "submissions": "Submissions",
     "category": "Category",
     "status": "Status",
     "filter": "Filters",
     "addNewQuiz": "Add new quiz",
+    "numberOfQuestions": "{{count}} questions",
+    "questionBreadcrumb": "All questions › <strong>{{questionNumber}}</strong>",
+    "questionNumber": " Question {{questionNumber}}",
+    "editQuestion": " Edit question",
+    "numberOfSubmissions": "{{count}} submissions",
+    "draftTime": "Draft saved at {{time}}",
+    "submissionPage": {
+      "heading": "All submissions"
+    },
+    "settings": {
+      "heading": "General settings",
+      "subheading": "Customise the quiz site name",
+      "quizTitle": "Quiz title"
+    },
+    "table": {
+      "name": "Name",
+      "email": "Email",
+      "submissionsDate": "Submissions date",
+      "submissionsCount": "Submissions count",
+      "createdOn": "Created on",
+      "action": "Action",
+      "correctAnswers": "Correct answers",
+      "wrongAnswers": "Wrong answers",
+      "unanswered": "Unanswered",
+      "questions": "Questions",
+      "status": "Status",
+      "completedStatus": "Completed",
+      "incompleteStatus": "Incomplete",
+      "category": "Category",
+      "publishedStatus": "Published",
+      "draftStatus": "Draft"
+    },
+    "publicQuizCard": {
+      "quizName": "<span>{{name}}</span>",
+      "questionsCount": "<span>{{count}}</span> questions",
+      "quizCategory": "<span>{{category}}</span>"
+    },
+    "quizAttemptCard": {
+      "questionNumber": "Question {{currentQuestionIndex}} of {{totalQuestionCount}}",
+      "questionName": "<span>{{name}}</span>",
+      "optionText": "<span>{{option}}</span>"
+    },
+    "quizResultPage": {
+      "questionNumber": "Question {{questionIndex}}",
+      "question": "<strong>{{question}}</strong>",
+      "userAnswer": "Your answer",
+      "correctAnswer": "Correct answer",
+      "noAnswer": "You have not answered",
+      "questionResult": "Your answer is <span>{{answer}}</span>",
+      "correct": "correct",
+      "incorrect": "incorrect",
+      "heading": "Your result",
+      "totalQuestions": "Total questions: {{count}}",
+      "score": "Score",
+      "unanswered": "Unanswered"
+    },
+    "publicRegistrationPage": {
+      "heading": "{{quizName}}"
+    },
+    "organizationName": "<strong>{{name}}</strong>",
     "tooltips": {
       "columns": "Show/hide columns",
       "filters": "Filters"
@@ -54,8 +148,29 @@
       "addFilter": "Done",
       "clearFilter": "Clear filters",
       "saveQuiz": "Save",
+      "saveChanges": "Save changes",
+      "cancel": "Cancel",
+      "startQuiz": "Start quiz",
+      "loginAsAdmin": "Login as admin",
       "cancelQuiz": "Cancel",
-      "logout": "Logout"
+      "logout": "Logout",
+      "previous": "Previous",
+      "saveAndSubmit": "Save and submit quiz",
+      "next": "Next",
+      "home": "Back to home",
+      "edit": "Edit",
+      "clone": "Clone",
+      "delete": "Delete",
+      "draft": "Draft",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "published": "Published",
+      "addNewOption": "Add new option",
+      "saveQuestion": "Save",
+      "saveAndAddNewQuestion": "Save & add new question",
+      "addNewQuestion": "Add new question",
+      "changeCategory": "Change category",
+      "changeStatus": "Change status"
     },
     "sidePane": {
       "allQuizzesBar": "All",
@@ -69,6 +184,9 @@
   "messages": {
     "noOfQuizzes": "{{noOfQuizzes}} quizzes",
     "noQuizzesAvailable": "No quizzes available",
+    "noQuestionsAvailable": "No questions available",
+    "noSubmissionsAvailable": "No submissions available",
+    "pageNotFound": "Page not found",
     "alerts": {
       "deleteQuiz": {
         "title": "Delete quiz?",
@@ -88,7 +206,13 @@
     "searchInput": "Search quizzes",
     "quizNameInput": "Enter quiz name",
     "quizCategoryInput": "Select quiz category",
-    "quizStatusInput": "Select quiz status"
+    "quizStatusInput": "Select quiz status",
+    "publicSearch": "Search for a quiz",
+    "searchNameInput": "Search names",
+    "questionInput": "Type your question here...",
+    "optionInput": "Type option {{optionIndex}}",
+    "categoryInput": "Search category",
+    "quizTitleInput": "Enter the quiz title"
   },
   "neetoMolecules": {
     "columns": {

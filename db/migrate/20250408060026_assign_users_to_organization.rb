@@ -2,13 +2,13 @@
 
 class AssignUsersToOrganization < ActiveRecord::Migration[7.1]
   def up
-    organization = Organization.first
+    organization = Organization.first_or_create!(
+      name: "BigBinary Academy",
+      created_at: Time.current,
+      updated_at: Time.current
+    )
 
-    if organization
-      User.update_all(assigned_organization_id: organization.id)
-    else
-      raise "Organizations not found. Please create it first."
-    end
+    User.update_all(assigned_organization_id: organization.id)
   end
 
   def down

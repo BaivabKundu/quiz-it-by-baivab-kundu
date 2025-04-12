@@ -3,7 +3,6 @@
 class Api::V1:: QuizzesController < ApplicationController
   before_action :load_quiz, only: [:show, :update, :destroy]
   before_action :load_quizzes, only: %i[bulk_update bulk_destroy]
-  after_action :verify_authorized, only: :show
   after_action :verify_policy_scoped, only: :index
 
   def index
@@ -23,7 +22,6 @@ class Api::V1:: QuizzesController < ApplicationController
   end
 
   def show
-    authorize @quiz, :admin_and_creator?
     render
   end
 

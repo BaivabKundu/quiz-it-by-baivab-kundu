@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::OrganizationsController < ApplicationController
-  before_action :load_organization, only: [:index, :show, :update]
+  before_action :load_organization, only: [:index, :show]
   skip_before_action :authenticate_user_using_x_auth_token
 
   def index
@@ -12,6 +12,7 @@ class Api::V1::OrganizationsController < ApplicationController
   end
 
   def update
+    @organization = Organization.find(params[:id])
     @organization.update!(organization_params)
     render_notice(t("successfully_updated", entity: "Organization"))
   end

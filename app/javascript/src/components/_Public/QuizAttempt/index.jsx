@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import { useFetchQuestions } from "hooks/reactQuery/useQuestionsApi";
 import { useUpdateSubmission } from "hooks/reactQuery/useSubmissionsApi";
+import { t } from "i18next";
 import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 import { getPublicUserFromLocalStorage } from "utils/storage";
+import withTitle from "utils/withTitle";
 
 import ShowQuestion from "./ShowQuestion";
 
@@ -77,6 +79,7 @@ const QuizAttempt = () => {
         },
         {
           onSuccess: () => {
+            sessionStorage.clear();
             history.replace({
               pathname: `/quizzes/${slug}/${userId}/result`,
               state: {
@@ -105,4 +108,4 @@ const QuizAttempt = () => {
   );
 };
 
-export default QuizAttempt;
+export default withTitle(QuizAttempt, t("title.quizAttempt"));

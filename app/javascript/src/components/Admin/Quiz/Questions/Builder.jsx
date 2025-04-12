@@ -6,11 +6,14 @@ import {
   useShowQuestion,
   useUpdateQuestion,
 } from "hooks/reactQuery/useQuestionsApi";
+import { t } from "i18next";
+import { Trans, useTranslation } from "react-i18next";
 import {
   useParams,
   useLocation,
   useHistory,
 } from "react-router-dom/cjs/react-router-dom.min";
+import withTitle from "utils/withTitle";
 
 import QuestionForm from "./Form";
 import {
@@ -27,12 +30,18 @@ import Navbar from "../Navbar";
 const QuestionBuilder = () => {
   const history = useHistory();
   const location = useLocation();
+
   const [questionNumber, setQuestionNumber] = useState(
     String(location.state?.questionNumber || 1).padStart(2, "0")
   );
+
   const isEditMode = location.pathname.includes("/edit");
+
   const { slug, id: questionId } = useParams();
+
   const { mutate: createQuestion } = useCreateQuestion(slug);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     history.replace({
@@ -80,26 +89,20 @@ const QuestionBuilder = () => {
     setIsValid(hasQuestion && hasEnoughOptions && hasCorrectAnswer);
   }, [question, options]);
 
-  const handleSubmitQuestion = useCallback(
-    handleSubmit(
-      isEditMode,
-      updateQuestion,
-      createQuestion,
-      questionId,
-      slug,
-      history
-    ),
-    [isEditMode, updateQuestion, createQuestion, questionId, slug, history]
+  const handleSubmitQuestion = handleSubmit(
+    isEditMode,
+    updateQuestion,
+    createQuestion,
+    questionId,
+    slug,
+    history
   );
 
-  const handleSubmitAndAddNewQuestion = useCallback(
-    handleSubmitAndAddNew(
-      createQuestion,
-      setQuestion,
-      setOptions,
-      setQuestionNumber
-    ),
-    [createQuestion, setQuestion, setOptions, setQuestionNumber]
+  const handleSubmitAndAddNewQuestion = handleSubmitAndAddNew(
+    createQuestion,
+    setQuestion,
+    setOptions,
+    setQuestionNumber
   );
 
   const [activeTab, setActiveTab] = useState("questions");
@@ -128,11 +131,19 @@ const QuestionBuilder = () => {
     <div className="ml-16 w-full">
       <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
       <div className="mx-auto mt-20 w-2/3 px-4 py-8">
-        <div className="mb-8 flex items-center text-sm text-gray-500">
-          <Typography>All Questions</Typography>
-          <Typography className="mx-2">›</Typography>
-          <Typography className="font-semibold">
-            {isEditMode ? "Edit question" : `Question ${questionNumber}`}
+        <div className="text-md mb-8 flex items-center text-gray-500">
+          <Typography className="text-lg">
+            <Trans
+              components={{ strong: <strong /> }}
+              i18nKey="labels.questionBreadcrumb"
+              values={{
+                questionNumber: isEditMode
+                  ? t("labels.editQuestion")
+                  : t("labels.questionNumber", {
+                      questionNumber,
+                    }),
+              }}
+            />
           </Typography>
         </div>
         <QuestionForm
@@ -157,4 +168,4 @@ const QuestionBuilder = () => {
   );
 };
 
-export default QuestionBuilder;
+export default withTitle(QuestionBuilder, t("title.questionBuilder"));

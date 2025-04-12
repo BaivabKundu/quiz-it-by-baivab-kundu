@@ -7,8 +7,11 @@ import {
   useDeleteQuestion,
   useCloneQuestion,
 } from "hooks/reactQuery/useQuestionsApi";
+import { t } from "i18next";
 import { isEmpty } from "ramda";
+import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import withTitle from "utils/withTitle";
 
 import QuestionDisplayCard from "./DisplayCard";
 
@@ -18,6 +21,8 @@ const QuizCreation = () => {
   const [activeTab, setActiveTab] = useState("questions");
 
   const { slug } = useParams();
+
+  const { t } = useTranslation();
 
   const {
     data: { questions: questionResponse = [] } = {},
@@ -60,20 +65,24 @@ const QuizCreation = () => {
               state: { questionNumber: questionResponse.length + 1 },
             }}
           >
-            <Typography>Add new question</Typography>
+            <Typography>{t("labels.buttons.addNewQuestion")}</Typography>
           </Link>
         </div>
         <div className="py-16">
           {activeTab === "questions" &&
             (isEmpty(questionResponse) ? (
               <div className="flex h-96 items-center justify-center">
-                <NoData title="No questions to show" />
+                <NoData title={t("messages.noQuestionsAvailable")} />
               </div>
             ) : (
               <div className="w-full">
                 <div className="flex w-full flex-col items-center">
                   <div className="mb-4 w-full max-w-[800px]">
-                    <Typography>{questionResponse.length} questions</Typography>
+                    <Typography>
+                      {t("labels.numberOfQuestions", {
+                        count: questionResponse.length,
+                      })}
+                    </Typography>
                   </div>
                   <div className="relative flex h-[calc(100vh-300px)] w-full flex-col items-center overflow-y-auto">
                     {questionResponse.map(question => (
@@ -95,7 +104,7 @@ const QuizCreation = () => {
           {activeTab === "submissions" && (
             <div className="flex h-72 items-center justify-center">
               <Typography className="text-xl font-medium text-gray-700">
-                There are no submissions to show
+                {t("messages.noSubmissionsAvailable")}
               </Typography>
             </div>
           )}
@@ -105,4 +114,4 @@ const QuizCreation = () => {
   );
 };
 
-export default QuizCreation;
+export default withTitle(QuizCreation, t("title.questions"));

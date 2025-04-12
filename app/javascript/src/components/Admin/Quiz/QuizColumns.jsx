@@ -3,6 +3,7 @@ import React from "react";
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Tag, Dropdown, Tooltip } from "@bigbinary/neetoui";
 import { format } from "date-fns";
+import { t } from "i18next";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
@@ -13,7 +14,7 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
     {
       dataIndex: "name",
       key: "name",
-      title: "Name",
+      title: t("labels.table.name"),
       render: (text, record) => (
         <Tooltip content={text} position="top">
           <Link
@@ -29,34 +30,39 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
     {
       dataIndex: "category",
       key: "category",
-      title: "Category",
+      title: t("labels.table.category"),
       width: 200,
     },
     {
       dataIndex: "submissionsCount",
       key: "submissionsCount",
-      title: "Submissions count",
+      title: t("labels.table.submissionsCount"),
       width: 150,
     },
     {
       dataIndex: "createdAt",
       key: "createdAt",
-      title: "Created on",
+      title: t("labels.table.createdOn"),
       width: 200,
       render: date => format(new Date(date), "dd MMMM yyyy"),
     },
     {
       dataIndex: "status",
       key: "status",
-      title: "Status",
+      title: t("labels.table.status"),
       width: 150,
       render: status => {
-        status = status === "published" ? "Published" : "Draft";
+        status =
+          status === "published"
+            ? t("labels.table.publishedStatus")
+            : t("labels.table.draftStatus");
 
         return (
           <Tag
             label={status}
-            style={status === "Published" ? "info" : "warning"}
+            style={
+              status === t("labels.table.publishedStatus") ? "info" : "warning"
+            }
           />
         );
       },
@@ -64,7 +70,7 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
     {
       dataIndex: "action",
       key: "action",
-      title: "Action",
+      title: t("labels.table.action"),
       render: (_, record) => (
         <Dropdown
           buttonStyle="text"
@@ -79,7 +85,9 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
                 style="link"
                 onClick={() => handlePublish(record.slug, record.status)}
               >
-                {record.status === "published" ? "Unpublish" : "Publish"}
+                {record.status === "published"
+                  ? t("labels.buttons.unpublish")
+                  : t("labels.buttons.publish")}
               </MenuButton>
             </MenuItem>
             <Divider />
@@ -89,18 +97,17 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
                 style="link"
                 onClick={() => handleClone(record.slug)}
               >
-                Clone
+                {t("labels.buttons.clone")}
               </MenuButton>
             </MenuItem>
             <Divider />
             <MenuItem>
               <MenuButton
-                label="Delete"
                 style="danger"
                 type="delete"
                 onClick={() => handleDelete(record.slug)}
               >
-                Delete
+                {t("labels.buttons.delete")}
               </MenuButton>
             </MenuItem>
           </Menu>

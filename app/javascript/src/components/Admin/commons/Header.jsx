@@ -22,7 +22,6 @@ const NeetoHeader = ({ onSearch }) => {
     <>
       <Header
         className="px-5"
-        title={!isSubmissionsPage ? t("labels.header") : "All submissions"}
         actionBlock={
           !isSubmissionsPage ? (
             <Button
@@ -40,8 +39,13 @@ const NeetoHeader = ({ onSearch }) => {
           value: searchValue,
           placeholder: !isSubmissionsPage
             ? t("inputPlaceholders.searchInput")
-            : "Search names",
+            : t("inputPlaceholders.searchNameInput"),
         }}
+        title={
+          !isSubmissionsPage
+            ? t("labels.heading")
+            : t("labels.submissionPage.heading")
+        }
       />
       {isCreateNewQuizPaneOpen && (
         <NewQuizPane

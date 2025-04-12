@@ -10,6 +10,7 @@ import { Button, Typography, Tab } from "@bigbinary/neetoui";
 import dayjs from "dayjs";
 import { useShowQuiz, useUpdateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { Toastr } from "neetoui";
+import { useTranslation, Trans } from "react-i18next";
 import {
   Link,
   useHistory,
@@ -26,6 +27,8 @@ const Navbar = ({ activeTab, setActiveTab }) => {
   const { mutate: updateQuiz } = useUpdateQuiz();
 
   const [draftSavedAt, setDraftSavedAt] = useState("");
+
+  const { t } = useTranslation();
 
   const currentQuizStatus = quiz?.status;
 
@@ -89,7 +92,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   history.push(`/admin/quizzes/${slug}/questions`);
                 }}
               >
-                Questions
+                {t("labels.questions")}
               </Tab.Item>
               <Tab.Item
                 active={activeTab === "submissions"}
@@ -98,7 +101,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   history.push(`/admin/quizzes/${slug}/submissions`);
                 }}
               >
-                Submissions
+                {t("labels.submissions")}
               </Tab.Item>
             </Tab>
           </div>
@@ -110,29 +113,40 @@ const Navbar = ({ activeTab, setActiveTab }) => {
               <div className="flex items-center">
                 {currentQuizStatus === "draft" && (
                   <Typography className="mr-2 flex items-center text-sm text-gray-500">
-                    Draft saved at{" "}
-                    {dayjs(draftSavedAt).format("h:mm:ss A, D MMMM YYYY ")}
+                    <Trans
+                      components={{ span: <span /> }}
+                      i18nKey="labels.draftTime"
+                      values={{
+                        time: dayjs(draftSavedAt).format(
+                          "h:mm A, D MMMM YYYY "
+                        ),
+                      }}
+                    />
                   </Typography>
                 )}
                 <Button
                   className="mx-1 rounded-r-none bg-blue-600"
                   disabled={currentQuizStatus === "published"}
                   label={
-                    currentQuizStatus === "published" ? "Published" : "Publish"
+                    currentQuizStatus === "published"
+                      ? t("labels.buttons.published")
+                      : t("labels.buttons.publish")
                   }
                   onClick={() => handleQuizPublish(slug)}
                 />
                 <Button
                   className="mr-2 rounded-l-none bg-blue-600"
+                  disabled={currentQuizStatus === "draft"}
                   icon={ExternalLink}
                   target="_blank"
-                  to={`/quizzes/${slug}`}
+                  to={`/quizzes/${slug}/register`}
                 />
                 <Button
+                  disabled={currentQuizStatus === "draft"}
                   style="text"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/quizzes/${slug}`
+                      `${window.location.origin}/quizzes/${slug}/register`
                     );
                     Toastr.success("Link copied to clipboard!");
                   }}

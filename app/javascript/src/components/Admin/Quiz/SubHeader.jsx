@@ -84,9 +84,15 @@ const QuizSubHeader = ({
       {hasFilters && (
         <div className="mb-4 flex items-center">
           <Typography component="span" style="body2">
-            {(filters.selectedCategories?.length > 0
-              ? `Categories: ${filters.selectedCategories.join(", ")}`
-              : "") +
+            {(filters.name ? `Name: ${filters.name}` : "") +
+              (filters.name &&
+              (filters.selectedCategories?.length > 0 ||
+                (filters.status && Object.keys(filters.status).length > 0))
+                ? " | "
+                : "") +
+              (filters.selectedCategories?.length > 0
+                ? `Categories: ${filters.selectedCategories.join(", ")}`
+                : "") +
               (filters.selectedCategories?.length > 0 &&
               filters.status &&
               Object.keys(filters.status).length > 0
@@ -99,11 +105,12 @@ const QuizSubHeader = ({
                   }`
                 : "")}
           </Typography>
-          {(filters.selectedCategories?.length > 0 ||
+          {(filters.name ||
+            filters.selectedCategories?.length > 0 ||
             (filters.status && Object.keys(filters.status).length > 0)) && (
             <Button
               className="ml-2"
-              label="Clear filters"
+              label={t("labels.buttons.clearFilter")}
               style="secondary"
               onClick={() => {
                 history.push(buildUrl(routes.admin.dashboard));

@@ -63,7 +63,7 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
           onSubmit: handleCreateNewQuiz,
         }}
       >
-        {({ setFieldValue }) => (
+        {({ setFieldValue, dirty }) => (
           <>
             <Pane.Body>
               <div className="w-full">
@@ -99,12 +99,14 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
             <Pane.Footer className="flex items-center space-x-2">
               <Button
                 className="bg-blue-600 px-5 text-white"
+                disabled={!dirty}
                 label={t("labels.buttons.saveQuiz")}
                 style="text"
                 type="submit"
               />
               <Button
                 className="px-5"
+                disabled={!dirty}
                 label={t("labels.buttons.cancelQuiz")}
                 style="text"
                 onClick={handleClearFilters}

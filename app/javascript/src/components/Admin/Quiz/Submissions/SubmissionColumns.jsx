@@ -2,63 +2,69 @@ import React from "react";
 
 import { Tag } from "@bigbinary/neetoui";
 import { format } from "date-fns";
+import { t } from "i18next";
 
 export const getSubmissionColumns = () => [
   {
     dataIndex: "name",
     key: "name",
-    title: "Name",
+    title: t("labels.table.name"),
     width: 250,
   },
   {
     dataIndex: "email",
     key: "email",
-    title: "Email",
+    title: t("labels.table.email"),
     width: 200,
   },
   {
     dataIndex: "createdAt",
     key: "createdAt",
-    title: "Submissions date",
+    title: t("labels.table.submissionsDate"),
     width: 200,
     render: date => format(new Date(date), "dd MMMM yyyy"),
   },
   {
     dataIndex: "correctAnswersCount",
     key: "correctAnswersCount",
-    title: "Correct answers",
+    title: t("labels.table.correctAnswers"),
     width: 200,
   },
   {
     dataIndex: "wrongAnswersCount",
     key: "wrongAnswersCount",
-    title: "Wrong answers",
+    title: t("labels.table.wrongAnswers"),
     width: 200,
   },
   {
     dataIndex: "unansweredCount",
     key: "unansweredCount",
-    title: "Unanswered",
+    title: t("labels.table.unanswered"),
     width: 200,
   },
   {
     dataIndex: "totalQuestions",
     key: "totalQuestions",
-    title: "Questions",
+    title: t("labels.table.questions"),
     width: 200,
   },
   {
     dataIndex: "status",
     key: "status",
-    title: "Status",
+    title: t("labels.table.status"),
     width: 150,
     render: status => {
-      status = status === "completed" ? "Completed" : "Incomplete";
+      status =
+        status === "completed"
+          ? t("labels.table.completedStatus")
+          : t("labels.table.incompleteStatus");
 
       return (
         <Tag
           label={status}
-          style={status === "Completed" ? "primary" : "warning"}
+          style={
+            status === t("labels.table.completedStatus") ? "primary" : "warning"
+          }
         />
       );
     },

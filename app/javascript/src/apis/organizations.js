@@ -4,7 +4,8 @@ const fetch = () => axios.get("organizations");
 
 const show = () => axios.get("organizations");
 
-const update = payload => axios.put("organizations", { organization: payload });
+const update = (id, payload) =>
+  axios.put(`organizations/${id}`, { organization: payload });
 
 const organizationsApi = {
   fetch,

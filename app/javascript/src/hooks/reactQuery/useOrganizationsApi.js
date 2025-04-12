@@ -32,9 +32,9 @@ export const useFetchOrganization = () => {
 export const useUpdateOrganization = () =>
   useMutation({
     mutationKey: [QUERY_KEYS.ORGANIZATION],
-    mutationFn: async payload => {
+    mutationFn: async ({ id, payload }) => {
       try {
-        const response = await organizationsApi.update(payload);
+        const response = await organizationsApi.update(id, payload);
 
         return response;
       } catch (error) {

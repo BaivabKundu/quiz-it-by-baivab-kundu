@@ -23,7 +23,6 @@ import Navbar from "../Navbar";
 
 const SubmissionList = () => {
   const [activeTab, setActiveTab] = useState("submissions");
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false);
   const [visibleColumnKeys, setVisibleColumnKeys] = useState([
     "useName",
@@ -55,10 +54,6 @@ const SubmissionList = () => {
     searchKey: searchTerm,
     page: Number(page || DEFAULT_PAGE_INDEX),
     filters: !isEmpty(filters) ? filters : {},
-  };
-
-  const handleSelect = selectedRowKeys => {
-    setSelectedRowKeys(selectedRowKeys);
   };
 
   const {
@@ -98,6 +93,7 @@ const SubmissionList = () => {
         <SubHeaderComponent
           columns={columns}
           filterColumns={filterColumns}
+          filters={filters}
           handleColumnVisibilityChange={handleColumnVisibilityChange}
           isFilterPaneOpen={isFilterPaneOpen}
           setIsFilterPaneOpen={setIsFilterPaneOpen}
@@ -110,19 +106,16 @@ const SubmissionList = () => {
         ) : (
           <div className="custom-table">
             <NeetoTable
-              rowSelection
               columnData={filteredColumns}
               currentPageNumber={Number(meta.currentPage) || DEFAULT_PAGE_INDEX}
               defaultPageSize={meta.itemsPerPage}
               handlePageChange={handlePageNavigation}
               rowData={submissionResponse}
-              selectedRowKeys={selectedRowKeys}
               totalCount={meta.totalCount}
               paginationProps={{
                 className:
                   "custom-blue-table-pagination flex justify-start mt-4",
               }}
-              onRowSelect={handleSelect}
             />
           </div>
         )}

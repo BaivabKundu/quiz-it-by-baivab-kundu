@@ -12,17 +12,14 @@ import { t } from "i18next";
 import withTitle from "utils/withTitle";
 
 const GeneralSettings = () => {
-  const initialValues = {
-    name: "",
-  };
-
   const { data: { organization } = {} } = useFetchOrganization();
   const { mutate: updateOrganization } = useUpdateOrganization();
-  const handleSubmit = ({ name }, { resetForm }) => {
-    updateOrganization(
-      { id: organization?.id, payload: { name } },
-      { onSuccess: () => resetForm() }
-    );
+  const handleSubmit = ({ name }) => {
+    updateOrganization({ id: organization?.id, payload: { name } });
+  };
+
+  const initialValues = {
+    name: organization?.name,
   };
 
   return (

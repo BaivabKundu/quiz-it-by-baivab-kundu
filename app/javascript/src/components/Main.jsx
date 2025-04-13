@@ -76,10 +76,12 @@ const Main = () => {
           redirectRoute={routes.public.dashboard}
           render={() => <QuizAttempt />}
         />
-        <Route
+        <PrivateRoute
           exact
-          component={QuizResult}
+          condition={isRegistered}
           path={routes.public.quizzes.result}
+          redirectRoute={routes.public.dashboard}
+          render={() => <QuizResult />}
         />
         <Route exact component={Login} path={routes.admin.login} />
         <Route exact component={Signup} path={routes.admin.signup} />

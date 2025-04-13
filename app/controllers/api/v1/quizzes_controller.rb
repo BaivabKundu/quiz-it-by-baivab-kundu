@@ -52,7 +52,8 @@ class Api::V1:: QuizzesController < ApplicationController
         return render_error(t("cannot_publish_empty_quizzes", count: empty_quizzes.size))
       end
     end
-    @quizzes.update_all(bulk_update_params[:update_fields].to_h)
+    update_fields = bulk_update_params[:update_fields].to_h.merge(updated_at: Time.current)
+    @quizzes.update_all(update_fields)
     render_notice(t("successfully_updated", entity: "Quizzes"))
   end
 

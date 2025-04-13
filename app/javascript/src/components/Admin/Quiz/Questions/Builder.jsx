@@ -156,6 +156,7 @@ const QuestionBuilder = () => {
             question,
             options,
             correctOptionId: options.find(opt => opt.isCorrect)?.id || 0,
+            uniqueOptions: true,
           }}
           onAddOption={handleAddOptions}
           onCorrectAnswerChange={handleCorrectAnswerChanges}

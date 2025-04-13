@@ -49,3 +49,6 @@ en:
     render: "Rendering the report"
     generate: "Generating the PDF report"
     ready: "The PDF report is ready"
+  cannot_publish_empty_quiz: "Cannot publish a quiz with no questions"
+  cannot_publish_empty_quizzes:
+    "Cannot publish %{count} quizzes with no questions"

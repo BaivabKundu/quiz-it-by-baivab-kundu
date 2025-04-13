@@ -39,7 +39,6 @@ import {
 import routes from "../../../routes";
 
 const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
-  const [quizzes, setQuizzes] = useState([]);
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false);
   const [visibleColumnKeys, setVisibleColumnKeys] = useState([
     "category",
@@ -134,7 +133,7 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
   };
 
   const handlePublishWrapper = (slug, status) =>
-    handlePublish(slug, status, updateQuiz, reloadQuizzes, setQuizzes);
+    handlePublish(slug, status, updateQuiz, reloadQuizzes);
 
   const handleCloneWrapper = slug => handleClone(slug, cloneQuiz);
 
@@ -145,7 +144,6 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
     confirmDelete(
       quizToDelete,
       deleteQuiz,
-      setQuizzes,
       setShowDeleteAlert,
       setQuizToDelete
     );
@@ -246,8 +244,9 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
                   strong: <strong />,
                 }}
                 values={{
-                  quizName: quizzes.find(quiz => quiz.slug === quizToDelete)
-                    ?.name,
+                  quizName: quizResponse.find(
+                    quiz => quiz.slug === quizToDelete
+                  )?.name,
                 }}
               />
             </Typography>

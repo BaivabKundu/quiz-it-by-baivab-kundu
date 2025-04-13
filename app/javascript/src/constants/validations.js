@@ -86,6 +86,13 @@ export const questionSchema = yup.object().shape({
     .typeError(t("quiz.validations.correctAnswerRequired"))
     .required(t("quiz.validations.correctAnswerRequired"))
     .moreThan(0, t("quiz.validations.correctAnswerRequired")),
+  uniqueOptions: yup
+    .boolean()
+    .test(
+      "unique-options",
+      t("quiz.validations.duplicateOptions"),
+      value => value === true
+    ),
   options: yup
     .array()
     .of(

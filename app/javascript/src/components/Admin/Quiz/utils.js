@@ -3,7 +3,6 @@ export const handlePublish = (
   status,
   updateQuiz,
   reloadQuizzes,
-  setQuizzes,
   setError
 ) => {
   updateQuiz(
@@ -14,16 +13,6 @@ export const handlePublish = (
     {
       onSuccess: () => {
         reloadQuizzes();
-        setQuizzes(prevQuizzes =>
-          prevQuizzes.map(quiz =>
-            quiz.slug === slug
-              ? {
-                  ...quiz,
-                  status: status === "published" ? "Draft" : "Published",
-                }
-              : quiz
-          )
-        );
       },
       onError: error => {
         setError(error.message);
@@ -46,16 +35,12 @@ export const handleDelete = (slug, setQuizToDelete, setShowDeleteAlert) => {
 export const confirmDelete = (
   quizToDelete,
   deleteQuiz,
-  setQuizzes,
   setShowDeleteAlert,
   setQuizToDelete,
   setError
 ) => {
   deleteQuiz(quizToDelete, {
     onSuccess: () => {
-      setQuizzes(prevQuizzes =>
-        prevQuizzes.filter(quiz => quiz.slug !== quizToDelete)
-      );
       setShowDeleteAlert(false);
       setQuizToDelete(null);
     },

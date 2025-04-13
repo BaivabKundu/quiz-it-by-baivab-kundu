@@ -199,6 +199,12 @@
         "cancelButton": "No, cancel",
         "confirmButton": "Yes, delete",
         "message": "You're about to delete <strong>{{count}}</strong> quizzes. It'll be permanently deleted and we won't be able to recover it."
+      },
+      "deleteQuestion": {
+        "title": "Delete question?",
+        "confirmButton": "Yes, delete",
+        "cancelButton": "No, cancel",
+        "message": "You're about to delete <strong>{{questionName}}</strong>. It'll be permanently deleted and we won't be able to recover it."
       }
     }
   },

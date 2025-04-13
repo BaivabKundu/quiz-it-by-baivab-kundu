@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
-import { Radio, Dropdown } from "@bigbinary/neetoui";
-import { useTranslation } from "react-i18next";
+import { Radio, Dropdown, Alert, Typography } from "@bigbinary/neetoui";
+import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
   const { Menu, MenuItem, Divider } = Dropdown;
   const { Button: MenuButton } = MenuItem;
+
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
 
   const { slug } = useParams();
 
@@ -58,7 +60,7 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
               <MenuButton
                 style="danger"
                 type="delete"
-                onClick={() => handleDelete(question.id, slug)}
+                onClick={() => setShowDeleteAlert(true)}
               >
                 {t("labels.buttons.delete")}
               </MenuButton>
@@ -66,6 +68,29 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
           </Menu>
         </Dropdown>
       </div>
+      {showDeleteAlert && (
+        <Alert
+          cancelButtonLabel={t("messages.alerts.deleteQuestion.cancelButton")}
+          isOpen={showDeleteAlert}
+          submitButtonLabel={t("messages.alerts.deleteQuestion.confirmButton")}
+          title={t("messages.alerts.deleteQuestion.title")}
+          message={
+            <Typography>
+              <Trans
+                i18nKey="messages.alerts.deleteQuestion.message"
+                components={{
+                  strong: <strong />,
+                }}
+                values={{
+                  questionName: question.body,
+                }}
+              />
+            </Typography>
+          }
+          onClose={() => setShowDeleteAlert(false)}
+          onSubmit={() => handleDelete(question.id, slug)}
+        />
+      )}
     </div>
   );
 };

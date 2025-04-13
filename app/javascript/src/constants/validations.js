@@ -63,8 +63,8 @@ export const newQuizSchema = yup.object().shape({
   name: yup
     .string()
     .required(t("quiz.validations.nameRequired"))
-    .min(2, t("quiz.validations.nameMinLength"))
-    .max(100, t("quiz.validations.nameMaxLength")),
+    .min(5, t("quiz.validations.nameMinLength"))
+    .max(50, t("quiz.validations.nameMaxLength")),
   assignedCategory: yup
     .object()
     .nullable()

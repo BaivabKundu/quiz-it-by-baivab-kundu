@@ -66,7 +66,9 @@
       "nameRequired": "Quiz name is required",
       "categoryRequired": "Quiz category is required",
       "questionMinLength": "Question length must be greater than 5 characters",
-      "duplicateOptions": "Options must be unique"
+      "duplicateOptions": "Options must be unique",
+      "nameMinLength": "Quiz name length must be greater than 5 characters",
+      "nameMaxLength": "Quiz name length must be less than 50 characters"
     }
   },
   "labels": {

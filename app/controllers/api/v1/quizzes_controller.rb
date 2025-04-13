@@ -32,6 +32,10 @@ class Api::V1:: QuizzesController < ApplicationController
   end
 
   def update
+    if quiz_params[:status] == "published" && @quiz.questions.empty?
+      return render_error(t("cannot_publish_empty_quiz"))
+    end
+
     @quiz.update!(quiz_params)
     render_notice(t("successfully_updated", entity: "Quiz"))
   end
@@ -42,6 +46,12 @@ class Api::V1:: QuizzesController < ApplicationController
   end
 
   def bulk_update
+    if bulk_update_params[:update_fields][:status] == "published"
+      empty_quizzes = @quizzes.select { |quiz| quiz.questions.empty? }
+      if empty_quizzes.any?
+        return render_error(t("cannot_publish_empty_quizzes", count: empty_quizzes.size))
+      end
+    end
     @quizzes.update_all(bulk_update_params[:update_fields].to_h)
     render_notice(t("successfully_updated", entity: "Quizzes"))
   end

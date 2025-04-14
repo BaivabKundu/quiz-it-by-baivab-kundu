@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 json.organization do
-  json.extract! @organization, :id, :name
+  json.partial! 'api/v1/organizations/organization', organization: @organization
 end

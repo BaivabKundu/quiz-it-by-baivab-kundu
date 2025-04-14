@@ -190,6 +190,8 @@
     "noQuizzesAvailable": "No quizzes available",
     "noQuestionsAvailable": "No questions available",
     "noSubmissionsAvailable": "No submissions available",
+    "selectedQuiz": "{{count}} quiz selected out of {{total}}",
+    "selectedQuizzes": "{{count}} quizzes selected out of {{total}}",
     "pageNotFound": "Page not found",
     "alerts": {
       "deleteQuiz": {
@@ -202,7 +204,8 @@
         "title": "Delete quizzes?",
         "cancelButton": "No, cancel",
         "confirmButton": "Yes, delete",
-        "message": "You're about to delete <strong>{{count}}</strong> quizzes. It'll be permanently deleted and we won't be able to recover it."
+        "message": "You're about to delete <strong>{{count}}</strong> quizzes. It'll be permanently deleted and we won't be able to recover it.",
+        "quizMessage": "You're about to delete <strong>{{count}}</strong> quiz. It'll be permanently deleted and we won't be able to recover it."
       },
       "deleteQuestion": {
         "title": "Delete question?",

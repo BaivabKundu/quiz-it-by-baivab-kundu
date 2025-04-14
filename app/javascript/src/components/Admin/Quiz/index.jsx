@@ -263,15 +263,27 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
           title={t("messages.alerts.bulkDeleteQuiz.title")}
           message={
             <Typography>
-              <Trans
-                i18nKey="messages.alerts.bulkDeleteQuiz.message"
-                components={{
-                  strong: <strong />,
-                }}
-                values={{
-                  count: selectedRowKeys.length,
-                }}
-              />
+              {selectedRowKeys.length === 1 ? (
+                <Trans
+                  i18nKey="messages.alerts.bulkDeleteQuiz.quizMessage"
+                  components={{
+                    strong: <strong />,
+                  }}
+                  values={{
+                    count: selectedRowKeys.length,
+                  }}
+                />
+              ) : (
+                <Trans
+                  i18nKey="messages.alerts.bulkDeleteQuiz.message"
+                  components={{
+                    strong: <strong />,
+                  }}
+                  values={{
+                    count: selectedRowKeys.length,
+                  }}
+                />
+              )}
             </Typography>
           }
           onClose={() => setShowBulkDeleteAlert(false)}

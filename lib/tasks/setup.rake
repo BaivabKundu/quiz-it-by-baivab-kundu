@@ -96,10 +96,10 @@ def create_sample_data!
           user: user,
           quiz: quiz,
           status: "completed",
-          total_questions: quiz.questions_count,
-          correct_answers_count: rand(0..quiz.questions_count),
-          wrong_answers_count: rand(0..quiz.questions_count),
-          unanswered_count: rand(0..quiz.questions_count),
+          total_questions: quiz.questions.count,
+          correct_answers_count: rand(0..quiz.questions.count),
+          wrong_answers_count: rand(0..quiz.questions.count),
+          unanswered_count: rand(0..quiz.questions.count),
           answers: quiz.questions.map do |question|
             {
               question_id: question.id,

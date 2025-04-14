@@ -5,6 +5,7 @@ import {
   Typography,
   Alert,
   NoData,
+  Button,
 } from "@bigbinary/neetoui";
 import PageLoader from "components/Admin/commons/PageLoader";
 import {
@@ -195,6 +196,26 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
         onBulkDelete={() => setShowBulkDeleteAlert(true)}
         onBulkUpdate={handleBulkUpdateWrapper}
       />
+      {queryParams.status && queryParams.status !== "all" && (
+        <div className="my-2 flex items-center space-x-2">
+          <Typography>
+            {t("labels.quizzesStatus", {
+              status:
+                queryParams.status === "published"
+                  ? t("labels.table.publishedStatus")
+                  : t("labels.table.draftStatus"),
+            })}
+          </Typography>
+          <Button
+            label={t("labels.buttons.clear")}
+            style="secondary"
+            onClick={() => {
+              const newQueryParams = { ...queryParams, status: "all" };
+              history.replace(buildUrl(routes.admin.dashboard, newQueryParams));
+            }}
+          />
+        </div>
+      )}
       {isEmpty(quizResponse) ? (
         <div className="custom-table flex h-96 items-center justify-center">
           <NoData title={t("messages.noQuizzesAvailable")} />

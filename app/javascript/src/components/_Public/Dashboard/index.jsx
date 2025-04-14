@@ -85,6 +85,8 @@ const PublicDashboard = () => {
     );
   };
 
+  sessionStorage.clear();
+
   return (
     <div className="flex-1 overflow-auto px-4 pb-8">
       <DashboardHeader organizationName={organization?.name} />

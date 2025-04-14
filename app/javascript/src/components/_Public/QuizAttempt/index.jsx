@@ -79,7 +79,7 @@ const QuizAttempt = () => {
         },
         {
           onSuccess: () => {
-            sessionStorage.clear();
+            localStorage.clear();
             history.replace({
               pathname: `/quizzes/${slug}/${userId}/result`,
               state: {

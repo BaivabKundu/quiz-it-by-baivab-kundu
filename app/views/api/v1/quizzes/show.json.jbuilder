@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-json.extract! @quiz, :id, :name, :slug, :status, :accessibility, :submissions_count, :assigned_category_id, :creator_id, :created_at, :updated_at
-json.category do
-  json.extract! @quiz.category, :id, :name if @quiz.category
+json.partial! 'api/v1/quizzes/quiz', quiz: @quiz
+json.quiz do
+  json.category do
+    json.extract! @quiz.category, :id, :name if @quiz.category
+  end
 end

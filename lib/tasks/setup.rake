@@ -51,7 +51,7 @@ def create_sample_data!
     # Create categories
     puts "📚 Creating categories..."
     categories = 3.times.map do
-      Category.create!(name: Faker::Educator.subject)
+      Category.create!(name: Faker::Educator.unique.subject)
     end
 
     # Create quizzes and questions
@@ -61,7 +61,7 @@ def create_sample_data!
     categories.each do |category|
       2.times do
         quiz = Quiz.create!(
-          name: Faker::Educator.course_name,
+          name: Faker::Educator.unique.course_name,
           status: %w[published draft].sample,
           accessibility: ["discoverable", "hidden"].sample,
           assigned_category_id: category.id,

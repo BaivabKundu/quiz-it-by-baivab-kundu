@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::Quizzes::ClonesController < ApplicationController
-  before_action :load_quiz, only: :clone
+  before_action :load_quiz!, only: :clone
 
   def clone
     QuizCloneService.new(@quiz).process!
@@ -10,7 +10,7 @@ class Api::V1::Quizzes::ClonesController < ApplicationController
 
   private
 
-    def load_quiz
+    def load_quiz!
       @quiz = Quiz.find_by!(slug: params[:slug])
     end
 end

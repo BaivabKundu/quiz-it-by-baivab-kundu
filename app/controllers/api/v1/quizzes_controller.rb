@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-class Api::V1:: QuizzesController < ApplicationController
-  before_action :load_quiz, only: [:show, :update, :destroy]
+class Api::V1::QuizzesController < ApplicationController
+  include Paginatable
+  before_action :load_quiz!, only: [:show, :update, :destroy]
   before_action :load_quizzes, only: %i[bulk_update bulk_destroy]
   after_action :verify_policy_scoped, only: :index
 
@@ -11,14 +12,9 @@ class Api::V1:: QuizzesController < ApplicationController
     quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
 
     quizzes = SearchQuizService.new(quizzes, params[:search_key]).process
-
     quizzes = FilterQuizService.new(quizzes, params[:filters]).process
 
-    pagination_service = PaginationService.new(quizzes, index_params)
-    result = pagination_service.paginate
-
-    @quizzes = result[:records]
-    @meta = result[:meta]
+    paginate(quizzes, index_params)
   end
 
   def show
@@ -64,7 +60,7 @@ class Api::V1:: QuizzesController < ApplicationController
 
   private
 
-    def load_quiz
+    def load_quiz!
       @quiz = Quiz.find_by!(slug: params[:slug])
     end
 

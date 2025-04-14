@@ -7,11 +7,13 @@ class EvaluationService
   end
 
   def process!
-    if !@submission.nil?
-      update_submission
-    else
+    if @submission.nil?
       build_submission
+    else
+      update_submission
     end
+    @submission.answers = submission_params[:answers]
+    @submission.status = submission_params[:status]
     evaluate_answers
     @submission.save!
     @submission
@@ -24,15 +26,11 @@ class EvaluationService
       user = User.find(@params[:user_id])
       @questions = @quiz.questions
       @submission = Submission.new(user:, quiz: @quiz)
-      @submission.answers = submission_params[:answers]
-      @submission.status = submission_params[:status]
     end
 
     def update_submission
       @quiz = Quiz.find_by!(slug: @params[:slug])
       @questions = @quiz.questions
-      @submission.answers = submission_params[:answers]
-      @submission.status = submission_params[:status]
     end
 
     def generate_answer_key

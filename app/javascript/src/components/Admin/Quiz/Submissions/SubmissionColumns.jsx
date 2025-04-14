@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Tag } from "@bigbinary/neetoui";
-import { format } from "date-fns";
+import dayjs from "dayjs";
 import { t } from "i18next";
 
 export const getSubmissionColumns = () => [
@@ -22,7 +22,7 @@ export const getSubmissionColumns = () => [
     key: "createdAt",
     title: t("labels.table.submissionsDate"),
     width: 200,
-    render: date => format(new Date(date), "dd MMMM yyyy"),
+    render: date => dayjs(date).format("h:mm A, D MMMM YYYY "),
   },
   {
     dataIndex: "correctAnswersCount",

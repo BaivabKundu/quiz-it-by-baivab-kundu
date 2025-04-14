@@ -4,7 +4,10 @@ import classnames from "classnames";
 import { Login, Signup } from "components/Authentication";
 import { either, isEmpty, isNil } from "ramda";
 import { Route, Switch, useLocation } from "react-router-dom";
-import { getFromLocalStorage } from "utils/storage";
+import {
+  getFromLocalStorage,
+  getPublicUserFromLocalStorage,
+} from "utils/storage";
 
 import PublicDashboard from "./_Public/Dashboard";
 import QuizAttempt from "./_Public/QuizAttempt";
@@ -26,9 +29,11 @@ const Main = () => {
   const location = useLocation();
 
   const authToken = getFromLocalStorage("authToken");
-  const submssionId = sessionStorage.getItem("submissionId");
+  const publicUserId = getPublicUserFromLocalStorage();
+  const submissionId = sessionStorage.getItem("submissionId");
   const isLoggedIn = !either(isNil, isEmpty)(authToken);
-  const isRegistered = !either(isNil, isEmpty)(submssionId);
+  const isRegistered = !either(isNil, isEmpty)(publicUserId);
+  const isSubmitted = !either(isNil, isEmpty)(submissionId);
 
   const handleSidepane = isSidepaneOpen => {
     setIsSidebarOpen(isSidepaneOpen || false);
@@ -78,7 +83,7 @@ const Main = () => {
         />
         <PrivateRoute
           exact
-          condition={isRegistered}
+          condition={isSubmitted}
           path={routes.public.quizzes.result}
           redirectRoute={routes.public.dashboard}
           render={() => <QuizResult />}

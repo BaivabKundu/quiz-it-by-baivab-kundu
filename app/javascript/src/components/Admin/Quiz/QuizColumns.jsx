@@ -2,7 +2,7 @@ import React from "react";
 
 import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Tag, Dropdown, Tooltip } from "@bigbinary/neetoui";
-import { format } from "date-fns";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
@@ -44,7 +44,7 @@ export const getQuizColumns = (handlePublish, handleClone, handleDelete) => {
       key: "createdAt",
       title: t("labels.table.createdOn"),
       width: 200,
-      render: date => format(new Date(date), "dd MMMM yyyy"),
+      render: date => dayjs(date).format("h:mm A, D MMMM YYYY "),
     },
     {
       dataIndex: "status",

@@ -77,6 +77,8 @@
     "password": "Password",
     "confirmPassword": "Confirm Password",
     "heading": "All quizzes",
+    "publishedQuizzesHeading": "Published quizzes",
+    "draftQuizzesHeading": "Draft quizzes",
     "questions": "Questions",
     "submissions": "Submissions",
     "category": "Category",
@@ -89,6 +91,7 @@
     "editQuestion": " Edit question",
     "numberOfSubmissions": "{{count}} submissions",
     "draftTime": "Draft saved at {{time}}",
+    "quizzesStatus": "Status: {{status}}",
     "submissionPage": {
       "heading": "All submissions"
     },
@@ -174,7 +177,8 @@
       "saveAndAddNewQuestion": "Save & add new question",
       "addNewQuestion": "Add new question",
       "changeCategory": "Change category",
-      "changeStatus": "Change status"
+      "changeStatus": "Change status",
+      "clear": "Clear"
     },
     "sidePane": {
       "allQuizzesBar": "All",

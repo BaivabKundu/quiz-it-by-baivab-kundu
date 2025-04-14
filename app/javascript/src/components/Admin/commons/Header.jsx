@@ -13,7 +13,7 @@ const NeetoHeader = ({ onSearch }) => {
   const isSubmissionsPage = location.pathname.includes("/submissions");
 
   const queryParams = useQueryParams();
-  const { searchTerm } = queryParams;
+  const { searchTerm, status = "all" } = queryParams;
 
   const [searchValue, setSearchValue] = useState(searchTerm);
   const [isCreateNewQuizPaneOpen, setIsCreateNewQuizPaneOpen] = useState(false);
@@ -41,11 +41,17 @@ const NeetoHeader = ({ onSearch }) => {
             ? t("inputPlaceholders.searchInput")
             : t("inputPlaceholders.searchNameInput"),
         }}
-        title={
-          !isSubmissionsPage
-            ? t("labels.heading")
-            : t("labels.submissionPage.heading")
-        }
+        title={(() => {
+          if (isSubmissionsPage) return t("labels.submissionPage.heading");
+
+          const statusTitleMap = {
+            published: t("labels.publishedQuizzesHeading"),
+            draft: t("labels.draftQuizzesHeading"),
+            all: t("labels.heading"),
+          };
+
+          return statusTitleMap[status] || statusTitleMap.all;
+        })()}
       />
       {isCreateNewQuizPaneOpen && (
         <NewQuizPane

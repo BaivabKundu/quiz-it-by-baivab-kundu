@@ -42,6 +42,7 @@ const PublicDashboard = () => {
   const quizzesParams = {
     searchKey: searchTerm,
     page: Number(page || DEFAULT_PAGE_INDEX),
+    status: "published",
     filters: !isEmpty(filters) ? filters : {},
   };
 
@@ -86,6 +87,7 @@ const PublicDashboard = () => {
   };
 
   sessionStorage.clear();
+  localStorage.clear();
 
   return (
     <div className="flex-1 overflow-auto px-4 pb-8">

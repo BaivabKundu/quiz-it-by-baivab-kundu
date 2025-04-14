@@ -34,6 +34,12 @@ const Register = () => {
 
   const { mutate: createSubmission } = useCreateSubmission();
 
+  if (quiz?.status === "draft") {
+    history.push("/");
+
+    return null;
+  }
+
   const handleSubmit = ({ username, email }) => {
     register(
       { username, email },

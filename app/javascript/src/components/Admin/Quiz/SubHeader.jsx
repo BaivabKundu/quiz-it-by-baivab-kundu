@@ -39,7 +39,15 @@ const QuizSubHeader = ({
               </div>
             ) : (
               <Typography component="h4" style="h4">
-                {selectedRowKeys.length} quizzes selected of {meta.totalCount}
+                {selectedRowKeys.length === 1
+                  ? t("messages.selectedQuiz", {
+                      count: 1,
+                      total: meta.totalCount,
+                    })
+                  : t("messages.selectedQuizzes", {
+                      count: selectedRowKeys.length,
+                      total: meta.totalCount,
+                    })}
               </Typography>
             )}
             {hasSelected && (

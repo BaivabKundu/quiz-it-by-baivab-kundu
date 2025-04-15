@@ -50,6 +50,17 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     });
   };
 
+  const handleBackNavigation = () => {
+    if (
+      location.pathname.includes("new") ||
+      location.pathname.includes("edit")
+    ) {
+      history.push(`/admin/quizzes/${slug}/questions`);
+    } else {
+      history.push("/admin/dashboard");
+    }
+  };
+
   useEffect(() => {
     setDraftSavedAt(quiz?.updatedAt);
   }, [quiz, quiz?.status, quiz?.updatedAt]);
@@ -58,18 +69,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     <div className="border-b border-gray-200 p-4">
       <div className="flex w-full items-center">
         <div className="flex min-w-fit items-center font-medium text-gray-700">
-          <Link
-            onClick={() => {
-              if (
-                location.pathname.includes("new") ||
-                location.pathname.includes("edit")
-              ) {
-                history.push(`/admin/quizzes/${slug}/questions`);
-              } else {
-                history.push("/admin/dashboard");
-              }
-            }}
-          >
+          <Link onClick={handleBackNavigation}>
             <LeftArrow className="mx-4 h-7 w-7 rounded-full p-1 transition-all duration-200 hover:bg-gray-300 " />
           </Link>
           <Typography style="h4">

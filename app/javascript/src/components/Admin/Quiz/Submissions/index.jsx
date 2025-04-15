@@ -93,7 +93,6 @@ const SubmissionList = () => {
         <SubHeaderComponent
           columns={columns}
           filterColumns={filterColumns}
-          filters={filters}
           handleColumnVisibilityChange={handleColumnVisibilityChange}
           isFilterPaneOpen={isFilterPaneOpen}
           setIsFilterPaneOpen={setIsFilterPaneOpen}

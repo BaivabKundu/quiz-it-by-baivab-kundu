@@ -11,8 +11,11 @@ import {
 import { t } from "i18next";
 import withTitle from "utils/withTitle";
 
+import PageLoader from "../commons/PageLoader";
+
 const GeneralSettings = () => {
-  const { data: { organization } = {} } = useFetchOrganization();
+  const { data: { organization } = {}, isLoading: isOrganizationLoading } =
+    useFetchOrganization();
   const { mutate: updateOrganization } = useUpdateOrganization();
   const handleSubmit = ({ name }) => {
     updateOrganization({ id: organization?.id, payload: { name } });
@@ -21,6 +24,8 @@ const GeneralSettings = () => {
   const initialValues = {
     name: organization?.name,
   };
+
+  if (isOrganizationLoading) return <PageLoader />;
 
   return (
     <div className="m-32">

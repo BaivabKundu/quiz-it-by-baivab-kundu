@@ -49,7 +49,10 @@
       "quizNameRequired": "Quiz name is required",
       "quizCategoryRequired": "Quiz category is required",
       "quizStatusRequired": "Quiz status is required"
-    }
+    },
+    "name": "Name: {{name}}",
+    "categories": "Categories: {{categories}}",
+    "status": "Status: {{status}}"
   },
   "settings": {
     "validations": {
@@ -240,6 +243,9 @@
     }
   },
   "neetoFilters": {
+    "rules": {
+      "contains": ""
+    },
     "messages": {
       "enterResource": "Enter {{resource}}",
       "selectResource": "Select status"

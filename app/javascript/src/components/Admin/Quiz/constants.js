@@ -9,7 +9,7 @@ export const columns = [
     title: t("labels.table.name"),
     isHidable: false,
   },
-  { dataIndex: "category", key: "category", title: "Category" },
+  { dataIndex: "category", key: "category", title: t("labels.table.category") },
   {
     dataIndex: "submissionsCount",
     key: "submissionsCount",

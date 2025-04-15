@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Globe, ListDetails, Settings } from "@bigbinary/neeto-icons";
 import { Avatar } from "@bigbinary/neetoui";
 import classnames from "classnames";
+import { getFromLocalStorage } from "utils/storage";
 
 import QuizLogo from "./QuizLogo";
 import SidePane from "./SidePane";
@@ -19,6 +20,8 @@ const Sidebar = ({ onSidebarOpen }) => {
     setIsPaneOpen(false);
     onSidebarOpen(false);
   };
+
+  const userName = getFromLocalStorage("authUserName");
 
   return (
     <div
@@ -48,7 +51,13 @@ const Sidebar = ({ onSidebarOpen }) => {
           <Globe className="h-6 w-6" />
         </div>
         <div className="mb-6 flex h-full flex-col justify-end">
-          <Avatar className="mx-5 cursor-pointer" size="large" />
+          <Avatar
+            className="mx-5 cursor-pointer"
+            size="large"
+            user={{
+              name: userName,
+            }}
+          />
         </div>
       </div>
       <SidePane isOpen={isPaneOpen} />

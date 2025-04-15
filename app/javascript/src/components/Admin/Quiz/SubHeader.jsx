@@ -1,5 +1,6 @@
 import React from "react";
 
+import { Close } from "@bigbinary/neeto-icons";
 import { Typography, Button } from "@bigbinary/neetoui";
 import SubHeader from "neetomolecules/SubHeader";
 import { useTranslation } from "react-i18next";
@@ -92,32 +93,55 @@ const QuizSubHeader = ({
       {hasFilters && (
         <div className="mb-4 flex items-center">
           <Typography component="span" style="body2">
-            {(filters.name ? `Name: ${filters.name}` : "") +
-              (filters.name &&
-              (filters.selectedCategories?.length > 0 ||
-                (filters.status && Object.keys(filters.status).length > 0))
-                ? " | "
-                : "") +
-              (filters.selectedCategories?.length > 0
-                ? `Categories: ${filters.selectedCategories.join(", ")}`
-                : "") +
-              (filters.selectedCategories?.length > 0 &&
-              filters.status &&
-              Object.keys(filters.status).length > 0
-                ? " | "
-                : "") +
-              (filters.status && Object.keys(filters.status).length > 0
-                ? `Status: ${
-                    filters.status.charAt(0).toUpperCase() +
-                    filters.status.slice(1)
-                  }`
-                : "")}
+            <div className="flex space-x-2">
+              {filters.name && (
+                <Button
+                  icon={Close}
+                  style="secondary"
+                  onClick={() => onApplyFilters({ ...filters, name: "" })}
+                >
+                  <Typography>
+                    {t("filter.name", { name: filters.name })}
+                  </Typography>
+                </Button>
+              )}
+              {filters.selectedCategories?.length > 0 && (
+                <Button
+                  icon={Close}
+                  style="secondary"
+                  onClick={() =>
+                    onApplyFilters({ ...filters, selectedCategories: [] })
+                  }
+                >
+                  <Typography>
+                    {t("filter.categories", {
+                      categories: filters.selectedCategories.join(", "),
+                    })}
+                  </Typography>
+                </Button>
+              )}
+              {filters.status && Object.keys(filters.status).length > 0 && (
+                <Button
+                  icon={Close}
+                  style="secondary"
+                  onClick={() => onApplyFilters({ ...filters, status: "" })}
+                >
+                  <Typography>
+                    {t("filter.status", {
+                      status:
+                        filters.status.charAt(0).toUpperCase() +
+                        filters.status.slice(1),
+                    })}
+                  </Typography>
+                </Button>
+              )}
+            </div>
           </Typography>
           {(filters.name ||
             filters.selectedCategories?.length > 0 ||
             (filters.status && Object.keys(filters.status).length > 0)) && (
             <Button
-              className="ml-2"
+              className="ml-2 p-3"
               label={t("labels.buttons.clearFilter")}
               style="secondary"
               onClick={() => {

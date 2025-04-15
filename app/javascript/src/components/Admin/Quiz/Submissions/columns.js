@@ -50,19 +50,19 @@ export const columns = [
 export const filterColumns = [
   {
     key: "name",
-    label: "Name",
+    label: t("labels.table.name"),
     type: "text",
     node: "name",
   },
   {
     key: "email",
-    label: "Email",
+    label: t("labels.table.email"),
     type: "text",
     node: "email",
   },
   {
     key: "status",
-    label: "Status",
+    label: t("labels.table.status"),
     type: "multiSelect",
     node: "status",
     values: [

@@ -62,7 +62,9 @@ export const useCreateQuiz = () => {
     mutationKey: [QUERY_KEYS.QUIZ, "create"],
     mutationFn: async payload => {
       try {
-        await quizzesApi.create(payload);
+        const response = await quizzesApi.create(payload);
+
+        return response;
       } catch (error) {
         throw handleQuizError(error);
       }

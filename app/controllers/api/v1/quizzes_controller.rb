@@ -34,7 +34,7 @@ class Api::V1::QuizzesController < ApplicationController
   def create
     quiz = Quiz.new(quiz_params)
     quiz.save!
-    render_notice(t("successfully_created", entity: "Quiz"))
+    render json: { notice: t("successfully_created", entity: "Quiz"), slug: quiz.slug }
   end
 
   def update

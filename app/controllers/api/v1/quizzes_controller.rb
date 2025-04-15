@@ -9,12 +9,22 @@ class Api::V1::QuizzesController < ApplicationController
   def index
     scoped_quizzes = policy_scope(Quiz.all)
     quizzes = scoped_quizzes.order(created_at: :desc).includes(:category)
-    quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
 
+    total_quizzes = quizzes.count
+    published_quizzes = quizzes.published.count
+    draft_quizzes = quizzes.draft.count
+
+    quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
     quizzes = SearchQuizService.new(quizzes, params[:search_key]).process
     quizzes = FilterQuizService.new(quizzes, params[:filters]).process
 
-    paginate(quizzes, index_params)
+    paginate(
+      quizzes, index_params.merge(
+        {
+          total_quizzes: total_quizzes,
+          published_quizzes: published_quizzes,
+          draft_quizzes: draft_quizzes
+        }))
   end
 
   def show

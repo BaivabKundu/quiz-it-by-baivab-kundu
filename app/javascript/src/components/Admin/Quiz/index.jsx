@@ -92,15 +92,21 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
   };
 
   const {
-    data: { quizzes: quizResponse = [], meta = {} } = {},
+    data: {
+      quizzes: quizResponse = [],
+      meta = {},
+      totalQuizzes,
+      publishedQuizzes,
+      draftQuizzes,
+    } = {},
     isLoading: isQuizzesLoading,
     refetch: reloadQuizzes,
   } = useFetchQuizzes(quizzesParams);
 
   if (quizResponse) {
-    const allCount = meta.totalCount;
-    const publishedCount = meta.publishedCount;
-    const draftCount = meta.draftCount;
+    const allCount = totalQuizzes;
+    const publishedCount = publishedQuizzes;
+    const draftCount = draftQuizzes;
 
     setQuizCounts({ allCount, draftCount, publishedCount });
   }

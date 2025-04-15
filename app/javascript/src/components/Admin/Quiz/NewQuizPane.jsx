@@ -9,11 +9,14 @@ import { useFetchOrganization } from "hooks/reactQuery/useOrganizationsApi";
 import { useCreateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { getFromLocalStorage } from "utils/storage";
 
 const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
   const [name, setName] = useState("");
   const [assignedCategory, setAssignedCategory] = useState(null);
+
+  const history = useHistory();
 
   const { t } = useTranslation();
 
@@ -33,14 +36,21 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
   const handleCreateNewQuiz = values => {
     const { name, assignedCategory } = values;
     const userId = getFromLocalStorage("authUserId");
-    createQuiz({
-      name,
-      category: assignedCategory.value,
-      assignedCategoryId: assignedCategory.id,
-      assignedOrganizationId: organization?.id,
-      creatorId: userId,
-    });
-    onClose();
+    createQuiz(
+      {
+        name,
+        category: assignedCategory.value,
+        assignedCategoryId: assignedCategory.id,
+        assignedOrganizationId: organization?.id,
+        creatorId: userId,
+      },
+      {
+        onSuccess: response => {
+          history.push(`/admin/quizzes/${response.slug}/questions`);
+          onClose();
+        },
+      }
+    );
   };
 
   const handleClearFilters = () => {

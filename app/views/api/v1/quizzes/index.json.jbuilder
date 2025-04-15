@@ -5,4 +5,7 @@ json.quizzes @quizzes do |quiz|
   json.category quiz.category.name
 end
 
+json.total_quizzes @total_quizzes
+json.published_quizzes @published_quizzes
+json.draft_quizzes @draft_quizzes
 json.meta @meta

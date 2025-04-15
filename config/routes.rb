@@ -1,33 +1,31 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      constraints(lambda { |req| req.format == :json }) do
-        resources :users, only: [:index, :create] do
-          post :create_standard_user, on: :collection
-        end
-        resource :session, only: [:create, :destroy]
-        resources :quizzes, except: %i[new edit], param: :slug do
-          post "clone", on: :member, to: "quizzes/clones#clone"
-          collection do
-            delete :bulk_destroy
-            put :bulk_update
-          end
-        end
-        resources :questions, except: %i[new edit] do
-          post "clone", on: :member, to: "questions/clones#clone"
-        end
-        resources :submissions, only: %i[index create update] do
-          collection do
-            resource :report, only: :create, module: :submissions do
-              get :download, on: :collection
-            end
-          end
-        end
-        resources :organizations, only: [:index, :show, :update]
-        resources :categories, only: [:index, :create]
+      resources :users, only: [:index, :create] do
+        post :create_standard_user, on: :collection
       end
+      resource :session, only: [:create, :destroy]
+      resources :quizzes, except: %i[new edit], param: :slug do
+        post "clone", on: :member, to: "quizzes/clones#clone"
+        collection do
+          delete :bulk_destroy
+          put :bulk_update
+        end
+      end
+      resources :questions, except: %i[new edit] do
+        post "clone", on: :member, to: "questions/clones#clone"
+      end
+      resources :submissions, only: %i[index create update] do
+        collection do
+          resource :report, only: :create, module: :submissions do
+            get :download, on: :collection
+          end
+        end
+      end
+      resources :organizations, only: [:index, :show, :update]
+      resources :categories, only: [:index, :create]
     end
   end
 

@@ -9,6 +9,15 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def create
+    if User.exists?(email: user_params[:email].downcase)
+      render_error(t("authorization.user_email_already_exists"), :unauthorized)
+      return
+    end
+    if User.exists?(username: user_params[:username])
+      render_error(t("authorization.username_already_exists"), :unauthorized)
+      return
+    end
+
     user = User.new(user_params)
     user.save!
     render_notice(t("successfully_created", entity: "User"))
@@ -25,8 +34,8 @@ class Api::V1::UsersController < ApplicationController
     else
       user = User.new(
         user_params.merge(
-          role: :standard, password: "standard_password",
-          password_confirmation: "standard_password"))
+          role: :standard, password: "welcome1234",
+          password_confirmation: "welcome1234"))
       user.save!
       @user = user
     end

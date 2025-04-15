@@ -17,15 +17,22 @@ const GeneralSettings = () => {
   const { data: { organization } = {}, isLoading: isOrganizationLoading } =
     useFetchOrganization();
   const { mutate: updateOrganization } = useUpdateOrganization();
-  const handleSubmit = ({ name }) => {
-    updateOrganization({ id: organization?.id, payload: { name } });
+  const handleSubmit = (values, { resetForm }) => {
+    updateOrganization(
+      { id: organization?.id, payload: { name: values.name } },
+      {
+        onSuccess: () => {
+          resetForm({ values });
+        },
+      }
+    );
   };
+
+  if (isOrganizationLoading) return <PageLoader />;
 
   const initialValues = {
     name: organization?.name,
   };
-
-  if (isOrganizationLoading) return <PageLoader />;
 
   return (
     <div className="m-32">

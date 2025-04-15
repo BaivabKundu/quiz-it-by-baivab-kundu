@@ -281,7 +281,6 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
           cancelButtonLabel={t("messages.alerts.bulkDeleteQuiz.cancelButton")}
           isOpen={showBulkDeleteAlert}
           submitButtonLabel={t("messages.alerts.bulkDeleteQuiz.confirmButton")}
-          title={t("messages.alerts.bulkDeleteQuiz.title")}
           message={
             <Typography>
               {selectedRowKeys.length === 1 ? (
@@ -307,6 +306,12 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
               )}
             </Typography>
           }
+          title={t("messages.alerts.bulkDeleteQuiz.title", {
+            title:
+              selectedRowKeys.length === 1
+                ? t("labels.quiz")
+                : t("labels.quizzes"),
+          })}
           onClose={() => setShowBulkDeleteAlert(false)}
           onSubmit={handleBulkDeleteWrapper}
         />

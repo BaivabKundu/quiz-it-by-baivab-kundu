@@ -87,6 +87,8 @@
     "category": "Category",
     "status": "Status",
     "filter": "Filters",
+    "quiz": "quiz",
+    "quizzes": "quizzes",
     "addNewQuiz": "Add new quiz",
     "numberOfQuestions": "{{count}} questions",
     "questionBreadcrumb": "All questions › <strong>{{questionNumber}}</strong>",
@@ -193,7 +195,7 @@
     }
   },
   "messages": {
-    "noOfQuizzes": "{{noOfQuizzes}} quizzes",
+    "noOfQuizzes": "{{noOfQuizzes}} {{title}}",
     "noQuizzesAvailable": "No quizzes available",
     "noQuestionsAvailable": "No questions available",
     "noSubmissionsAvailable": "No submissions available",
@@ -208,7 +210,7 @@
         "message": "You're about to delete <strong>{{quizName}}</strong>. It'll be permanently deleted and we won't be able to recover it."
       },
       "bulkDeleteQuiz": {
-        "title": "Delete quizzes?",
+        "title": "Delete {{title}}?",
         "cancelButton": "No, cancel",
         "confirmButton": "Yes, delete",
         "message": "You're about to delete <strong>{{count}}</strong> quizzes. It'll be permanently deleted and we won't be able to recover it.",

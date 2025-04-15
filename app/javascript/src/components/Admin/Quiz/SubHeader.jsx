@@ -35,7 +35,13 @@ const QuizSubHeader = ({
             {!hasSelected ? (
               <div className="flex items-center space-x-2">
                 <Typography component="h4" style="h4">
-                  {t("messages.noOfQuizzes", { noOfQuizzes: meta.totalCount })}
+                  {t("messages.noOfQuizzes", {
+                    noOfQuizzes: meta.totalCount,
+                    title:
+                      meta.totalCount === 1
+                        ? t("labels.quiz")
+                        : t("labels.quizzes"),
+                  })}
                 </Typography>
               </div>
             ) : (

@@ -160,7 +160,6 @@ const FilterPane = ({
               />
               <Button
                 className="px-5"
-                disabled={!dirty}
                 label={t("labels.buttons.clearFilter")}
                 style="text"
                 onClick={handleClearFilters}

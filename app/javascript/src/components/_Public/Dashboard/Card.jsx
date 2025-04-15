@@ -17,7 +17,7 @@ const Card = ({ quiz: { name, category, questionsCount, slug } }) => {
           />
         </Typography>
         <Tag
-          className="p-2"
+          className="p-2 text-black"
           style="info"
           label={
             <Trans
@@ -29,7 +29,7 @@ const Card = ({ quiz: { name, category, questionsCount, slug } }) => {
         />
       </div>
       <div>
-        <Typography className="mb-4 text-gray-600">
+        <Typography className="mb-4 font-semibold text-black">
           <Trans
             components={{ span: <span /> }}
             i18nKey="labels.publicQuizCard.questionsCount"

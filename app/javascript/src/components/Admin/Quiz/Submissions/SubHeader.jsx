@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Button,
-  Modal,
-  ProgressBar,
-  Toastr,
-  Typography,
-} from "@bigbinary/neetoui";
+import { Bar as FiltersBar } from "@bigbinary/neeto-filters-frontend";
+import { Modal, ProgressBar, Toastr, Typography } from "@bigbinary/neetoui";
 import createConsumer from "channels/consumer";
 import { subscribeToReportDownloadChannel } from "channels/reportDownloadChannel";
 import FileSaver from "file-saver";
@@ -16,10 +11,7 @@ import {
 } from "hooks/reactQuery/useSubmissionsApi";
 import SubHeader from "neetomolecules/SubHeader";
 import { useTranslation } from "react-i18next";
-import {
-  useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const SubHeaderComponent = ({
   submissionResponse,
@@ -28,7 +20,6 @@ const SubHeaderComponent = ({
   handleColumnVisibilityChange,
   columns,
   filterColumns,
-  filters,
 }) => {
   const { t } = useTranslation();
 
@@ -37,10 +28,6 @@ const SubHeaderComponent = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { slug } = useParams();
-
-  const history = useHistory();
-
-  const hasFilters = filters && Object.keys(filters).length > 0;
 
   const consumer = createConsumer();
 
@@ -135,42 +122,11 @@ const SubHeaderComponent = ({
           />
         </div>
       </Modal>
-      {hasFilters && (
-        <div className="mb-4 flex items-center">
-          <Typography component="span" style="body2">
-            {(filters.name ? `Name: ${filters.name}` : "") +
-              (filters.name &&
-              (filters.email ||
-                (filters.status && Object.keys(filters.status).length > 0))
-                ? " | "
-                : "") +
-              (filters.email ? `Email: ${filters.email}` : "") +
-              (filters.email &&
-              filters.status &&
-              Object.keys(filters.status).length > 0
-                ? " | "
-                : "") +
-              (filters.status && Object.keys(filters.status).length > 0
-                ? `Status: ${
-                    filters.status.charAt(0).toUpperCase() +
-                    filters.status.slice(1)
-                  }`
-                : "")}
-          </Typography>
-          {(filters.name ||
-            filters.email ||
-            (filters.status && Object.keys(filters.status).length > 0)) && (
-            <Button
-              className="ml-2"
-              label={t("labels.buttons.clearFilter")}
-              style="secondary"
-              onClick={() => {
-                history.push(`/admin/quizzes/${slug}/submissions`);
-              }}
-            />
-          )}
-        </div>
-      )}
+      <FiltersBar
+        className="mb-4"
+        columns={filterColumns}
+        setIsPaneOpen={setIsFilterPaneOpen}
+      />
     </div>
   );
 };

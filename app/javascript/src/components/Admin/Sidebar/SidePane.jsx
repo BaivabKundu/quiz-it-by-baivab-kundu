@@ -57,7 +57,7 @@ const SidePane = ({ isOpen }) => {
         userName: null,
       });
       resetAuthTokens();
-      window.location.href = "/admin/login";
+      history.replace("/admin/login");
     } catch (error) {
       logger.error(error);
     }
@@ -167,6 +167,9 @@ const SidePane = ({ isOpen }) => {
             <Avatar
               className="mr-3 h-12 w-12 rounded-full bg-blue-200"
               size="large"
+              user={{
+                name: userName,
+              }}
             />
             <div>
               <Typography className="text-xl font-medium text-gray-800">

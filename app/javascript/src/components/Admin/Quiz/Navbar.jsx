@@ -17,6 +17,8 @@ import {
   useLocation,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
+import { buildRoute } from "utils/url";
 
 const Navbar = ({ activeTab, setActiveTab }) => {
   const { slug } = useParams();
@@ -55,9 +57,9 @@ const Navbar = ({ activeTab, setActiveTab }) => {
       location.pathname.includes("new") ||
       location.pathname.includes("edit")
     ) {
-      history.push(`/admin/quizzes/${slug}/questions`);
+      history.push(buildRoute(routes.admin.quizzes.questions, slug));
     } else {
-      history.push("/admin/dashboard");
+      history.push(routes.admin.dashboard);
     }
   };
 
@@ -89,7 +91,9 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                 active={activeTab === "questions"}
                 onClick={() => {
                   setActiveTab("questions");
-                  history.push(`/admin/quizzes/${slug}/questions`);
+                  history.push(
+                    buildRoute(routes.admin.quizzes.questions, slug)
+                  );
                 }}
               >
                 {t("labels.questions")}
@@ -98,7 +102,9 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                 active={activeTab === "submissions"}
                 onClick={() => {
                   setActiveTab("questions");
-                  history.push(`/admin/quizzes/${slug}/submissions`);
+                  history.push(
+                    buildRoute(routes.admin.quizzes.submissions, slug)
+                  );
                 }}
               >
                 {t("labels.submissions")}
@@ -111,22 +117,26 @@ const Navbar = ({ activeTab, setActiveTab }) => {
             !location.pathname.includes("edit") &&
             !location.pathname.includes("submissions") && (
               <div className="flex items-center">
-                {currentQuizStatus === "draft" && (
-                  <Typography className="mr-2 flex items-center text-sm text-gray-500">
-                    <Trans
-                      components={{ span: <span /> }}
-                      i18nKey="labels.draftTime"
-                      values={{
-                        time: dayjs(draftSavedAt).format(
-                          "h:mm A, D MMMM YYYY "
-                        ),
-                      }}
-                    />
-                  </Typography>
-                )}
+                {currentQuizStatus === "draft" &&
+                  quiz?.questionsCount !== 0 && (
+                    <Typography className="mr-2 flex items-center text-sm text-gray-500">
+                      <Trans
+                        components={{ span: <span /> }}
+                        i18nKey="labels.draftTime"
+                        values={{
+                          time: dayjs(draftSavedAt).format(
+                            "h:mm A, D MMMM YYYY "
+                          ),
+                        }}
+                      />
+                    </Typography>
+                  )}
                 <Button
                   className="mx-1 rounded-r-none bg-blue-600"
-                  disabled={currentQuizStatus === "published"}
+                  disabled={
+                    currentQuizStatus === "published" ||
+                    quiz?.questionsCount === 0
+                  }
                   label={
                     currentQuizStatus === "published"
                       ? t("labels.buttons.published")
@@ -146,7 +156,10 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   style="text"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/quizzes/${slug}/register`
+                      `${window.location.origin}${buildRoute(
+                        routes.public.quizzes.register,
+                        slug
+                      )}`
                     );
                     Toastr.success("Link copied to clipboard!");
                   }}

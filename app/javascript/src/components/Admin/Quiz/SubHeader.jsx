@@ -2,14 +2,15 @@ import React from "react";
 
 import { Close } from "@bigbinary/neeto-icons";
 import { Typography, Button } from "@bigbinary/neetoui";
+import useQueryParams from "hooks/useQueryParams";
 import SubHeader from "neetomolecules/SubHeader";
+import { mergeLeft, omit } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { buildUrl } from "utils/url";
 
 import BulkActions from "./BulkActions";
-
-import routes from "../../../routes";
 
 const QuizSubHeader = ({
   meta,
@@ -23,7 +24,11 @@ const QuizSubHeader = ({
   onApplyFilters,
 }) => {
   const history = useHistory();
+
   const { t } = useTranslation();
+
+  const queryParams = useQueryParams();
+
   const hasSelected = selectedRowKeys.length > 0;
   const hasFilters = filters && Object.keys(filters).length > 0;
 
@@ -36,7 +41,7 @@ const QuizSubHeader = ({
               <div className="flex items-center space-x-2">
                 <Typography component="h4" style="h4">
                   {t("messages.noOfQuizzes", {
-                    noOfQuizzes: meta.totalCount,
+                    noOfQuizzes: meta.totalCount || 0,
                     title:
                       meta.totalCount === 1
                         ? t("labels.quiz")
@@ -104,7 +109,15 @@ const QuizSubHeader = ({
                 <Button
                   icon={Close}
                   style="secondary"
-                  onClick={() => onApplyFilters({ ...filters, name: "" })}
+                  onClick={() => {
+                    onApplyFilters({ ...filters, name: "" });
+                    history.push(
+                      buildUrl(
+                        routes.admin.dashboard,
+                        mergeLeft(omit(["filter_name"], queryParams))
+                      )
+                    );
+                  }}
                 >
                   <Typography>
                     {t("filter.name", { name: filters.name })}
@@ -115,9 +128,15 @@ const QuizSubHeader = ({
                 <Button
                   icon={Close}
                   style="secondary"
-                  onClick={() =>
-                    onApplyFilters({ ...filters, selectedCategories: [] })
-                  }
+                  onClick={() => {
+                    onApplyFilters({ ...filters, selectedCategories: [] });
+                    history.push(
+                      buildUrl(
+                        routes.admin.dashboard,
+                        mergeLeft(omit(["filter_categories"], queryParams))
+                      )
+                    );
+                  }}
                 >
                   <Typography>
                     {t("filter.categories", {
@@ -130,7 +149,15 @@ const QuizSubHeader = ({
                 <Button
                   icon={Close}
                   style="secondary"
-                  onClick={() => onApplyFilters({ ...filters, status: "" })}
+                  onClick={() => {
+                    onApplyFilters({ ...filters, status: "" });
+                    history.push(
+                      buildUrl(
+                        routes.admin.dashboard,
+                        mergeLeft(omit(["filter_status"], queryParams))
+                      )
+                    );
+                  }}
                 >
                   <Typography>
                     {t("filter.status", {

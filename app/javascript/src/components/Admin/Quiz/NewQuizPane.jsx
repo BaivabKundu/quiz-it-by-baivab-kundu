@@ -1,5 +1,3 @@
-import { newQuizSchema } from "constants/validations";
-
 import React, { useState } from "react";
 
 import { Pane, Typography, Button } from "@bigbinary/neetoui";
@@ -10,7 +8,11 @@ import { useCreateQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { getFromLocalStorage } from "utils/storage";
+import { buildRoute } from "utils/url";
+
+import { newQuizSchema } from "./constants";
 
 const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
   const [name, setName] = useState("");
@@ -40,13 +42,15 @@ const NewQuizPane = ({ isOpen, initialValues, onClose }) => {
       {
         name,
         category: assignedCategory.value,
-        assignedCategoryId: assignedCategory.id,
-        assignedOrganizationId: organization?.id,
+        categoryId: assignedCategory.id,
+        organizationId: organization?.id,
         creatorId: userId,
       },
       {
         onSuccess: response => {
-          history.push(`/admin/quizzes/${response.slug}/questions`);
+          history.push(
+            buildRoute(routes.admin.quizzes.questions, response.slug)
+          );
           onClose();
         },
       }

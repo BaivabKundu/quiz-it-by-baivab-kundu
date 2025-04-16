@@ -18,7 +18,7 @@ const BulkActions = ({ selectedRowKeys, onBulkUpdate, onBulkDelete }) => {
   );
 
   const handleCategoryChange = categoryId => {
-    onBulkUpdate({ assignedCategoryId: categoryId });
+    onBulkUpdate({ categoryId });
   };
 
   const { Menu, MenuItem, Divider } = Dropdown;

@@ -31,8 +31,4 @@ module Authenticable
         render_error(t("session.could_not_auth"), :unauthorized)
       end
     end
-
-    def current_user
-      @current_user
-    end
 end

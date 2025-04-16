@@ -74,6 +74,10 @@ const SubHeaderComponent = ({
           <Typography component="h4" style="h4">
             {t("labels.numberOfSubmissions", {
               count: submissionResponse.length,
+              title:
+                submissionResponse.length === 1
+                  ? t("labels.submission")
+                  : t("labels.submission(s)"),
             })}
           </Typography>
         }

@@ -3,7 +3,8 @@
 class Category < ApplicationRecord
   MAX_NAME_LENGTH = 100
 
-  has_many :assigned_quizzes, foreign_key: :assigned_category_id, class_name: "Quiz"
+  belongs_to :organization
+  has_many :quizzes, foreign_key: :category_id, class_name: "Quiz"
 
-  validates :name, presence: true, uniqueness: true, length: { maximum: MAX_NAME_LENGTH }
+  validates :name, presence: true, uniqueness: { scope: :organization_id }, length: { maximum: MAX_NAME_LENGTH }
 end

@@ -7,59 +7,45 @@ class Api::V1::QuizzesController < ApplicationController
   after_action :verify_policy_scoped, only: :index
 
   def index
-    scoped_quizzes = policy_scope(Quiz.all)
-    quizzes = scoped_quizzes.order(created_at: :desc).includes(:category)
+    quizzes = policy_scope(Quiz.all).order(created_at: :desc).includes(:category)
 
-    total_quizzes = quizzes.count
-    published_quizzes = quizzes.published.count
-    draft_quizzes = quizzes.draft.count
+    @total_quizzes = quizzes.count
+    @published_quizzes = quizzes.published.count
+    @draft_quizzes = quizzes.draft.count
 
-    quizzes = quizzes.where(status: params[:status].downcase) if params[:status].present? && params[:status] != "all"
-    quizzes = SearchQuizService.new(quizzes, params[:search_key]).process
-    quizzes = FilterQuizService.new(quizzes, params[:filters]).process
+    quizzes = FilterQuizService.new(quizzes, params[:filters], params[:search_key], params[:status]).process
 
-    paginate(
-      quizzes, index_params.merge(
-        {
-          total_quizzes: total_quizzes,
-          published_quizzes: published_quizzes,
-          draft_quizzes: draft_quizzes
-        }))
+    paginate(quizzes, index_params)
   end
 
   def show
+    authorize @quiz
     render
   end
 
   def create
-    quiz = Quiz.new(quiz_params)
-    quiz.save!
+    quiz = @current_organization.quizzes.create!(quiz_params)
+    authorize quiz
     render json: { notice: t("successfully_created", entity: "Quiz"), slug: quiz.slug }
   end
 
   def update
-    if quiz_params[:status] == "published" && @quiz.questions.empty?
-      return render_error(t("cannot_publish_empty_quiz"))
-    end
-
+    authorize @quiz
     @quiz.update!(quiz_params)
     render_notice(t("successfully_updated", entity: "Quiz"))
   end
 
   def destroy
+    authorize @quiz
     @quiz.destroy
     render_notice(t("successfully_deleted", entity: "Quiz"))
   end
 
   def bulk_update
-    if bulk_update_params[:update_fields][:status] == "published"
-      empty_quizzes = @quizzes.select { |quiz| quiz.questions.empty? }
-      if empty_quizzes.any?
-        return render_error(t("cannot_publish_empty_quizzes", count: empty_quizzes.size))
-      end
-    end
     update_fields = bulk_update_params[:update_fields].to_h.merge(updated_at: Time.current)
-    @quizzes.update_all(update_fields)
+    @quizzes.each do |quiz|
+      quiz.update!(update_fields)
+    end
     render_notice(t("successfully_updated", entity: "Quizzes"))
   end
 
@@ -71,7 +57,7 @@ class Api::V1::QuizzesController < ApplicationController
   private
 
     def load_quiz!
-      @quiz = Quiz.find_by!(slug: params[:slug])
+      @quiz = @current_organization.quizzes.find_by!(slug: params[:slug])
     end
 
     def quiz_params
@@ -79,8 +65,8 @@ class Api::V1::QuizzesController < ApplicationController
         :name,
         :status,
         :accessibility,
-        :assigned_category_id,
-        :assigned_organization_id,
+        :category_id,
+        :organization_id,
         :submissions_count,
         :creator_id
       )
@@ -88,7 +74,7 @@ class Api::V1::QuizzesController < ApplicationController
 
     def bulk_update_params
       params.require(:quizzes)
-        .permit(update_fields: [:status, :assigned_category_id], id: [])
+        .permit(update_fields: [:status, :category_id], id: [])
     end
 
     def load_quizzes

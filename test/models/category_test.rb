@@ -30,13 +30,13 @@ class CategoryTest < ActiveSupport::TestCase
     assert_includes @category.errors.full_messages, "Name is too long (maximum is #{Category::MAX_NAME_LENGTH} characters)"
   end
 
-  def test_has_many_assigned_quizzes
-    assert_respond_to @category, :assigned_quizzes
+  def test_has_many_quizzes
+    assert_respond_to @category, :quizzes
   end
 
-  def test_assigned_quizzes_association
+  def test_quizzes_association
     @category.save!
     quiz = create(:quiz, category: @category)
-    assert_includes @category.reload.assigned_quizzes, quiz
+    assert_includes @category.reload.quizzes, quiz
   end
 end

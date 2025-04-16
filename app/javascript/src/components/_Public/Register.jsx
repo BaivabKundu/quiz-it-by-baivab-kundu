@@ -1,5 +1,3 @@
-import { registrationSchema } from "constants/validations";
-
 import React from "react";
 
 import { Typography, Button } from "@bigbinary/neetoui";
@@ -13,18 +11,19 @@ import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { getPublicUserFromLocalStorage } from "utils/storage";
+import { buildRoute } from "utils/url";
 import withTitle from "utils/withTitle";
 
-const Register = () => {
-  const initialValues = {
-    username: "",
-    email: "",
-  };
+import { registrationInitialValues, registrationSchema } from "./constants";
 
+import ErrorPageLayout from "../Admin/commons/ErrorPageLayout";
+
+const Register = () => {
   const { slug } = useParams();
 
-  const { data: quiz } = useShowQuiz(slug);
+  const { data: quiz, error } = useShowQuiz(slug);
 
   const { t } = useTranslation();
 
@@ -45,19 +44,23 @@ const Register = () => {
       { username, email },
       {
         onSuccess: () => {
-          history.push(`/quizzes/${slug}/attempt`);
+          history.push(buildRoute(routes.public.quizzes.attempt, slug));
           const userAnswers = [];
           const userId = getPublicUserFromLocalStorage();
           createSubmission({
             slug,
             userId,
-            userAnswers,
+            answers: userAnswers,
             status: "incomplete",
           });
         },
       }
     );
   };
+
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
 
   return (
     <div
@@ -75,9 +78,16 @@ const Register = () => {
             values={{ quizName: quiz?.name }}
           />
         </Typography>
+        <Typography className="text-md my-2 text-center">
+          <Trans
+            components={{ strong: <strong /> }}
+            i18nKey="labels.publicRegistrationPage.subheading"
+            values={{ quizName: quiz?.name }}
+          />
+        </Typography>
         <NeetoUIForm
           formikProps={{
-            initialValues,
+            initialValues: registrationInitialValues,
             validationSchema: registrationSchema,
             onSubmit: handleSubmit,
           }}

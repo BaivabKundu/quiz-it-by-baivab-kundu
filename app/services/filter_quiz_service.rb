@@ -1,12 +1,17 @@
 # frozen_string_literal: true
 
 class FilterQuizService
-  def initialize(quizzes, filters)
+  def initialize(quizzes, filters, search_key, status)
     @quizzes = quizzes
     @filters = filters
+    @search_key = search_key
+    @status = status
   end
 
   def process
+    filter_by_search_key
+    filter_for_public_pages
+
     return @quizzes if @filters.blank?
 
     filter_by_name
@@ -17,6 +22,18 @@ class FilterQuizService
   end
 
   private
+
+    def filter_for_public_pages
+      return if @status.blank? || @status == "all"
+
+      @quizzes = @quizzes.where(status: @status.downcase)
+    end
+
+    def filter_by_search_key
+      return if @search_key.blank?
+
+      @quizzes = @quizzes.where("LOWER(quizzes.name) LIKE ?", "%#{@search_key.downcase}%")
+    end
 
     def filter_by_name
       return if @filters[:name].blank?

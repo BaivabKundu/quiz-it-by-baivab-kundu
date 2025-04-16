@@ -1,27 +1,18 @@
 import axios from "axios";
 import { browserTimeZone } from "utils/browserTimeZone";
 
-const fetch = (slug, { searchKey, page, filters }) =>
+const fetch = ({ ...payload }) =>
   axios.get("/submissions", {
-    params: {
-      slug,
-      searchKey,
-      page,
-      filters,
-    },
+    params: payload,
   });
 
-const create = (slug, userId, userAnswers, status) =>
+const create = payload =>
   axios.post("/submissions", {
-    slug,
-    user_id: userId,
-    answers: userAnswers,
-    status,
+    submission: payload,
   });
 
-const update = (id, slug, payload) =>
+const update = (id, { ...payload }) =>
   axios.put(`/submissions/${id}`, {
-    slug,
     submission: payload,
   });
 

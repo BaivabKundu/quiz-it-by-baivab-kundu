@@ -10,8 +10,8 @@ class Api::V1::QuizzesControllerTest < ActionDispatch::IntegrationTest
         name: "New Quiz",
         status: "draft",
         accessibility: "discoverable",
-        assigned_category_id: create(:category).id,
-        assigned_organization_id: create(:organization).id,
+        category_id: create(:category).id,
+        organization_id: create(:organization).id,
         submissions_count: 0,
         creator_id: create(:user).id
       }

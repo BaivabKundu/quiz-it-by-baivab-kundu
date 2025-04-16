@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 class Api::V1::CategoriesController < ApplicationController
-  skip_before_action :authenticate_user_using_x_auth_token
-
   def index
-    @categories = Category.all
+    @categories = @current_organization.categories
   end
 
   def create
-    category = Category.new(category_params)
-    category.save!
+    @current_organization.categories.create!(category_params)
     render_notice(t("successfully_created", entity: "Category"))
   end
 

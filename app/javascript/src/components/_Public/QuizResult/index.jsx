@@ -5,6 +5,7 @@ import { Button, Typography } from "@bigbinary/neetoui";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import withTitle from "utils/withTitle";
 
 import ShowQuestionResult from "./ShowQuestionResult";
@@ -63,7 +64,7 @@ const QuizResult = () => {
               className="flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white hover:bg-blue-700"
               icon={LeftArrow}
               iconPosition="left"
-              to="/"
+              to={routes.public.dashboard}
             >
               {t("labels.buttons.home")}
             </Button>

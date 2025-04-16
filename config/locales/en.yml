@@ -32,8 +32,9 @@
 en:
   authorization:
     denied: "Access denied. You are not authorized to perform this action."
-    user_email_already_exists: "This email address is already associated with an existing user. Please use a different email address."
-    username_already_exists: "This username is already associated with an existing user. Please use a different username."
+    user_email_already_exists: "This email address belongs to an existing user. Please use a different email address."
+    username_already_exists: "This username belongs to an existing user. Please use a different username."
+    admin_user_exists: "Admins can't give quiz."
   session:
     could_not_auth: "Could not authenticate with the provided credentials."
     incorrect_credentials: "Incorrect credentials, try again."

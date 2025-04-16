@@ -1,5 +1,3 @@
-import { questionSchema } from "constants/validations";
-
 import React from "react";
 
 import { Checkmark, Delete } from "@bigbinary/neeto-icons";
@@ -7,6 +5,8 @@ import { Button } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 import classNames from "classnames";
 import { t } from "i18next";
+
+import { questionSchema } from "./constants";
 
 const QuestionForm = ({
   options,

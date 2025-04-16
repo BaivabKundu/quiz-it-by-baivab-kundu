@@ -8,10 +8,10 @@ class AssignUsersToOrganization < ActiveRecord::Migration[7.1]
       updated_at: Time.current
     )
 
-    User.update_all(assigned_organization_id: organization.id)
+    User.update_all(organization_id: organization.id)
   end
 
   def down
-    User.update_all(assigned_organization_id: nil)
+    User.update_all(organization_id: nil)
   end
 end

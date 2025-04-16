@@ -18,9 +18,6 @@ module Paginatable
 
     instance_variable_set("@#{relation.model.name.underscore.pluralize}", paginated_records)
     @meta = meta
-    @total_quizzes = params[:total_quizzes]
-    @published_quizzes = params[:published_quizzes]
-    @draft_quizzes = params[:draft_quizzes]
   end
 
   private

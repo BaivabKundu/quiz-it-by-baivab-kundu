@@ -30,23 +30,23 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes @organization.errors.full_messages, "Name is too long (maximum is #{Organization::MAX_NAME_LENGTH} characters)"
   end
 
-  def test_has_many_assigned_users
-    assert_respond_to @organization, :assigned_users
+  def test_has_many_users
+    assert_respond_to @organization, :users
   end
 
-  def test_has_many_assigned_quizzes
-    assert_respond_to @organization, :assigned_quizzes
+  def test_has_many_quizzes
+    assert_respond_to @organization, :quizzes
   end
 
-  def test_assigned_users_association
+  def test_users_association
     @organization.save!
-    user = create(:user, assigned_organization: @organization)
-    assert_includes @organization.reload.assigned_users, user
+    user = create(:user, organization: @organization)
+    assert_includes @organization.reload.users, user
   end
 
-  def test_assigned_quizzes_association
+  def test_quizzes_association
     @organization.save!
     quiz = create(:quiz, organization: @organization)
-    assert_includes @organization.reload.assigned_quizzes, quiz
+    assert_includes @organization.reload.quizzes, quiz
   end
 end

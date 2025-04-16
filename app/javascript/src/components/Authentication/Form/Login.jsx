@@ -1,11 +1,12 @@
-import { loginSchema } from "constants/validations";
-
 import React from "react";
 
 import { Button, Typography } from "@bigbinary/neetoui";
 import { Input, Form as NeetoUIForm } from "@bigbinary/neetoui/formik";
 import { t } from "i18next";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
+
+import { loginSchema } from "../constants";
 
 const Login = ({ handleSubmit, initialValues, loading }) => (
   <div
@@ -21,7 +22,7 @@ const Login = ({ handleSubmit, initialValues, loading }) => (
       </Typography>
       <div className="text-center">
         <Link
-          to="/admin/signup"
+          to={routes.admin.signup}
           className=" mt-2 text-center text-sm font-medium
             text-blue-400 transition duration-150 ease-in-out
             focus:underline focus:outline-none"

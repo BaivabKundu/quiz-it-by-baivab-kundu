@@ -25,6 +25,7 @@ const alias = {
   constants: absolutePath("src/constants"),
   contexts: absolutePath("src/contexts"),
   reducers: absolutePath("src/reducers"),
+  routes: absolutePath("src/routes.js"),
   hooks: absolutePath("src/hooks"),
   stores: absolutePath("src/stores"),
   neetoui: "@bigbinary/neetoui",

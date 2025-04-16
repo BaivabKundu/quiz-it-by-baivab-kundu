@@ -1,5 +1,3 @@
-import { filterSchema } from "constants/validations";
-
 import React, { useState } from "react";
 
 import { Pane, Typography, Button } from "@bigbinary/neetoui";
@@ -8,9 +6,10 @@ import { useFetchCategories } from "hooks/reactQuery/useCategoriesApi";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { buildUrl } from "utils/url";
 
-import routes from "../../../routes";
+import { filterSchema } from "./constants";
 
 const FilterPane = ({
   isOpen,

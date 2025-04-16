@@ -20,10 +20,11 @@ import useQueryParams from "hooks/useQueryParams";
 import { mergeLeft, isEmpty } from "ramda";
 import { useTranslation, Trans } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { useQuizzesStore } from "stores/useQuizzesStore";
 import { buildUrl } from "utils/url";
 
-import { DEFAULT_PAGE_INDEX, columns } from "./constants";
+import { DEFAULT_PAGE_INDEX, columns, filterInitialValues } from "./constants";
 import FilterPane from "./FilterPane";
 import { getQuizColumns } from "./QuizColumns";
 import QuizSubHeader from "./SubHeader";
@@ -37,7 +38,7 @@ import {
   handleBulkDelete,
 } from "./utils";
 
-import routes from "../../../routes";
+import ErrorPageLayout from "../commons/ErrorPageLayout";
 
 const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
   const [isFilterPaneOpen, setIsFilterPaneOpen] = useState(false);
@@ -54,6 +55,8 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
   const { t } = useTranslation();
 
   const history = useHistory();
+
+  localStorage.removeItem("publicUser");
 
   const queryParams = useQueryParams();
   const {
@@ -101,6 +104,7 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
     } = {},
     isLoading: isQuizzesLoading,
     refetch: reloadQuizzes,
+    error,
   } = useFetchQuizzes(quizzesParams);
 
   if (quizResponse) {
@@ -188,6 +192,10 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
     );
   };
 
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
+
   return (
     <div className="px-4 py-8">
       <QuizSubHeader
@@ -247,12 +255,8 @@ const QuizList = ({ selectedRowKeys, onSelectRowKeys }) => {
       {isFilterPaneOpen && (
         <FilterPane
           currentFilters={filters}
+          initialValues={filterInitialValues}
           isOpen={isFilterPaneOpen}
-          initialValues={{
-            name: "",
-            selectedCategories: [],
-            status: "",
-          }}
           onApplyFilters={handleApplyFilters}
           onClose={() => setIsFilterPaneOpen(false)}
         />

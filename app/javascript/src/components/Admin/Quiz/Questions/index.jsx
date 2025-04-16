@@ -11,10 +11,13 @@ import { t } from "i18next";
 import { isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
+import { buildRoute } from "utils/url";
 import withTitle from "utils/withTitle";
 
 import QuestionDisplayCard from "./DisplayCard";
 
+import ErrorPageLayout from "../../commons/ErrorPageLayout";
 import Navbar from "../Navbar";
 
 const QuizCreation = () => {
@@ -27,6 +30,7 @@ const QuizCreation = () => {
   const {
     data: { questions: questionResponse = [] } = {},
     isLoading: isQuestionsLoading,
+    error,
   } = useFetchQuestions(slug);
 
   const { mutate: deleteQuestion } = useDeleteQuestion();
@@ -45,6 +49,10 @@ const QuizCreation = () => {
     });
   };
 
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
+
   if (isQuestionsLoading) {
     return (
       <div className="flex h-screen w-screen items-center justify-center">
@@ -61,7 +69,7 @@ const QuizCreation = () => {
           <Link
             className="rounded-md bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
             to={{
-              pathname: `/admin/quizzes/${slug}/question/new`,
+              pathname: buildRoute(routes.admin.quizzes.question.new, slug),
               state: { questionNumber: questionResponse.length + 1 },
             }}
           >
@@ -81,6 +89,10 @@ const QuizCreation = () => {
                     <Typography>
                       {t("labels.numberOfQuestions", {
                         count: questionResponse.length,
+                        title:
+                          questionResponse.length === 1
+                            ? t("labels.question")
+                            : t("labels.question(s)"),
                       })}
                     </Typography>
                   </div>

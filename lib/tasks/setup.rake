@@ -44,14 +44,14 @@ def create_sample_data!
 
     # Create users
     puts "👤 Creating users..."
-    admin = User.create!(username: "Oliver Smith", email: "oliver@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "admin", assigned_organization_id: organization.id)
-    user1 = User.create!(username: "Luna Smith", email: "luna@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "standard", assigned_organization_id: organization.id)
-    user2 = User.create!(username: "Sam Smith", email: "sam@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "standard", assigned_organization_id: organization.id)
+    admin = User.create!(username: "Oliver Smith", email: "oliver@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "admin", organization_id: organization.id)
+    user1 = User.create!(username: "Luna Smith", email: "luna@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "standard", organization_id: organization.id)
+    user2 = User.create!(username: "Sam Smith", email: "sam@example.com", password: "welcome1234", password_confirmation: "welcome1234", role: "standard", organization_id: organization.id)
 
     # Create categories
     puts "📚 Creating categories..."
     categories = 3.times.map do
-      Category.create!(name: Faker::Educator.unique.subject)
+      Category.create!(name: Faker::Educator.unique.subject, organization_id: organization.id)
     end
 
     # Create quizzes and questions
@@ -64,8 +64,8 @@ def create_sample_data!
           name: Faker::Educator.unique.course_name,
           status: %w[published draft].sample,
           accessibility: ["discoverable", "hidden"].sample,
-          assigned_category_id: category.id,
-          assigned_organization_id: organization.id,
+          category_id: category.id,
+          organization_id: organization.id,
           creator_id: admin.id,
           questions_count: 0,
           submissions_count: 0

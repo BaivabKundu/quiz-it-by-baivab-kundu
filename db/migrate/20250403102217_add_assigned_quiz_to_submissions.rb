@@ -2,6 +2,6 @@
 
 class AddAssignedQuizToSubmissions < ActiveRecord::Migration[7.1]
   def change
-    add_column :submissions, :assigned_quiz_id, :uuid
+    add_column :submissions, :quiz_id, :uuid
   end
 end

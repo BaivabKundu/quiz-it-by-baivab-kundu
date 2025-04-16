@@ -7,10 +7,14 @@ import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { getPublicUserFromLocalStorage } from "utils/storage";
+import { buildRoute } from "utils/url";
 import withTitle from "utils/withTitle";
 
 import ShowQuestion from "./ShowQuestion";
+
+import ErrorPageLayout from "../../Admin/commons/ErrorPageLayout";
 
 const QuizAttempt = () => {
   const history = useHistory();
@@ -19,7 +23,7 @@ const QuizAttempt = () => {
 
   const userId = getPublicUserFromLocalStorage();
 
-  const { data: { questions: questionResponse = [] } = {} } =
+  const { data: { questions: questionResponse = [] } = {}, error } =
     useFetchQuestions(slug);
 
   const { mutate: updateSubmission } = useUpdateSubmission();
@@ -55,8 +59,8 @@ const QuizAttempt = () => {
       if (submissionId) {
         updateSubmission({
           id: submissionId,
-          slug,
           payload: {
+            slug,
             answers: userAnswers,
             status: "incomplete",
           },
@@ -71,17 +75,17 @@ const QuizAttempt = () => {
       updateSubmission(
         {
           id: submissionId,
-          slug,
           payload: {
+            slug,
             answers: userAnswers,
             status: "completed",
           },
         },
         {
           onSuccess: () => {
-            localStorage.clear();
+            localStorage.removeItem("publicUser");
             history.replace({
-              pathname: `/quizzes/${slug}/${userId}/result`,
+              pathname: buildRoute(routes.public.quizzes.result, slug, userId),
               state: {
                 answers: userAnswers,
                 questions: questionResponse,
@@ -92,6 +96,10 @@ const QuizAttempt = () => {
       );
     }
   };
+
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
 
   return (
     <ShowQuestion

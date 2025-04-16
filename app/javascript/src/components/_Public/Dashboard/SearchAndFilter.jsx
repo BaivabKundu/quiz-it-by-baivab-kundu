@@ -2,12 +2,11 @@ import React from "react";
 
 import { Search, Filter as FilterIcon } from "@bigbinary/neeto-icons";
 import { Dropdown, Input, Select, Typography } from "@bigbinary/neetoui";
-import { mergeLeft } from "ramda";
+import { mergeLeft, omit } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { buildUrl } from "utils/url";
-
-import routes from "../../../routes";
 
 const SearchAndFilter = ({
   searchValue,
@@ -34,7 +33,9 @@ const SearchAndFilter = ({
           history.push(
             buildUrl(
               routes.public.dashboard,
-              mergeLeft({ searchTerm: event.target.value }, queryParams)
+              event.target.value.trim()
+                ? mergeLeft({ searchTerm: event.target.value }, queryParams)
+                : omit(["searchTerm"], queryParams)
             )
           );
         }}

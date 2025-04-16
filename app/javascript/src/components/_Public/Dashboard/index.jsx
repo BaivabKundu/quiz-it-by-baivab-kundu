@@ -9,6 +9,7 @@ import { t } from "i18next";
 import { mergeLeft, isEmpty } from "ramda";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { buildUrl } from "utils/url";
 import withTitle from "utils/withTitle";
 
@@ -17,7 +18,7 @@ import { DEFAULT_PAGE_INDEX } from "./constants";
 import DashboardHeader from "./Header";
 import SearchAndFilter from "./SearchAndFilter";
 
-import routes from "../../../routes";
+import ErrorPageLayout from "../../Admin/commons/ErrorPageLayout";
 
 const PublicDashboard = () => {
   const history = useHistory();
@@ -46,7 +47,7 @@ const PublicDashboard = () => {
     filters: !isEmpty(filters) ? filters : {},
   };
 
-  const { data: { quizzes: quizResponse = [], meta = {} } = {} } =
+  const { data: { quizzes: quizResponse = [], meta = {} } = {}, error } =
     useFetchQuizzes(quizzesParams);
   const { data: { organization } = {} } = useFetchOrganization();
   const { data: { categories = [] } = {} } = useFetchCategories();
@@ -87,7 +88,11 @@ const PublicDashboard = () => {
   };
 
   sessionStorage.clear();
-  localStorage.clear();
+  localStorage.removeItem("publicUser");
+
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
 
   return (
     <div className="flex-1 overflow-auto px-4 pb-8">

@@ -2,6 +2,8 @@ import React from "react";
 
 import { Button, Tag, Typography } from "@bigbinary/neetoui";
 import { useTranslation, Trans } from "react-i18next";
+import routes from "routes";
+import { buildRoute } from "utils/url";
 
 const Card = ({ quiz: { name, category, questionsCount, slug } }) => {
   const { t } = useTranslation();
@@ -40,7 +42,7 @@ const Card = ({ quiz: { name, category, questionsCount, slug } }) => {
           className="w-full justify-center rounded bg-blue-600 py-3 text-center text-white transition-colors hover:bg-blue-700"
           disabled={questionsCount === 0}
           label={t("labels.buttons.startQuiz")}
-          to={`/quizzes/${slug}/register`}
+          to={buildRoute(routes.public.quizzes.register, slug)}
         />
       </div>
     </div>

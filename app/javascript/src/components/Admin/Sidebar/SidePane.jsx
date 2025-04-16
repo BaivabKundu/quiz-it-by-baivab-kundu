@@ -19,11 +19,10 @@ import {
   useHistory,
   useLocation,
 } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import { useQuizzesStore } from "stores/useQuizzesStore";
 import { getFromLocalStorage, setToLocalStorage } from "utils/storage";
 import { buildUrl } from "utils/url";
-
-import routes from "../../../routes";
 
 const SidePane = ({ isOpen }) => {
   const { t } = useTranslation();
@@ -57,7 +56,7 @@ const SidePane = ({ isOpen }) => {
         userName: null,
       });
       resetAuthTokens();
-      history.replace("/admin/login");
+      history.replace(routes.admin.login);
     } catch (error) {
       logger.error(error);
     }
@@ -78,7 +77,7 @@ const SidePane = ({ isOpen }) => {
           <div className="my-2">
             <NavLink
               activeClassName="bg-black text-white"
-              to="/admin/dashboard"
+              to={routes.admin.dashboard}
               className={classnames(
                 "my-2 flex items-center space-x-4 rounded-lg p-2",
                 {
@@ -125,7 +124,7 @@ const SidePane = ({ isOpen }) => {
           </div>
           <NavLink
             activeClassName="bg-black text-white"
-            to="/admin/settings"
+            to={routes.admin.settings.base}
             className={classnames(
               "my-2 flex items-center space-x-4 rounded-lg p-2",
               {
@@ -141,7 +140,7 @@ const SidePane = ({ isOpen }) => {
           <NavLink
             rel="noopener noreferrer"
             target="_blank"
-            to="/"
+            to={routes.public.dashboard}
             activeClassName={
               !location.pathname.includes("admin") ? "bg-black text-white" : ""
             }
@@ -152,7 +151,7 @@ const SidePane = ({ isOpen }) => {
               }
             )}
             onClick={() => {
-              localStorage.clear();
+              localStorage.removeItem("publicUser");
             }}
           >
             <Globe className="h-6 w-6" />

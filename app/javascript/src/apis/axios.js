@@ -49,7 +49,10 @@ const handleErrorResponse = axiosErrorObject => {
   }
 
   Toastr.error(
-    axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION
+    axiosErrorObject.response?.data?.error || DEFAULT_ERROR_NOTIFICATION,
+    {
+      autoClose: 2000,
+    }
   );
 
   return Promise.reject(axiosErrorObject);

@@ -1,5 +1,3 @@
-import { generalSettingSchema } from "constants/validations";
-
 import React from "react";
 
 import { Typography, Button } from "@bigbinary/neetoui";
@@ -11,12 +9,20 @@ import {
 import { t } from "i18next";
 import withTitle from "utils/withTitle";
 
+import { generalSettingsSchema } from "./constants";
+
+import ErrorPageLayout from "../commons/ErrorPageLayout";
 import PageLoader from "../commons/PageLoader";
 
 const GeneralSettings = () => {
-  const { data: { organization } = {}, isLoading: isOrganizationLoading } =
-    useFetchOrganization();
+  const {
+    data: { organization } = {},
+    isLoading: isOrganizationLoading,
+    error,
+  } = useFetchOrganization();
+
   const { mutate: updateOrganization } = useUpdateOrganization();
+
   const handleSubmit = (values, { resetForm }) => {
     updateOrganization(
       { id: organization?.id, payload: { name: values.name } },
@@ -34,6 +40,10 @@ const GeneralSettings = () => {
     name: organization?.name,
   };
 
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
+
   return (
     <div className="m-32">
       <Typography className="mb-1 text-4xl font-bold">
@@ -45,7 +55,7 @@ const GeneralSettings = () => {
       <NeetoUIForm
         formikProps={{
           initialValues,
-          validationSchema: generalSettingSchema,
+          validationSchema: generalSettingsSchema,
           onSubmit: handleSubmit,
         }}
       >

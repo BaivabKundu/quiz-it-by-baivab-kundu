@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 class EvaluationService
-  def initialize(params, submission = nil)
+  def initialize(params, submission = nil, current_organization = nil)
     @params = params
     @submission = submission
+    @current_organization = current_organization
   end
 
   def process!
+    @quiz = @current_organization.quizzes.find_by!(slug: @params[:slug])
     if @submission.nil?
       build_submission
     else
       update_submission
     end
-    @submission.answers = submission_params[:answers]
-    @submission.status = submission_params[:status]
+    @submission.answers = @params[:answers]
+    @submission.status = @params[:status]
     evaluate_answers
     @submission.save!
     @submission
@@ -22,14 +24,12 @@ class EvaluationService
   private
 
     def build_submission
-      @quiz = Quiz.find_by!(slug: @params[:slug])
-      user = User.find(@params[:user_id])
+      user = @current_organization.users.find(@params[:user_id])
       @questions = @quiz.questions
       @submission = Submission.new(user:, quiz: @quiz)
     end
 
     def update_submission
-      @quiz = Quiz.find_by!(slug: @params[:slug])
       @questions = @quiz.questions
     end
 
@@ -52,7 +52,9 @@ class EvaluationService
         selected_choice = answer["selected_option_index"]
         correct_answer = answer_key[question_id]
 
-        if selected_choice == correct_answer
+        if selected_choice.nil?
+          next
+        elsif selected_choice == correct_answer
           correct_answers_count += 1
         else
           wrong_answers_count += 1
@@ -64,9 +66,5 @@ class EvaluationService
       @submission.correct_answers_count = correct_answers_count
       @submission.wrong_answers_count = wrong_answers_count
       @submission.unanswered_count = total_questions - correct_answers_count - wrong_answers_count
-    end
-
-    def submission_params
-      @params.require(:submission).permit(:status, answers: [:question_id, :selected_option_index])
     end
 end

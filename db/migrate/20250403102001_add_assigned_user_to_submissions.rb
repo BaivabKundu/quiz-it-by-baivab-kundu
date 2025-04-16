@@ -2,6 +2,6 @@
 
 class AddAssignedUserToSubmissions < ActiveRecord::Migration[7.1]
   def change
-    add_column :submissions, :assigned_user_id, :uuid
+    add_column :submissions, :attempter_id, :uuid
   end
 end

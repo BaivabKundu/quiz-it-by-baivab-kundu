@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
+ActiveRecord::Schema[7.1].define(version: 2025_04_16_061232) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "organization_id", null: false
+    t.index ["organization_id"], name: "index_categories_on_organization_id"
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -73,9 +75,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.string "accessibility", default: "discoverable", null: false
     t.string "status", default: "published", null: false
     t.string "slug", null: false
-    t.uuid "assigned_category_id"
+    t.uuid "category_id"
     t.uuid "creator_id"
-    t.uuid "assigned_organization_id"
+    t.uuid "organization_id"
     t.index ["slug"], name: "index_quizzes_on_slug", unique: true
   end
 
@@ -87,8 +89,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status", default: "incomplete", null: false
-    t.uuid "assigned_user_id"
-    t.uuid "assigned_quiz_id"
+    t.uuid "attempter_id"
+    t.uuid "quiz_id"
     t.jsonb "answers", default: [], null: false
   end
 
@@ -100,12 +102,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_04_09_112139) do
     t.datetime "updated_at", null: false
     t.string "authentication_token"
     t.string "role", default: "standard", null: false
-    t.uuid "assigned_organization_id"
+    t.uuid "organization_id"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["username"], name: "index_users_on_username", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "categories", "organizations"
   add_foreign_key "questions", "quizzes"
 end

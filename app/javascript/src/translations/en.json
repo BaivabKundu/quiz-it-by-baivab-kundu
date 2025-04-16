@@ -90,7 +90,11 @@
     "quiz": "quiz",
     "quizzes": "quizzes",
     "addNewQuiz": "Add new quiz",
-    "numberOfQuestions": "{{count}} questions",
+    "numberOfQuestions": "{{count}} {{title}}",
+    "question": "question",
+    "question(s)": "questions",
+    "submission": "submission",
+    "submission(s)": "submissions",
     "questionBreadcrumb": "All questions › <strong>{{questionNumber}}</strong>",
     "questionNumber": " Question {{questionNumber}}",
     "editQuestion": " Edit question",
@@ -148,7 +152,8 @@
       "unanswered": "Unanswered"
     },
     "publicRegistrationPage": {
-      "heading": "{{quizName}}"
+      "heading": "{{quizName}}",
+      "subheading": "Register to give quiz <strong>{{quizName}}</strong>"
     },
     "organizationName": "<strong>{{name}}</strong>",
     "tooltips": {
@@ -242,6 +247,20 @@
     },
     "common": {
       "download": "Download report"
+    },
+    "errorPage": {
+      "backToHome": "Back to home",
+      "contactUs": "",
+      "internalServerError": "The server encountered an error and could not complete your request.",
+      "cantBeFound": "The page you're looking for is missing.",
+      "forbidden": "You don't have permissions to access this page.",
+      "unauthorized": "You are not authorized to access this page",
+      "title": {
+        "cantBeFound": "Page not found",
+        "forbidden": "Forbidden",
+        "internalServerError": "Internal server error",
+        "unauthorized": "Unauthorized access"
+      }
     }
   },
   "neetoFilters": {

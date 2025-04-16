@@ -12,14 +12,19 @@ const handleSubmissionError = error => {
   return error;
 };
 
-export const useFetchSubmissions = (slug, params) => {
+export const useFetchSubmissions = (slug, { searchKey, page, filters }) => {
   const queryClient = useQueryClient();
 
   const queryConfig = {
-    queryKey: [QUERY_KEYS.SUBMISSION, slug, params],
+    queryKey: [QUERY_KEYS.SUBMISSION, slug, searchKey, page, filters],
     queryFn: async () => {
       try {
-        const response = await submissionsApi.fetch(slug, params);
+        const response = await submissionsApi.fetch({
+          slug,
+          searchKey,
+          page,
+          filters,
+        });
 
         return response;
       } catch (error) {
@@ -54,14 +59,9 @@ export const useCreateSubmission = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ slug, userId, userAnswers, status }) => {
+    mutationFn: async payload => {
       try {
-        const response = await submissionsApi.create(
-          slug,
-          userId,
-          userAnswers,
-          status
-        );
+        const response = await submissionsApi.create(payload);
         sessionStorage.setItem("submissionId", response.id);
 
         return response;
@@ -81,9 +81,9 @@ export const useUpdateSubmission = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, slug, payload }) => {
+    mutationFn: async ({ id, payload }) => {
       try {
-        const response = await submissionsApi.update(id, slug, payload);
+        const response = await submissionsApi.update(id, payload);
 
         return response;
       } catch (error) {
@@ -93,6 +93,10 @@ export const useUpdateSubmission = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.SUBMISSION],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
       });
     },
   });

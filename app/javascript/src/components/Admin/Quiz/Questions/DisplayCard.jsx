@@ -4,6 +4,8 @@ import { MenuHorizontal } from "@bigbinary/neeto-icons";
 import { Radio, Dropdown, Alert, Typography } from "@bigbinary/neetoui";
 import { Trans, useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
+import { buildRoute } from "utils/url";
 
 const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
   const { Menu, MenuItem, Divider } = Dropdown;
@@ -44,7 +46,11 @@ const QuestionDisplayCard = ({ question, handleDelete, handleClone }) => {
             <MenuItem>
               <MenuButton
                 style="link"
-                to={`/admin/quizzes/${slug}/questions/${question.id}/edit`}
+                to={buildRoute(
+                  routes.admin.quizzes.question.edit,
+                  slug,
+                  question.id
+                )}
               >
                 {t("labels.buttons.edit")}
               </MenuButton>

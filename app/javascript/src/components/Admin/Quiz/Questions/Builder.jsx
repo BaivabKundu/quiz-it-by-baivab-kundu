@@ -25,6 +25,7 @@ import {
   handleSubmitAndAddNew,
 } from "./utils";
 
+import ErrorPageLayout from "../../commons/ErrorPageLayout";
 import Navbar from "../Navbar";
 
 const QuestionBuilder = () => {
@@ -53,6 +54,7 @@ const QuestionBuilder = () => {
   const {
     data: { quiz: { question: questionData } = {} } = {},
     isLoading: isQuestionLoading,
+    error,
   } = useShowQuestion(isEditMode ? questionId : null, isEditMode ? slug : null);
 
   const { mutate: updateQuestion } = useUpdateQuestion();
@@ -126,6 +128,10 @@ const QuestionBuilder = () => {
     id => handleRemoveOption(options, setOptions)(id),
     [options]
   );
+
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
 
   return (
     <div className="ml-16 w-full">

@@ -1,3 +1,6 @@
+import routes from "routes";
+import { buildRoute } from "utils/url";
+
 export const handleSubmit =
   (isEditMode, updateQuestion, createQuestion, questionId, slug, history) =>
   values => {
@@ -15,7 +18,9 @@ export const handleSubmit =
           },
         },
         {
-          onSuccess: () => history.push(`/admin/quizzes/${slug}/questions`),
+          onSuccess: () => {
+            history.push(buildRoute(routes.admin.quizzes.questions, slug));
+          },
         }
       );
     } else {
@@ -30,7 +35,7 @@ export const handleSubmit =
         },
         {
           onSuccess: () => {
-            history.push(`/admin/quizzes/${slug}/questions`);
+            history.push(buildRoute(routes.admin.quizzes.questions, slug));
           },
         }
       );

@@ -12,6 +12,38 @@ class QuizPolicy
     user.admin? && quiz.creator_id == user.id
   end
 
+  def public_and_admin?
+    user.nil? || (user.admin? ? admin_and_creator? : true)
+  end
+
+  def index?
+    true
+  end
+
+  def show?
+    public_and_admin?
+  end
+
+  def create?
+    user.admin?
+  end
+
+  def update?
+    admin_and_creator?
+  end
+
+  def destroy?
+    admin_and_creator?
+  end
+
+  def bulk_update?
+    create?
+  end
+
+  def bulk_destroy?
+    create?
+  end
+
   class Scope
     attr_reader :user, :scope
 

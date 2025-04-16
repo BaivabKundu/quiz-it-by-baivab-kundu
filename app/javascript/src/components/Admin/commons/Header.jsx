@@ -6,6 +6,7 @@ import Header from "neetomolecules/Header";
 import { Button } from "neetoui";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
 
+import { newQuizInitialValues } from "../Quiz/constants";
 import NewQuizPane from "../Quiz/NewQuizPane";
 
 const NeetoHeader = ({ onSearch }) => {
@@ -55,11 +56,8 @@ const NeetoHeader = ({ onSearch }) => {
       />
       {isCreateNewQuizPaneOpen && (
         <NewQuizPane
+          initialValues={newQuizInitialValues}
           isOpen={isCreateNewQuizPaneOpen}
-          initialValues={{
-            name: "",
-            assignedCategory: null,
-          }}
           onClose={() => setIsCreateNewQuizPaneOpen(false)}
         />
       )}

@@ -11,12 +11,14 @@ import {
   useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
-import { buildUrl } from "utils/url";
+import routes from "routes";
+import { buildUrl, buildRoute } from "utils/url";
 import withTitle from "utils/withTitle";
 
 import { submissionColumns, columns, filterColumns } from "./columns";
 import SubHeaderComponent from "./SubHeader";
 
+import ErrorPageLayout from "../../commons/ErrorPageLayout";
 import NeetoHeader from "../../commons/Header";
 import { DEFAULT_PAGE_INDEX } from "../constants";
 import Navbar from "../Navbar";
@@ -59,6 +61,7 @@ const SubmissionList = () => {
   const {
     data: { submissions: submissionResponse = [], meta = {} } = {},
     isLoading: isSubmissionsLoading,
+    error,
   } = useFetchSubmissions(slug, submissionsParams);
 
   if (isSubmissionsLoading) {
@@ -72,7 +75,7 @@ const SubmissionList = () => {
   const handlePageNavigation = newPage => {
     history.push(
       buildUrl(
-        `/admin/quizzes/${slug}/submissions`,
+        buildRoute(routes.admin.quizzes.submisions, slug),
         mergeLeft({ page: newPage }, queryParams)
       )
     );
@@ -84,6 +87,10 @@ const SubmissionList = () => {
   const filteredColumns = submissionColumns.filter(
     column => visibleColumnKeys.includes(column.key) || column.key === "action"
   );
+
+  if (error) {
+    return <ErrorPageLayout status={error.response.status} />;
+  }
 
   return (
     <div className="ml-16 flex w-full flex-1 flex-col overflow-hidden">

@@ -5,7 +5,7 @@ require "test_helper"
 class UserTest < ActiveSupport::TestCase
   def setup
     @organization = create(:organization)
-    @user = build(:user, :admin, assigned_organization: @organization)
+    @user = build(:user, :admin, organization: @organization)
   end
 
   def test_username_cannot_be_blank
@@ -54,11 +54,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_belongs_to_organization
-    assert_respond_to @user, :assigned_organization
+    assert_respond_to @user, :organization
   end
 
   def test_has_many_quizzes
-    assert_respond_to @user, :assigned_quizzes
+    assert_respond_to @user, :quizzes
   end
 
   def test_email_is_downcased_before_save
@@ -76,7 +76,7 @@ class UserTest < ActiveSupport::TestCase
       password: "password123",
       password_confirmation: "password123"
     )
-    assert_equal Organization.first, new_user.assigned_organization
+    assert_equal Organization.first, new_user.organization
   end
 
   def test_authentication_token_is_generated
@@ -107,7 +107,7 @@ class UserTest < ActiveSupport::TestCase
   def test_organization_presence_validation
     User.skip_callback(:validation, :before, :assign_default_organization)
 
-    @user.assigned_organization_id = nil
+    @user.organization_id = nil
     assert_not @user.valid?
     assert_includes @user.errors.full_messages, "Assigned organization can't be blank"
 

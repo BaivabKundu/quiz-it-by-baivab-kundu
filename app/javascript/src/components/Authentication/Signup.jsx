@@ -3,8 +3,10 @@ import React from "react";
 import { useSignup } from "hooks/reactQuery/useAuthApi";
 import { t } from "i18next";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import routes from "routes";
 import withTitle from "utils/withTitle";
 
+import { signupInitialValues } from "./constants";
 import SignupForm from "./Form/Signup";
 
 const Signup = () => {
@@ -14,7 +16,7 @@ const Signup = () => {
 
   const handleSubmit = values => {
     signup(values, {
-      onSuccess: () => history.push("/admin/login"),
+      onSuccess: () => history.push(routes.admin.login),
     });
   };
 
@@ -22,13 +24,8 @@ const Signup = () => {
     <div className="w-full">
       <SignupForm
         handleSubmit={handleSubmit}
+        initialValues={signupInitialValues}
         loading={isLoading}
-        initialValues={{
-          username: "",
-          email: "",
-          password: "",
-          password_confirmation: "",
-        }}
       />
     </div>
   );

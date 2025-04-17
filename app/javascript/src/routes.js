@@ -11,6 +11,14 @@ const routes = {
         edit: "/admin/quizzes/:slug/questions/:id/edit",
       },
       submissions: "/admin/quizzes/:slug/submissions",
+      configure: {
+        base: "/admin/quizzes/:slug/configure",
+        visibility: "/admin/quizzes/:slug/configure/visibility",
+        quiz_timing: "/admin/quizzes/:slug/configure/quiz_timing",
+        randomize: "/admin/quizzes/:slug/configure/randomize",
+        email_notifications:
+          "/admin/quizzes/:slug/configure/email_notifications",
+      },
     },
     settings: {
       base: "/admin/settings",

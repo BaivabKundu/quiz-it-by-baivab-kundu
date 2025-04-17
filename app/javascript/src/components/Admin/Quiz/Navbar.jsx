@@ -109,13 +109,25 @@ const Navbar = ({ activeTab, setActiveTab }) => {
               >
                 {t("labels.submissions")}
               </Tab.Item>
+              <Tab.Item
+                active={activeTab === "configuration"}
+                onClick={() => {
+                  setActiveTab("questions");
+                  history.push(
+                    buildRoute(routes.admin.quizzes.configure.base, slug)
+                  );
+                }}
+              >
+                {t("labels.configure")}
+              </Tab.Item>
             </Tab>
           </div>
         </div>
         <div className="flex w-96 items-center justify-end">
           {!location.pathname.includes("new") &&
             !location.pathname.includes("edit") &&
-            !location.pathname.includes("submissions") && (
+            !location.pathname.includes("submissions") &&
+            !location.pathname.includes("configure") && (
               <div className="flex items-center">
                 {currentQuizStatus === "draft" &&
                   quiz?.questionsCount !== 0 && (
@@ -149,7 +161,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
                   disabled={currentQuizStatus === "draft"}
                   icon={ExternalLink}
                   target="_blank"
-                  to={`/quizzes/${slug}/register`}
+                  to={buildRoute(routes.public.register, slug)}
                 />
                 <Button
                   disabled={currentQuizStatus === "draft"}

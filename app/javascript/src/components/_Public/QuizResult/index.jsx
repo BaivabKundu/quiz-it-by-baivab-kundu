@@ -38,7 +38,7 @@ const QuizResult = () => {
   }).length;
 
   const incorrectCount = answers.filter(answer => {
-    if (!answer) return false;
+    if (!answer || answer.selectedOptionIndex === null) return false;
 
     const correctAnswer = correctAnswers.find(
       question => question.questionId === answer.questionId
@@ -51,6 +51,8 @@ const QuizResult = () => {
   }).length;
 
   const unansweredCount = totalQuestions - correctCount - incorrectCount;
+
+  localStorage.removeItem("publicUser");
 
   return (
     <div className="mx-auto w-full overflow-y-auto p-6">

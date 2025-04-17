@@ -44,6 +44,7 @@ const PublicDashboard = () => {
     searchKey: searchTerm,
     page: Number(page || DEFAULT_PAGE_INDEX),
     status: "published",
+    accessibility: "discoverable",
     filters: !isEmpty(filters) ? filters : {},
   };
 

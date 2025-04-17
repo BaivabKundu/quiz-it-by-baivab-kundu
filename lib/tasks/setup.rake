@@ -31,7 +31,7 @@ end
 #
 def delete_all_records_from_all_tables
   if Rails.env.production?
-    raise "deleting all records in production is not alllowed"
+    raise "deleting all records in production is not allowed"
   else
     Rake::Task["db:schema:load"].invoke
   end
@@ -62,8 +62,8 @@ def create_sample_data!
       2.times do
         quiz = Quiz.create!(
           name: Faker::Educator.unique.course_name,
-          status: %w[published draft].sample,
-          accessibility: ["discoverable", "hidden"].sample,
+          status: "draft",
+          accessibility: "hidden",
           category_id: category.id,
           organization_id: organization.id,
           creator_id: admin.id,

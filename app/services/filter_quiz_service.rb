@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 class FilterQuizService
-  def initialize(quizzes, filters, search_key, status)
+  def initialize(quizzes, filters, search_key, status, accessibility)
     @quizzes = quizzes
     @filters = filters
     @search_key = search_key
     @status = status
+    @accessibility = accessibility
   end
 
   def process
@@ -26,7 +27,7 @@ class FilterQuizService
     def filter_for_public_pages
       return if @status.blank? || @status == "all"
 
-      @quizzes = @quizzes.where(status: @status.downcase)
+      @quizzes = @quizzes.where(status: @status.downcase, accessibility: @accessibility.downcase)
     end
 
     def filter_by_search_key

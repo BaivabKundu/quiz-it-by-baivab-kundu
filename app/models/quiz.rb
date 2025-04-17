@@ -12,7 +12,7 @@ class Quiz < ApplicationRecord
   attribute :status, :string, default: "published"
   attribute :accessibility, :string, default: "discoverable"
   enum :status, { draft: "draft", published: "published" }, default: :draft
-  enum :accessibility, { discoverable: "discoverable", hidden: "hidden" }, default: :discoverable
+  enum :accessibility, { discoverable: "discoverable", hidden: "hidden" }, default: :hidden
 
   belongs_to :category, foreign_key: "category_id", class_name: "Category"
   belongs_to :creator, foreign_key: "creator_id", class_name: "User"

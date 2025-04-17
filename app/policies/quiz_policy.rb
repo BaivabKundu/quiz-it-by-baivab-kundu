@@ -63,7 +63,7 @@ class QuizPolicy
         if user
           { creator_id: user.id, users: { role: :admin } }
         else
-          { status: :published }
+          { status: :published, accessibility: :discoverable }
         end
       end
   end

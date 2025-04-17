@@ -67,6 +67,7 @@ class Api::V1::QuizzesController < ApplicationController
         :name,
         :status,
         :accessibility,
+        :time_limit,
         :category_id,
         :organization_id,
         :submissions_count,

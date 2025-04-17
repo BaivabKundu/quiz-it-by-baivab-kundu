@@ -7,6 +7,7 @@ import QuizResult from "./_Public/QuizResult";
 import Register from "./_Public/Register";
 import QuizDashboard from "./Admin/Dashboard";
 import ConfigureQuiz from "./Admin/Quiz/Configuration";
+import QuizTiming from "./Admin/Quiz/Configuration/Timing";
 import QuizVisibility from "./Admin/Quiz/Configuration/Visibility";
 import QuizQuestions from "./Admin/Quiz/Questions";
 import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
@@ -88,6 +89,14 @@ export const getRouteConfig = (isLoggedIn, isRegistered, isSubmitted) => ({
     {
       path: routes.admin.quizzes.configure.visibility,
       component: QuizVisibility,
+      exact: true,
+      private: true,
+      condition: isLoggedIn,
+      redirect: routes.admin.login,
+    },
+    {
+      path: routes.admin.quizzes.configure.quiz_timing,
+      component: QuizTiming,
       exact: true,
       private: true,
       condition: isLoggedIn,

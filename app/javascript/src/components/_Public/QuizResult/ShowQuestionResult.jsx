@@ -11,9 +11,12 @@ const ShowQuestionResult = ({
   correctAnswer,
   questionIndex,
 }) => {
+  const isAnswered =
+    userAnswer?.selectedOptionIndex !== null && userAnswer !== undefined;
+
   const isCorrect =
-    userAnswer?.selectedOptionIndex === correctAnswer?.correctOptionId;
-  const isAnswered = userAnswer !== undefined && userAnswer !== null;
+    isAnswered &&
+    userAnswer.selectedOptionIndex === correctAnswer?.correctOptionId;
 
   const { t } = useTranslation();
 

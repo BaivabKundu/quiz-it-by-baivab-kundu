@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
+import classnames from "classnames";
 import { useFetchQuestions } from "hooks/reactQuery/useQuestionsApi";
+import { useShowQuiz } from "hooks/reactQuery/useQuizzesApi";
 import { useUpdateSubmission } from "hooks/reactQuery/useSubmissionsApi";
 import { t } from "i18next";
 import {
@@ -23,26 +25,73 @@ const QuizAttempt = () => {
 
   const userId = getPublicUserFromLocalStorage();
 
+  const { data: quiz } = useShowQuiz(slug);
+
   const { data: { questions: questionResponse = [] } = {}, error } =
     useFetchQuestions(slug);
 
   const { mutate: updateSubmission } = useUpdateSubmission();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState(
-    questionResponse.map(question => ({
-      questionId: question.id,
-      selectedOptionIndex: null,
-    }))
-  );
+
+  const userAnswersRef = useRef([]);
+  const [userAnswers, setUserAnswers] = useState([]);
+
+  useEffect(() => {
+    if (questionResponse.length > 0 && userAnswersRef.current.length === 0) {
+      const initialAnswers = questionResponse.map(question => ({
+        questionId: question.id,
+        selectedOptionIndex: null,
+      }));
+      userAnswersRef.current = initialAnswers;
+      setUserAnswers(initialAnswers);
+    }
+  }, [questionResponse]);
+
+  const timeLimitMins = quiz?.timeLimit || 0;
+  const [remainingTime, setRemainingTime] = useState(timeLimitMins * 60);
+
+  const formatHHMMSS = secs => {
+    const h = String(Math.floor(secs / 3600)).padStart(2, "0");
+    const m = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
+    const s = String(secs % 60).padStart(2, "0");
+
+    return `${h}:${m}:${s}`;
+  };
+
+  useEffect(() => {
+    if (timeLimitMins <= 0) return;
+    const key = `quizStartTime_${slug}`;
+    let start = parseInt(sessionStorage.getItem(key), 10);
+    if (!start) {
+      start = Date.now();
+      sessionStorage.setItem(key, start);
+    }
+
+    const tick = () => {
+      const elapsed = Math.floor((Date.now() - start) / 1000);
+      const rem = timeLimitMins * 60 - elapsed;
+      setRemainingTime(rem > 0 ? rem : 0);
+      if (rem <= 0) {
+        clearInterval(timerId);
+        handleSubmission();
+      }
+    };
+
+    tick();
+    const timerId = setInterval(tick, 1000);
+
+    // eslint-disable-next-line consistent-return
+    return () => clearInterval(timerId);
+  }, [timeLimitMins, slug]);
 
   const handleAnswerSelect = optionIndex => {
-    const newAnswers = [...userAnswers];
-    const currentQuestionId = questionResponse[currentQuestionIndex]?.id;
+    const newAnswers = [...userAnswersRef.current];
     newAnswers[currentQuestionIndex] = {
-      questionId: currentQuestionId,
+      questionId: questionResponse[currentQuestionIndex]?.id,
       selectedOptionIndex: optionIndex,
     };
+    userAnswersRef.current = newAnswers;
     setUserAnswers(newAnswers);
   };
 
@@ -61,7 +110,7 @@ const QuizAttempt = () => {
           id: submissionId,
           payload: {
             slug,
-            answers: userAnswers,
+            answers: userAnswersRef.current,
             status: "incomplete",
           },
         });
@@ -77,17 +126,21 @@ const QuizAttempt = () => {
           id: submissionId,
           payload: {
             slug,
-            answers: userAnswers,
+            answers: userAnswersRef.current,
             status: "completed",
           },
         },
         {
           onSuccess: () => {
-            localStorage.removeItem("publicUser");
             history.replace({
-              pathname: buildRoute(routes.public.quizzes.result, slug, userId),
+              pathname: buildRoute(
+                routes.public.quizzes.result,
+                slug,
+                null,
+                userId
+              ),
               state: {
-                answers: userAnswers,
+                answers: userAnswersRef.current,
                 questions: questionResponse,
               },
             });
@@ -102,17 +155,32 @@ const QuizAttempt = () => {
   }
 
   return (
-    <ShowQuestion
-      currentQuestionIndex={currentQuestionIndex}
-      options={questionResponse[currentQuestionIndex]?.options}
-      question={questionResponse[currentQuestionIndex]?.body}
-      selectedAnswer={userAnswers[currentQuestionIndex]}
-      totalQuestions={questionResponse.length}
-      onAnswerSelect={handleAnswerSelect}
-      onNext={handleNext}
-      onPrevious={handlePrevious}
-      onSubmit={handleSubmission}
-    />
+    <>
+      <ShowQuestion
+        currentQuestionIndex={currentQuestionIndex}
+        options={questionResponse[currentQuestionIndex]?.options}
+        question={questionResponse[currentQuestionIndex]?.body}
+        selectedAnswer={userAnswers[currentQuestionIndex]}
+        totalQuestions={questionResponse.length}
+        onAnswerSelect={handleAnswerSelect}
+        onNext={handleNext}
+        onPrevious={handlePrevious}
+        onSubmit={handleSubmission}
+      />
+      {timeLimitMins > 0 && (
+        <div
+          className={classnames(
+            "fixed right-4 top-4 rounded-lg px-3 py-1 shadow",
+            {
+              "bg-red-100 text-red-600": remainingTime <= 5 * 60,
+              "bg-white text-gray-800": remainingTime > 5 * 60,
+            }
+          )}
+        >
+          <span className="font-medium">{formatHHMMSS(remainingTime)}</span>
+        </div>
+      )}
+    </>
   );
 };
 

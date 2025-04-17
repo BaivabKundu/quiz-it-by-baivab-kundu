@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class FilterQuizService
-  def initialize(quizzes, filters, search_key, status, accessibility)
+  def initialize(quizzes, params)
     @quizzes = quizzes
-    @filters = filters
-    @search_key = search_key
-    @status = status
-    @accessibility = accessibility
+    @filters = params[:filters]
+    @search_key = params[:search_key]
+    @status = params[:status]
+    @accessibility = params[:accessibility]
   end
 
   def process

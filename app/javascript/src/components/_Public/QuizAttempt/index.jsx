@@ -37,26 +37,42 @@ const QuizAttempt = () => {
   const userAnswersRef = useRef([]);
   const [userAnswers, setUserAnswers] = useState([]);
 
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
+
   useEffect(() => {
     if (questionResponse.length > 0 && userAnswersRef.current.length === 0) {
-      const initialAnswers = questionResponse.map(question => ({
+      let processedQuestions = [...questionResponse];
+
+      if (quiz?.randomizeQuestions) {
+        processedQuestions = shuffleArray(processedQuestions);
+      }
+
+      if (quiz?.randomizeChoices) {
+        processedQuestions = processedQuestions.map(question => ({
+          ...question,
+          options: shuffleArray(question.options),
+        }));
+      }
+
+      setShuffledQuestions(processedQuestions);
+      const initialAnswers = processedQuestions.map(question => ({
         questionId: question.id,
         selectedOptionIndex: null,
       }));
       userAnswersRef.current = initialAnswers;
       setUserAnswers(initialAnswers);
     }
-  }, [questionResponse]);
+  }, [questionResponse, quiz]);
 
   const timeLimitMins = quiz?.timeLimit || 0;
   const [remainingTime, setRemainingTime] = useState(timeLimitMins * 60);
 
-  const formatHHMMSS = secs => {
-    const h = String(Math.floor(secs / 3600)).padStart(2, "0");
-    const m = String(Math.floor((secs % 3600) / 60)).padStart(2, "0");
-    const s = String(secs % 60).padStart(2, "0");
+  const formatHHMMSS = seconds => {
+    const hours = String(Math.floor(seconds / 3600)).padStart(2, "0");
+    const minutes = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+    const secs = String(seconds % 60).padStart(2, "0");
 
-    return `${h}:${m}:${s}`;
+    return `${hours}:${minutes}:${secs}`;
   };
 
   useEffect(() => {
@@ -88,7 +104,7 @@ const QuizAttempt = () => {
   const handleAnswerSelect = optionIndex => {
     const newAnswers = [...userAnswersRef.current];
     newAnswers[currentQuestionIndex] = {
-      questionId: questionResponse[currentQuestionIndex]?.id,
+      questionId: shuffledQuestions[currentQuestionIndex]?.id,
       selectedOptionIndex: optionIndex,
     };
     userAnswersRef.current = newAnswers;
@@ -101,8 +117,18 @@ const QuizAttempt = () => {
     }
   };
 
+  const shuffleArray = array => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    return shuffled;
+  };
+
   const handleNext = () => {
-    if (currentQuestionIndex < questionResponse.length - 1) {
+    if (currentQuestionIndex < shuffledQuestions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       const submissionId = sessionStorage.getItem("submissionId");
       if (submissionId) {
@@ -141,7 +167,7 @@ const QuizAttempt = () => {
               ),
               state: {
                 answers: userAnswersRef.current,
-                questions: questionResponse,
+                questions: shuffledQuestions,
               },
             });
           },
@@ -158,10 +184,10 @@ const QuizAttempt = () => {
     <>
       <ShowQuestion
         currentQuestionIndex={currentQuestionIndex}
-        options={questionResponse[currentQuestionIndex]?.options}
-        question={questionResponse[currentQuestionIndex]?.body}
+        options={shuffledQuestions[currentQuestionIndex]?.options}
+        question={shuffledQuestions[currentQuestionIndex]?.body}
         selectedAnswer={userAnswers[currentQuestionIndex]}
-        totalQuestions={questionResponse.length}
+        totalQuestions={shuffledQuestions.length}
         onAnswerSelect={handleAnswerSelect}
         onNext={handleNext}
         onPrevious={handlePrevious}

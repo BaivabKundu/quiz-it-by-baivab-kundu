@@ -14,8 +14,7 @@ class Api::V1::QuizzesController < ApplicationController
     @draft_quizzes = quizzes.draft.count
 
     quizzes = FilterQuizService.new(
-      quizzes, params[:filters], params[:search_key], params[:status],
-      params[:accessibility]).process
+      quizzes, params).process
 
     paginate(quizzes, index_params)
   end
@@ -68,6 +67,8 @@ class Api::V1::QuizzesController < ApplicationController
         :status,
         :accessibility,
         :time_limit,
+        :randomize_choices,
+        :randomize_questions,
         :category_id,
         :organization_id,
         :submissions_count,

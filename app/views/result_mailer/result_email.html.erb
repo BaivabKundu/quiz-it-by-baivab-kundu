@@ -1,0 +1,37 @@
+<body>
+    <div class="container">
+      <div class="header">
+        <h1>Quiz Results</h1>
+      </div>
+      <div class="content">
+        <div class="summary">
+          <p>Hi <%= @user.username %>,</p>
+          <p>You have completed the quiz: <strong><%= @quiz.name %></strong>.</p>
+          <p>Total Questions: <%= @submission.total_questions %></p>
+          <p>Correct Answers: <%= @submission.correct_answers_count %></p>
+          <p>Wrong Answers: <%= @submission.wrong_answers_count %></p>
+          <p>Unanswered: <%= @submission.unanswered_count %></p>
+        </div>
+        <div class="questions">
+          <h2>Your Answers</h2>
+          <% @questions.each do |question| %>
+            <div class="question-card">
+              <h4><%= question.body %></h4>
+              <ul class="options">
+                <% question.options.each_with_index do |option, index| %>
+                  <li><%= option["text"] %></li>
+                <% end %>
+              </ul>
+              <% correct_index = question.options.find_index { |opt| opt["is_correct"] } %>
+              <% user_ans = @submission.answers.find { |a| a["question_id"] == question.id } %>
+              <p class="answer">Correct Answer: <%= correct_index + 1 %></p>
+              <p class="answer">Your Answer: <%= user_ans && user_ans["selected_option_index"] ? user_ans["selected_option_index"] + 1 : "Unanswered" %></p>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Time.current.year %> All rights reserved.</p>
+      </div>
+    </div>
+  </body>

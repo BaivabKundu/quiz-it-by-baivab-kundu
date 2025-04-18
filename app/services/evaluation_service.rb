@@ -61,10 +61,9 @@ class EvaluationService
         end
       end
 
-      total_questions = @questions.count
-      @submission.total_questions = total_questions
+      @submission.total_questions = @questions.count
       @submission.correct_answers_count = correct_answers_count
       @submission.wrong_answers_count = wrong_answers_count
-      @submission.unanswered_count = total_questions - correct_answers_count - wrong_answers_count
+      @submission.unanswered_count = @questions.count - correct_answers_count - wrong_answers_count
     end
 end

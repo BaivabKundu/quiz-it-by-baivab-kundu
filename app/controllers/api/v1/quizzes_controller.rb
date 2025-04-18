@@ -69,6 +69,7 @@ class Api::V1::QuizzesController < ApplicationController
         :time_limit,
         :randomize_choices,
         :randomize_questions,
+        :email_notifications,
         :category_id,
         :organization_id,
         :submissions_count,

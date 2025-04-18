@@ -2,55 +2,44 @@ import React from "react";
 
 import { LeftArrow } from "@bigbinary/neeto-icons";
 import { Button, Typography } from "@bigbinary/neetoui";
+import { useFetchResult } from "hooks/reactQuery/useSubmissionsApi";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import routes from "routes";
 import withTitle from "utils/withTitle";
 
 import ShowQuestionResult from "./ShowQuestionResult";
 
-const QuizResult = () => {
-  const location = useLocation();
+import PageLoader from "../../Admin/commons/PageLoader";
 
+const QuizResult = () => {
   const { t } = useTranslation();
 
-  const questions = location.state?.questions;
-  const answers = location.state?.answers;
-  const correctAnswers = questions.map(question => ({
+  const submissionId = sessionStorage.getItem("submissionId");
+
+  const { slug, userId } = useParams();
+
+  const {
+    data: {
+      questions = [],
+      result: {
+        totalQuestions = 0,
+        correctAnswersCount = 0,
+        wrongAnswersCount = 0,
+        unansweredCount = 0,
+        answers = [],
+      } = {},
+    } = {},
+    isLoading: isResultLoading,
+  } = useFetchResult(slug, userId, submissionId);
+
+  if (isResultLoading) return <PageLoader />;
+
+  const correctAnswers = questions?.map(question => ({
     questionId: question.id,
     correctOptionId: question.options.findIndex(option => option.isCorrect),
   }));
-
-  const totalQuestions = questions.length;
-
-  const correctCount = answers.filter(answer => {
-    if (!answer) return false;
-
-    const correctAnswer = correctAnswers.find(
-      question => question.questionId === answer.questionId
-    );
-
-    return (
-      correctAnswer &&
-      answer.selectedOptionIndex === correctAnswer.correctOptionId
-    );
-  }).length;
-
-  const incorrectCount = answers.filter(answer => {
-    if (!answer || answer.selectedOptionIndex === null) return false;
-
-    const correctAnswer = correctAnswers.find(
-      question => question.questionId === answer.questionId
-    );
-
-    return (
-      correctAnswer &&
-      answer.selectedOptionIndex !== correctAnswer.correctOptionId
-    );
-  }).length;
-
-  const unansweredCount = totalQuestions - correctCount - incorrectCount;
 
   localStorage.removeItem("publicUser");
 
@@ -83,7 +72,7 @@ const QuizResult = () => {
                 {t("labels.quizResultPage.score")}
               </Typography>
               <Typography className="text-4xl font-bold">
-                {correctCount}/{totalQuestions}
+                {correctAnswersCount}/{totalQuestions}
               </Typography>
             </div>
             <div className="rounded-lg bg-green-50 p-6 text-center">
@@ -92,7 +81,7 @@ const QuizResult = () => {
                   t("labels.quizResultPage.correct").slice(1)}
               </Typography>
               <Typography className="text-4xl font-bold">
-                {correctCount}
+                {correctAnswersCount}
               </Typography>
             </div>
             <div className="rounded-lg bg-red-50 p-6 text-center">
@@ -101,7 +90,7 @@ const QuizResult = () => {
                   t("labels.quizResultPage.incorrect").slice(1)}
               </Typography>
               <Typography className="text-4xl font-bold">
-                {incorrectCount}
+                {wrongAnswersCount}
               </Typography>
             </div>
             <div className="rounded-lg bg-gray-100 p-6 text-center">
@@ -114,7 +103,7 @@ const QuizResult = () => {
             </div>
           </div>
           <div className="space-y-8">
-            {questions.map((question, qIndex) => {
+            {questions?.map((question, qIndex) => {
               const userAnswer =
                 answers?.find(answer => answer?.questionId === question?.id) ||
                 undefined;

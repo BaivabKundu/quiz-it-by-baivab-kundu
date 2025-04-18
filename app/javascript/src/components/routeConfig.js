@@ -7,6 +7,7 @@ import QuizResult from "./_Public/QuizResult";
 import Register from "./_Public/Register";
 import QuizDashboard from "./Admin/Dashboard";
 import ConfigureQuiz from "./Admin/Quiz/Configuration";
+import QuizEmailNotifications from "./Admin/Quiz/Configuration/EmailNotification";
 import QuizRandomizer from "./Admin/Quiz/Configuration/Randomizer";
 import QuizTiming from "./Admin/Quiz/Configuration/Timing";
 import QuizVisibility from "./Admin/Quiz/Configuration/Visibility";
@@ -106,6 +107,14 @@ export const getRouteConfig = (isLoggedIn, isRegistered, isSubmitted) => ({
     {
       path: routes.admin.quizzes.configure.randomize,
       component: QuizRandomizer,
+      exact: true,
+      private: true,
+      condition: isLoggedIn,
+      redirect: routes.admin.login,
+    },
+    {
+      path: routes.admin.quizzes.configure.email_notifications,
+      component: QuizEmailNotifications,
       exact: true,
       private: true,
       condition: isLoggedIn,

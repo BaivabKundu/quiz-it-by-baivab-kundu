@@ -43,6 +43,34 @@ export const useFetchSubmissions = (slug, { searchKey, page, filters }) => {
   return useQuery(queryConfig);
 };
 
+export const useFetchResult = (slug, userId, submissionId) => {
+  const queryClient = useQueryClient();
+
+  const queryConfig = {
+    queryKey: [QUERY_KEYS.SUBMISSION_RESULT, slug, userId, submissionId],
+    queryFn: async () => {
+      try {
+        const response = await submissionsApi.fetchResult(submissionId, {
+          slug,
+          userId,
+        });
+
+        return response;
+      } catch (error) {
+        throw handleSubmissionError(error);
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.QUIZ],
+      });
+    },
+    enabled: !!slug,
+  };
+
+  return useQuery(queryConfig);
+};
+
 export const useGeneratePdf = slug =>
   useMutation({
     mutationFn: async () => await submissionsApi.generatePdf(slug),

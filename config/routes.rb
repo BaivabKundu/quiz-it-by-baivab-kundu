@@ -18,6 +18,7 @@ Rails.application.routes.draw do
         post "clone", on: :member, to: "questions/clones#clone"
       end
       resources :submissions, only: %i[index create update] do
+        resource :result, only: :show, on: :member, module: :submissions
         collection do
           resource :report, only: :create, module: :submissions do
             get :download, on: :collection

@@ -27,6 +27,7 @@ Rails.application.routes.draw do
       end
       resources :organizations, only: [:index, :show, :update]
       resources :categories, only: [:index, :create]
+      resources :redirections, only: %i[index create update destroy]
     end
   end
 

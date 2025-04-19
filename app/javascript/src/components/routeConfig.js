@@ -15,6 +15,7 @@ import QuizQuestions from "./Admin/Quiz/Questions";
 import QuestionBuilder from "./Admin/Quiz/Questions/Builder";
 import SubmissionList from "./Admin/Quiz/Submissions";
 import GeneralSettings from "./Admin/Settings/General";
+import RedirectionSettings from "./Admin/Settings/Redirections";
 
 export const getRouteConfig = (isLoggedIn, isRegistered, isSubmitted) => ({
   public: [
@@ -121,8 +122,16 @@ export const getRouteConfig = (isLoggedIn, isRegistered, isSubmitted) => ({
       redirect: routes.admin.login,
     },
     {
-      path: routes.admin.settings.base,
+      path: routes.admin.settings.general,
       component: GeneralSettings,
+      exact: true,
+      private: true,
+      condition: isLoggedIn,
+      redirect: routes.admin.login,
+    },
+    {
+      path: routes.admin.settings.redirections,
+      component: RedirectionSettings,
       exact: true,
       private: true,
       condition: isLoggedIn,

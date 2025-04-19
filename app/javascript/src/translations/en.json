@@ -58,7 +58,9 @@
     "validations": {
       "quizTitleRequired": "Quiz title is required",
       "minQuizTitleLength": "Quiz title length must be greater than 2 characters",
-      "maxQuizTitleLength": "Quiz title length must be less than 100 characters"
+      "maxQuizTitleLength": "Quiz title length must be less than 100 characters",
+      "sourceUrlRequired": "Source URL is required",
+      "destinationUrlRequired": "Destination URL is required"
     }
   },
   "quiz": {
@@ -85,6 +87,9 @@
     "questions": "Questions",
     "submissions": "Submissions",
     "configure": "Configure",
+    "general": "General",
+    "redirections": "Redirections",
+    "categories": "Categories",
     "category": "Category",
     "status": "Status",
     "filter": "Filters",
@@ -109,6 +114,13 @@
       "heading": "General settings",
       "subheading": "Customise the quiz site name",
       "quizTitle": "Quiz title"
+    },
+    "redirection": {
+      "heading": "Redirections",
+      "subHeading": "Create and configure redirection rules to send users from old public quiz links to the new links",
+      "sourceHeading": "From",
+      "destinationHeading": "To",
+      "addNewRedirection": "Add new redirection"
     },
     "table": {
       "name": "Name",
@@ -227,6 +239,12 @@
         "confirmButton": "Yes, delete",
         "cancelButton": "No, cancel",
         "message": "You're about to delete <strong>{{questionName}}</strong>. It'll be permanently deleted and we won't be able to recover it."
+      },
+      "deleteRedirection": {
+        "title": "Delete redirection?",
+        "cancelButton": "No, cancel",
+        "confirmButton": "Yes, delete",
+        "message": "You're about to delete <strong1>{{source}}</strong1> to <strong2>{{destination}}</strong2> redirection. It'll be permanently deleted and we won't be able to recover it."
       }
     }
   },
@@ -240,7 +258,9 @@
     "questionInput": "Type your question here...",
     "optionInput": "Type option {{optionIndex}}",
     "categoryInput": "Search category",
-    "quizTitleInput": "Enter the quiz title"
+    "quizTitleInput": "Enter the quiz title",
+    "sourceUrl": "Enter the source URL path",
+    "destinationUrl": "Enter the destination URL"
   },
   "neetoMolecules": {
     "columns": {

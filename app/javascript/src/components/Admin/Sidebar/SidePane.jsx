@@ -124,7 +124,7 @@ const SidePane = ({ isOpen }) => {
           </div>
           <NavLink
             activeClassName="bg-black text-white"
-            to={routes.admin.settings.base}
+            to={routes.admin.settings.general}
             className={classnames(
               "my-2 flex items-center space-x-4 rounded-lg p-2",
               {

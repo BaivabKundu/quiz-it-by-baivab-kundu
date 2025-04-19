@@ -75,7 +75,7 @@ const SubmissionList = () => {
   const handlePageNavigation = newPage => {
     history.push(
       buildUrl(
-        buildRoute(routes.admin.quizzes.submisions, slug),
+        buildRoute(routes.admin.quizzes.submissions, slug),
         mergeLeft({ page: newPage }, queryParams)
       )
     );

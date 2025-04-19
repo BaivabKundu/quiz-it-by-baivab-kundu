@@ -21,7 +21,9 @@ const routes = {
       },
     },
     settings: {
-      base: "/admin/settings",
+      general: "/admin/settings/general",
+      redirections: "/admin/settings/redirections",
+      categories: "/admin/settings/categories",
     },
   },
   public: {

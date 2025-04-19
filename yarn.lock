@@ -1457,10 +1457,25 @@
   resolved "https://registry.yarnpkg.com/@bigbinary/neeto-molecules/-/neeto-molecules-3.15.47.tgz#34da898b9d05f865bdbeb15369a748f9273c1329"
   integrity sha512-mY8YFdbuVGT6An2+CnJEITDFbpwr4RUMHc0qxg0pFk6Ci+mEIdCNKKFwH3V/0/Yq5FOTdQzswGLiM6b3sh3XTg==
 
+"@bigbinary/neeto-team-members-frontend@^4.5.5":
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/@bigbinary/neeto-team-members-frontend/-/neeto-team-members-frontend-4.5.5.tgz#b91a23f172506cbb5fc0321d6ff242f18fc88b4a"
+  integrity sha512-W38OuGeOvyN0ZuGYBKzxYlhZIgao756lMsc1A61XPYbK+bbD+Sc8BA32LmGPkCeGTr12Sl5SsRaju87STTSpHg==
+  dependencies:
+    "@bigbinary/react-scroll-sync" "^1.0.0"
+    react-router-nav-prompt "0.4.1"
+
 "@bigbinary/neetoui@8.2.13":
   version "8.2.13"
   resolved "https://registry.yarnpkg.com/@bigbinary/neetoui/-/neetoui-8.2.13.tgz#6e43e2e8bdb43da2cc797433a507853ec9ff8e47"
   integrity sha512-nBZ/loqHaldMsr9rZ1fS0Qd3K6t23aZYavjQiHTIeYqzXST4ZfldvwuR8MNpVcd1Ozm/JmtDN0+7BCRn5j09Zg==
+
+"@bigbinary/react-scroll-sync@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@bigbinary/react-scroll-sync/-/react-scroll-sync-1.0.0.tgz#f4d52df8df7554ffc0fa54de5ce395851b875ee7"
+  integrity sha512-kstQ5B6TzjgAPF9TeSVQt2yzFPUMqgzGastR5S/T7llvDh9WJFoft5v4Y/iViMjmEgNlUKJA8q0tbDg/IQuBig==
+  dependencies:
+    prop-types "^15.5.7"
 
 "@colors/colors@1.5.0":
   version "1.5.0"
@@ -7547,7 +7562,7 @@ process@^0.11.10:
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.10.tgz#7332300e840161bda3e69a1d1d91a7d4bc16f182"
   integrity sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==
 
-prop-types@15.x, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@15.x, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
